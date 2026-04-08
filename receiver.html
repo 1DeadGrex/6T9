@@ -9,7 +9,50 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']},colors:{g:{50:'#fafafa',100:'#f5f5f5',200:'#eeeeee',300:'#e0e0e0',400:'#bdbdbd',500:'#9e9e9e',600:'#757575',700:'#616161',800:'#424242',900:'#212121',950:'#161616'}}}}}</script>
-    <style>html{scroll-behavior:smooth}body{font-family:'Inter',sans-serif;background:#161616;color:#f5f5f5}::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#212121}::-webkit-scrollbar-thumb{background:#616161;border-radius:4px}.toast{animation:si .4s ease,fo .4s ease 2.6s forwards}@keyframes si{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}@keyframes fo{from{opacity:1}to{opacity:0}}.rank-badge{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px;font-weight:600}.rank-leader{background:#f5f5f5;color:#212121;border:1px solid #e0e0e0}.rank-coleader{background:#e0e0e0;color:#212121;border:1px solid #bdbdbd}.rank-officer{background:#9e9e9e;color:#161616}.rank-veteran{background:#616161;color:#e0e0e0}.rank-member{background:#2a2a2a;color:#9e9e9e;border:1px solid #424242}.tab-btn{transition:all .2s}.tab-btn.active{background:#424242;color:#f5f5f5}.tab-content{display:none}.tab-content.active{display:block}.info-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}.info-row:last-child{border-bottom:none}.info-label{color:#757575;font-size:.7rem;min-width:100px;flex-shrink:0;padding-top:1px}.info-val{color:#bdbdbd;font-size:.8rem;word-break:break-word}.skin-img{image-rendering:pixelated}</style>
+    <style>
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;background:#161616;color:#f5f5f5}
+        ::-webkit-scrollbar{width:8px}
+        ::-webkit-scrollbar-track{background:#212121}
+        ::-webkit-scrollbar-thumb{background:#616161;border-radius:4px}
+        .toast{animation:si .4s ease,fo .4s ease 2.6s forwards}
+        @keyframes si{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+        @keyframes fo{from{opacity:1}to{opacity:0}}
+        .rank-badge{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px;font-weight:600}
+        .rank-leader{background:#f5f5f5;color:#212121;border:1px solid #e0e0e0}
+        .rank-coleader{background:#e0e0e0;color:#212121;border:1px solid #bdbdbd}
+        .rank-officer{background:#9e9e9e;color:#161616}
+        .rank-veteran{background:#616161;color:#e0e0e0}
+        .rank-member{background:#2a2a2a;color:#9e9e9e;border:1px solid #424242}
+        .tab-btn{transition:all .2s}
+        .tab-btn.active{background:#424242;color:#f5f5f5}
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+        .info-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+        .info-row:last-child{border-bottom:none}
+        .info-label{color:#757575;font-size:.7rem;min-width:120px;flex-shrink:0;padding-top:1px}
+        .info-val{color:#bdbdbd;font-size:.8rem;word-break:break-word}
+        .skin-img{image-rendering:pixelated}
+        
+        /* ✅ Debug console for troubleshooting */
+        .debug-box {
+            background: #1a1a2e;
+            border: 1px solid #16213e;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 11px;
+            color: #e94560;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+        }
+        .debug-box.show { display: block; }
+        .debug-line { margin: 4px 0; padding: 4px; border-left: 3px solid #e94560; }
+        .debug-success { color: #10b981; border-color: #10b981 !important; }
+        .debug-info { color: #60a5fa; border-color: #60a5fa !important; }
+    </style>
 </head>
 <body class="min-h-screen">
     <div id="toast-container" class="fixed top-6 right-6 z-[100] flex flex-col gap-3"></div>
@@ -17,12 +60,53 @@
     <!-- LOGIN -->
     <div id="login-gate" class="min-h-screen flex items-center justify-center px-6">
         <div class="w-full max-w-sm">
-            <div class="text-center mb-8"><div class="w-14 h-14 rounded-2xl bg-g-800 border border-g-700 flex items-center justify-center mx-auto mb-4"><span class="text-g-300 font-bold text-xl">6T9</span></div><h1 class="text-2xl font-semibold text-g-100">Admin Access</h1><p class="text-g-500 text-sm mt-1">Sign in with your admin credentials</p></div>
+            <div class="text-center mb-8">
+                <div class="w-14 h-14 rounded-2xl bg-g-800 border border-g-700 flex items-center justify-center mx-auto mb-4">
+                    <span class="text-g-300 font-bold text-xl">6T9</span>
+                </div>
+                <h1 class="text-2xl font-semibold text-g-100">Admin Access</h1>
+                <p class="text-g-500 text-sm mt-1">Sign in with your admin credentials</p>
+            </div>
+            
             <form id="login-form" class="space-y-4">
-                <div><label class="block text-g-300 text-sm font-medium mb-2">Email</label><input type="email" id="login-email" required placeholder="admin@example.com" class="w-full px-4 py-3 rounded-lg bg-g-900 border border-g-800 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors" autocomplete="email"></div>
-                <div><label class="block text-g-300 text-sm font-medium mb-2">Password</label><input type="password" id="login-password" required placeholder="Enter password" class="w-full px-4 py-3 rounded-lg bg-g-900 border border-g-800 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors" autocomplete="current-password"><p id="login-error" class="text-red-400 text-xs mt-2 hidden"></p></div>
-                <button type="submit" id="login-btn" class="w-full py-3 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors">Sign In</button>
+                <div>
+                    <label class="block text-g-300 text-sm font-medium mb-2">Email</label>
+                    <input type="email" id="login-email" required placeholder="admin@example.com" 
+                           class="w-full px-4 py-3 rounded-lg bg-g-900 border border-g-800 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors" 
+                           autocomplete="email">
+                </div>
+                <div>
+                    <label class="block text-g-300 text-sm font-medium mb-2">Password</label>
+                    <input type="password" id="login-password" required placeholder="Enter password" 
+                           class="w-full px-4 py-3 rounded-lg bg-g-900 border border-g-800 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors" 
+                           autocomplete="current-password">
+                    <p id="login-error" class="text-red-400 text-xs mt-2 hidden"></p>
+                </div>
+                <button type="submit" id="login-btn" class="w-full py-3 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center justify-center gap-2">
+                    <span id="btn-text">Sign In</span>
+                    <span id="btn-loader" class="iconify hidden animate-spin" data-icon="lucide:loader-2"></span>
+                </button>
             </form>
+
+            <!-- ✅ Debug Console -->
+            <div id="debug-console" class="debug-box">
+                <div style="color:#888;margin-bottom:8px;font-weight:600;">🔍 DEBUG LOG:</div>
+                <div id="debug-content"></div>
+            </div>
+            
+            <!-- ✅ Troubleshooting Help -->
+            <div class="mt-6 p-4 rounded-lg bg-g-900 border border-g-800">
+                <p class="text-g-500 text-xs font-semibold mb-2">❓ TROUBLESHOOTING:</p>
+                <ul class="text-g-600 text-xs space-y-1 list-disc list-inside">
+                    <li>Make sure you've created a user in Supabase Auth → Users</li>
+                    <li>Email must match exactly (case-sensitive)</li>
+                    <li>Password must be at least 6 characters</li>
+                    <li>Check browser console (F12) for errors</li>
+                </ul>
+                <button onclick="toggleDebug()" class="mt-3 w-full py-2 rounded bg-g-800 text-g-400 text-xs hover:text-g-200 hover:bg-g-700 transition-colors">
+                    🖥️ Toggle Debug Console
+                </button>
+            </div>
         </div>
     </div>
 
@@ -30,88 +114,182 @@
     <div id="admin-panel" class="hidden">
         <header class="sticky top-0 z-50" style="background:rgba(22,22,22,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)">
             <div class="max-w-6xl mx-auto px-5 sm:px-6 h-16 flex items-center justify-between">
-                <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-g-800 border border-g-700 flex items-center justify-center"><span class="text-g-300 font-bold text-xs">6T9</span></div><span class="text-g-100 font-semibold text-sm hidden sm:inline">Admin Panel</span><span class="w-2 h-2 rounded-full bg-green-500 shrink-0"></span></div>
                 <div class="flex items-center gap-3">
-                    <a href="index.html" class="text-g-500 hover:text-g-300 text-sm transition-colors flex items-center gap-1.5"><span class="iconify text-base" data-icon="lucide:external-link"></span><span class="hidden sm:inline">View Site</span></a>
-                    <button id="logout-btn" class="text-g-500 hover:text-g-300 text-sm transition-colors flex items-center gap-1.5"><span class="iconify text-base" data-icon="lucide:log-out"></span><span class="hidden sm:inline">Logout</span></button>
+                    <div class="w-8 h-8 rounded-lg bg-g-800 border border-g-700 flex items-center justify-center">
+                        <span class="text-g-300 font-bold text-xs">6T9</span>
+                    </div>
+                    <span class="text-g-100 font-semibold text-sm hidden sm:inline">Admin Panel</span>
+                    <span class="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-g-500 hover:text-g-300 text-sm transition-colors flex items-center gap-1.5">
+                        <span class="iconify text-base" data-icon="lucide:external-link"></span>
+                        <span class="hidden sm:inline">View Site</span>
+                    </a>
+                    <button id="logout-btn" class="text-g-500 hover:text-g-300 text-sm transition-colors flex items-center gap-1.5">
+                        <span class="iconify text-base" data-icon="lucide:log-out"></span>
+                        <span class="hidden sm:inline">Logout</span>
+                    </button>
                 </div>
             </div>
         </header>
+        
         <main class="max-w-6xl mx-auto px-5 sm:px-6 py-8 sm:py-10">
             <!-- Stats -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3"><span class="iconify text-g-600 text-lg" data-icon="lucide:message-square"></span><div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Posts</p><p class="text-g-100 text-xl font-semibold" id="stat-posts">—</p></div></div>
-                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3"><span class="iconify text-g-600 text-lg" data-icon="lucide:pin"></span><div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Pinned</p><p class="text-g-100 text-xl font-semibold" id="stat-pinned">—</p></div></div>
-                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3"><span class="iconify text-g-600 text-lg" data-icon="lucide:users"></span><div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Players</p><p class="text-g-100 text-xl font-semibold" id="stat-players">—</p></div></div>
-                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3"><span class="iconify text-g-600 text-lg" data-icon="lucide:ticket"></span><div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Tickets</p><p class="text-g-100 text-xl font-semibold" id="stat-tickets">—</p></div></div>
+                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3">
+                    <span class="iconify text-g-600 text-lg" data-icon="lucide:message-square"></span>
+                    <div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Posts</p><p class="text-g-100 text-xl font-semibold" id="stat-posts">—</p></div>
+                </div>
+                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3">
+                    <span class="iconify text-g-600 text-lg" data-icon="lucide:pin"></span>
+                    <div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Pinned</p><p class="text-g-100 text-xl font-semibold" id="stat-pinned">—</p></div>
+                </div>
+                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3">
+                    <span class="iconify text-g-600 text-lg" data-icon="lucide:users"></span>
+                    <div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Players</p><p class="text-g-100 text-xl font-semibold" id="stat-players">—</p></div>
+                </div>
+                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3">
+                    <span class="iconify text-g-600 text-lg" data-icon="lucide:ticket"></span>
+                    <div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Tickets</p><p class="text-g-100 text-xl font-semibold" id="stat-tickets">—</p></div>
+                </div>
             </div>
 
             <!-- Tabs -->
             <div class="flex gap-2 mb-8 overflow-x-auto pb-2">
-                <button class="tab-btn active px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="posts"><span class="iconify text-base" data-icon="lucide:message-square"></span> Posts</button>
-                <button class="tab-btn px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="players"><span class="iconify text-base" data-icon="lucide:users"></span> Players</button>
-                <button class="tab-btn px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="tickets"><span class="iconify text-base" data-icon="lucide:ticket"></span> Tickets</button>
+                <button class="tab-btn active px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="posts">
+                    <span class="iconify text-base" data-icon="lucide:message-square"></span> Posts
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="players">
+                    <span class="iconify text-base" data-icon="lucide:users"></span> Players
+                </button>
+                <button class="tab-btn px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="tickets">
+                    <span class="iconify text-base" data-icon="lucide:ticket"></span> Tickets
+                </button>
             </div>
 
             <!-- POSTS TAB -->
             <div id="tab-posts" class="tab-content active">
                 <div class="bg-g-900 border border-g-800 rounded-xl p-6 sm:p-8 mb-8">
-                    <h2 class="text-g-100 font-semibold text-lg mb-6 flex items-center gap-2"><span class="iconify text-g-500" data-icon="lucide:pencil"></span> Create New Post</h2>
+                    <h2 class="text-g-100 font-semibold text-lg mb-6 flex items-center gap-2">
+                        <span class="iconify text-g-500" data-icon="lucide:pencil"></span> Create New Post
+                    </h2>
                     <form id="post-form" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Title</label><input type="text" id="post-title" required placeholder="Post title" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
-                            <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Author</label><input type="text" id="post-author" required placeholder="ShadowKnight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
+                            <div>
+                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Title</label>
+                                <input type="text" id="post-title" required placeholder="Post title" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Author</label>
+                                <input type="text" id="post-author" required placeholder="ShadowKnight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
+                            </div>
                         </div>
-                        <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Content</label><textarea id="post-content" rows="4" required placeholder="Write announcement..." class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors resize-none"></textarea></div>
-                        <div class="flex items-center justify-between"><label class="flex items-center gap-2 cursor-pointer select-none"><input type="checkbox" id="post-pinned" class="w-4 h-4 rounded bg-g-800 border-g-700 cursor-pointer"><span class="text-g-300 text-sm">Pin this post</span></label><button type="submit" id="post-submit-btn" class="px-5 py-2.5 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center gap-2"><span class="iconify text-sm" data-icon="lucide:send"></span> Publish</button></div>
+                        <div>
+                            <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Content</label>
+                            <textarea id="post-content" rows="4" required placeholder="Write announcement..." class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors resize-none"></textarea>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center gap-2 cursor-pointer select-none">
+                                <input type="checkbox" id="post-pinned" class="w-4 h-4 rounded bg-g-800 border-g-700 cursor-pointer">
+                                <span class="text-g-300 text-sm">Pin this post</span>
+                            </label>
+                            <button type="submit" id="post-submit-btn" class="px-5 py-2.5 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center gap-2">
+                                <span class="iconify text-sm" data-icon="lucide:send"></span> Publish
+                            </button>
+                        </div>
                     </form>
                 </div>
-                <div class="flex items-center justify-between mb-5"><h2 class="text-g-100 font-semibold">All Posts</h2><button id="clear-posts-btn" class="text-g-600 hover:text-red-400 text-xs font-medium transition-colors flex items-center gap-1"><span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All</button></div>
+                
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-g-100 font-semibold">All Posts</h2>
+                    <button id="clear-posts-btn" class="text-g-600 hover:text-red-400 text-xs font-medium transition-colors flex items-center gap-1">
+                        <span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All
+                    </button>
+                </div>
                 <div id="posts-list"><p class="text-g-600 text-sm text-center py-8">Loading...</p></div>
                 <div id="empty-posts" class="hidden text-center py-14"><p class="text-g-600 text-sm">No posts yet.</p></div>
             </div>
 
-            <!-- PLAYERS TAB (CLEAN: Only Name, Discord, Rank, Avatar URL, Skin URL, Description) -->
+            <!-- PLAYERS TAB -->
             <div id="tab-players" class="tab-content">
                 <div class="bg-g-900 border border-g-800 rounded-xl p-6 sm:p-8 mb-8">
-                    <h2 class="text-g-100 font-semibold text-lg mb-1 flex items-center gap-2" id="player-form-title"><span class="iconify text-g-500" data-icon="lucide:user-plus"></span> Add New Player</h2>
+                    <h2 class="text-g-100 font-semibold text-lg mb-1 flex items-center gap-2" id="player-form-title">
+                        <span class="iconify text-g-500" data-icon="lucide:user-plus"></span> Add New Player
+                    </h2>
                     <p class="text-g-600 text-xs mb-6" id="player-form-subtitle">Fill in the player details below</p>
+                    
                     <form id="player-form" class="space-y-4">
                         <input type="hidden" id="player-edit-id" value="">
-                        <!-- Row 1: Name + Discord -->
+                        
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Player Name *</label><input type="text" id="player-name" required placeholder="ShadowKnight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
-                            <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Discord Handle *</label><input type="text" id="player-discord" required placeholder="@shadowknight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
+                            <div>
+                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Player Name *</label>
+                                <input type="text" id="player-name" required placeholder="ShadowKnight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Discord Handle *</label>
+                                <input type="text" id="player-discord" required placeholder="@shadowknight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
+                            </div>
                         </div>
-                        <!-- Row 2: Rank/Role + Avatar URL -->
+                        
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Rank / Role *</label><select id="player-rank" required class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors appearance-none cursor-pointer"><option value="" class="bg-g-800">Select rank</option><option value="Leader" class="bg-g-800">Leader</option><option value="Co-Leader" class="bg-g-800">Co-Leader</option><option value="Officer" class="bg-g-800">Officer</option><option value="Veteran" class="bg-g-800">Veteran</option><option value="Member" class="bg-g-800">Member</option></select></div>
-                            <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Discord Avatar URL</label><input type="url" id="player-avatar" placeholder="https://... (optional)" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
+                            <div>
+                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Rank / Role *</label>
+                                <select id="player-rank" required class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors appearance-none cursor-pointer">
+                                    <option value="" class="bg-g-800">Select rank</option>
+                                    <option value="Leader" class="bg-g-800">Leader</option>
+                                    <option value="Co-Leader" class="bg-g-800">Co-Leader</option>
+                                    <option value="Officer" class="bg-g-800">Officer</option>
+                                    <option value="Veteran" class="bg-g-800">Veteran</option>
+                                    <option value="Member" class="bg-g-800">Member</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Discord Avatar URL</label>
+                                <input type="url" id="player-avatar" placeholder="https://... (optional)" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
+                            </div>
                         </div>
-                        <!-- Row 3: Skin URL (full-width or half) -->
+                        
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Minecraft Skin URL</label><input type="url" id="player-skin" placeholder="https://... (optional)" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
+                            <div>
+                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Minecraft Skin URL</label>
+                                <input type="url" id="player-skin" placeholder="https://... (optional)" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
+                            </div>
                             <div class="hidden sm:block"></div>
                         </div>
-                        <!-- Row 4: Description (required) -->
-                        <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Description *</label><textarea id="player-desc" rows="2" required placeholder="Short description..." class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors resize-none"></textarea></div>
+                        
+                        <div>
+                            <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Description *</label>
+                            <textarea id="player-desc" rows="2" required placeholder="Short description..." class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors resize-none"></textarea>
+                        </div>
+                        
                         <div class="flex items-center gap-3 pt-1">
-                            <button type="submit" id="player-submit-btn" class="px-5 py-2.5 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center gap-2"><span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player</button>
-                            <button type="button" id="player-cancel-btn" class="hidden px-5 py-2.5 rounded-lg border border-g-700 text-g-400 font-medium text-sm hover:border-g-500 hover:text-g-200 transition-all">Cancel</button>
+                            <button type="submit" id="player-submit-btn" class="px-5 py-2.5 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center gap-2">
+                                <span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player
+                            </button>
+                            <button type="button" id="player-cancel-btn" class="hidden px-5 py-2.5 rounded-lg border border-g-700 text-g-400 font-medium text-sm hover:border-g-500 hover:text-g-200 transition-all">
+                                Cancel
+                            </button>
                         </div>
                     </form>
                 </div>
-                <div class="flex items-center justify-between mb-5"><h2 class="text-g-100 font-semibold">All Players (<span id="player-count-label">—</span>)</h2><button id="clear-players-btn" class="text-g-600 hover:text-red-400 text-xs font-medium transition-colors flex items-center gap-1"><span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All</button></div>
+                
+                <div class="flex items-center justify-between mb-5">
+                    <h2 class="text-g-100 font-semibold">All Players (<span id="player-count-label">—</span>)</h2>
+                    <button id="clear-players-btn" class="text-g-600 hover:text-red-400 text-xs font-medium transition-colors flex items-center gap-1">
+                        <span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All
+                    </button>
+                </div>
                 <div id="players-list"><p class="text-g-600 text-sm text-center py-8">Loading...</p></div>
                 <div id="empty-players" class="hidden text-center py-14"><p class="text-g-600 text-sm">No players.</p></div>
             </div>
 
-            <!-- ✅✅✅ FIXED TICKETS TAB - Now displays ALL fields properly ✅✅✅ -->
+            <!-- TICKETS TAB -->
             <div id="tab-tickets" class="tab-content">
                 <div class="flex items-center gap-3 mb-6">
                     <span class="iconify text-g-500 text-lg" data-icon="lucide:ticket"></span>
                     <h2 class="text-g-100 font-semibold text-lg">Submitted Tickets</h2>
-                    <span class="text-g-600 text-xs">(Showing all fields)</span>
                 </div>
                 <div id="tickets-list"><p class="text-g-600 text-sm text-center py-8">Loading...</p></div>
                 <div id="empty-tickets" class="hidden text-center py-14"><p class="text-g-600 text-sm">No tickets.</p></div>
@@ -121,218 +299,625 @@
 
     <script>
     (function(){
-        var SUPABASE_URL='https://eiaxbuwihclqcmogozzh.supabase.co';
-        var SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpYXhidXdpaGNscWNtb2dvenpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0ODY2MDYsImV4cCI6MjA5MTA2MjYwNn0.KId9cODM_TbChE_tw3wF-NiIk66qOQq4GXhr6SeaelI';
-        var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-        var rCls={'Leader':'rank-leader','Co-Leader':'rank-coleader','Officer':'rank-officer','Veteran':'rank-veteran','Member':'rank-member'};
+        // ============================================
+        // ✅ CONFIGURATION
+        // ============================================
+        var SUPABASE_URL = 'https://eiaxbuwihclqcmogozzh.supabase.co';
+        var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpYXhidXdpaGNscWNtb2dvenpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0ODY2MDYsImV4cCI6MjA5MTA2MjYwNn0.KId9cODM_TbChE_tw3wF-NiIk66qOQq4GXhr6SeaelI';
+        
+        // Initialize Supabase client
+        var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // Rank mapping
+        var rCls = {
+            'Leader': 'rank-leader',
+            'Co-Leader': 'rank-coleader',
+            'Officer': 'rank-officer',
+            'Veteran': 'rank-veteran',
+            'Member': 'rank-member'
+        };
 
-        function toast(m,t){t=t||'success';var c=document.getElementById('toast-container'),d=document.createElement('div');d.className='toast flex items-center gap-3 px-5 py-3 rounded-lg bg-g-700 border '+(t==='success'?'border-g-500':t==='error'?'border-red-400':'border-g-600')+' shadow-lg max-w-sm';d.innerHTML='<span class="iconify text-g-300 text-lg shrink-0" data-icon="'+(t==='success'?'lucide:check-circle':'lucide:alert-circle')+'"></span><span class="text-g-100 text-sm font-medium">'+m+'</span>';c.appendChild(d);setTimeout(function(){d.remove()},4000)}
-        function fmtD(d){return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}
-
-        // Auth
-        async function checkAuth(){try{var{data:{session}}=await sb.auth.getSession();session?showPanel():showLogin()}catch(e){showLogin()}}
-        function showLogin(){document.getElementById('login-gate').classList.remove('hidden');document.getElementById('admin-panel').classList.add('hidden')}
-        function showPanel(){document.getElementById('login-gate').classList.add('hidden');document.getElementById('admin-panel').classList.remove('hidden');refreshAll()}
-        document.getElementById('login-form').addEventListener('submit',async function(e){e.preventDefault();var em=document.getElementById('login-email').value.trim(),pw=document.getElementById('login-password').value,er=document.getElementById('login-error'),btn=document.getElementById('login-btn');er.classList.add('hidden');btn.disabled=true;btn.textContent='Signing in...';try{var{data,error}=await sb.auth.signInWithPassword({email:em,password:pw});if(error){er.textContent=error.message;er.classList.remove('hidden');return}showPanel();toast('Welcome back.')}catch(err){er.textContent='Connection error.';er.classList.remove('hidden')}finally{btn.disabled=false;btn.textContent='Sign In'}});
-        document.getElementById('logout-btn').addEventListener('click',async function(){await sb.auth.signOut();showLogin();toast('Logged out.','info')});
-
-        // Tabs
-        document.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active')});document.querySelectorAll('.tab-content').forEach(function(x){x.classList.remove('active')});b.classList.add('active');document.getElementById('tab-'+b.dataset.tab).classList.add('active')})});
-
-        // Stats
-        async function updateStats(){try{var[p,pl,t]=await Promise.all([sb.from('posts').select('id,pinned'),sb.from('players').select('id'),sb.from('tickets').select('id')]);var ps=p.data||[],pls=pl.data||[],ts=t.data||[];document.getElementById('stat-posts').textContent=ps.length;document.getElementById('stat-pinned').textContent=ps.filter(function(x){return x.pinned}).length;document.getElementById('stat-players').textContent=pls.length;document.getElementById('stat-tickets').textContent=ts.length}catch(e){}}
-
-        // ===== POSTS =====
-        async function loadPosts(){var box=document.getElementById('posts-list'),emp=document.getElementById('empty-posts');try{var r=await sb.from('posts').select('*').order('created_at',{ascending:false});if(r.error)throw new Error(r.error.message);var p=r.data||[];if(p.length===0){box.innerHTML='';emp.classList.remove('hidden');return}emp.classList.add('hidden');
-        box.innerHTML=p.map(function(o){return '<div class="bg-g-900 border border-g-800 rounded-xl p-5 '+(o.pinned?'border-l-[3px] border-l-g-400':'')+'"><div class="flex items-start justify-between gap-4"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-1.5 flex-wrap"><h3 class="text-g-100 font-semibold text-sm">'+o.title+'</h3>'+(o.pinned?'<span class="rank-badge rank-leader">PINNED</span>':'')+'</div><p class="text-g-400 text-xs mb-2 line-clamp-2">'+o.content+'</p><div class="flex items-center gap-3 text-g-600 text-[11px]"><span>By '+o.author+'</span><span>·</span><span>'+fmtD(o.created_at)+'</span></div></div><div class="flex items-center gap-1 shrink-0"><button onclick="window._togglePin(\''+o.id+'\','+o.pinned+')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-g-700 flex items-center justify-center transition-colors"><span class="iconify text-g-400 text-sm" data-icon="'+(o.pinned?'lucide:pin-off':'lucide:pin')+'"></span></button><button onclick="window._deletePost(\''+o.id+'\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group"><span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span></button></div></div></div>'}).join()}catch(e){box.innerHTML='<p class="text-red-400 text-sm text-center py-8">Error: '+e.message+'</p>';emp.classList.add('hidden')}}
-
-        document.getElementById('post-form').addEventListener('submit',async function(e){e.preventDefault();var t=document.getElementById('post-title').value.trim(),a=document.getElementById('post-author').value.trim(),c=document.getElementById('post-content').value.trim(),pn=document.getElementById('post-pinned').checked,btn=document.getElementById('post-submit-btn');if(!t||!a||!c){toast('Fill all fields.','error');return}btn.disabled=true;btn.textContent='Saving...';try{var r=await sb.from('posts').insert({title:t,author:a,content:c,pinned:pn});if(r.error)throw new Error(r.error.message);this.reset();loadPosts();updateStats();toast('Published!')}catch(e){toast(e.message,'error')}finally{btn.disabled=false;btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:send"></span> Publish'}});
-        window._deletePost=async function(id){try{var r=await sb.from('posts').delete().eq('id',id);if(r.error)throw new Error(r.error.message);loadPosts();updateStats();toast('Deleted.','info')}catch(e){toast(e.message,'error')}};
-        window._togglePin=async function(id,cur){try{var r=await sb.from('posts').update({pinned:!cur}).eq('id',id);if(r.error)throw new Error(r.error.message);loadPosts();updateStats();toast('Updated.')}catch(e){toast(e.message,'error')}};
-        (function(){var btn=document.getElementById('clear-posts-btn');btn.addEventListener('click',async function(){if(btn.dataset.confirm==='true'){btn.disabled=true;try{await sb.from('posts').delete().neq('id','00000000-0000-0000-0000-000000000000');loadPosts();updateStats();toast('Cleared.','info')}catch(e){toast(e.message,'error')}btn.disabled=false;btn.dataset.confirm='false';btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All';btn.classList.remove('!text-red-400')}else{btn.dataset.confirm='true';btn.innerHTML='Confirm?';btn.classList.add('!text-red-400');setTimeout(function(){btn.dataset.confirm='false';btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All';btn.classList.remove('!text-red-400')},3000)}})})();
-
-        // ===== PLAYERS =====
-        async function loadPlayers(){var box=document.getElementById('players-list'),emp=document.getElementById('empty-players'),lbl=document.getElementById('player-count-label');try{var r=await sb.from('players').select('*').order('created_at',{ascending:true});if(r.error)throw new Error(r.error.message);var ps=r.data||[];lbl.textContent=ps.length;if(ps.length===0){box.innerHTML='';emp.classList.remove('hidden');return}emp.classList.add('hidden');
-        box.innerHTML=ps.map(function(p){var av=p.avatar_url||'https://ui-avatars.com/api/?name='+encodeURIComponent(p.name)+'&background=424242&color=f5f5f5&size=80&bold=true';var sk=p.skin_url||'https://ui-avatars.com/api/?name='+encodeURIComponent(p.name)+'&background=212121&color=9e9e9e&size=80&bold=true&format=svg';
-        var rows='<div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1"><span class="iconify text-[#5865F2] text-xs" data-icon="ic:baseline-discord"></span>'+p.discord+'</span></div>';
-        rows+='<div class="info-row"><span class="info-label">Description</span><span class="info-val">'+p.description+'</span></div>';
-        return '<div class="bg-g-900 border border-g-800 rounded-xl overflow-hidden"><div class="flex gap-4 p-4 border-b border-g-800/60"><img src="'+av+'" alt="" class="w-14 h-14 rounded-lg object-cover border border-g-700 shrink-0"><img src="'+sk+'" alt="" class="skin-img w-10 h-14 rounded object-cover border border-g-700 shrink-0"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-1"><span class="text-g-100 font-semibold text-sm">'+p.name+'</span><span class="rank-badge '+(rCls[p.rank]||'rank-member')+'">'+p.rank+'</span></div><span class="text-g-600 text-[11px]">'+fmtD(p.created_at)+'</span></div><div class="flex items-center gap-1 shrink-0"><button onclick="window._editPlayer(\''+p.id+'\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-g-700 flex items-center justify-center transition-colors"><span class="iconify text-g-400 text-sm" data-icon="lucide:pencil"></span></button><button onclick="window._deletePlayer(\''+p.id+'\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group"><span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span></button></div></div><div class="p-4">'+rows+'</div></div>'}).join()}catch(e){box.innerHTML='<p class="text-red-400 text-sm text-center py-8">Error: '+e.message+'</p>';emp.classList.add('hidden')}}
-
-        document.getElementById('player-form').addEventListener('submit',async function(e){e.preventDefault();var eid=document.getElementById('player-edit-id').value,n=document.getElementById('player-name').value.trim(),d=document.getElementById('player-discord').value.trim(),rk=document.getElementById('player-rank').value,av=document.getElementById('player-avatar').value.trim(),sk=document.getElementById('player-skin').value.trim(),desc=document.getElementById('player-desc').value.trim(),btn=document.getElementById('player-submit-btn');
-        if(!n||!d||!rk||!desc){toast('Fill required fields: Name, Discord, Rank, Description.','error');return}btn.disabled=true;btn.textContent='Saving...';
-        var row={name:n,discord:d,description:desc,rank:rk,avatar_url:av||null,skin_url:sk||null};
-        try{if(eid){var res=await sb.from('players').update(row).eq('id',eid);if(res.error)throw new Error(res.error.message);resetPF();toast('Updated!')}else{var res2=await sb.from('players').insert(row);if(res2.error)throw new Error(res2.error.message);this.reset();toast('Added!')}loadPlayers();updateStats()}catch(e){toast(e.message,'error')}finally{btn.disabled=false;btn.innerHTML=eid?'<span class="iconify text-sm" data-icon="lucide:check"></span> Save Changes':'<span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player'}});
-
-        function resetPF(){document.getElementById('player-form').reset();document.getElementById('player-edit-id').value='';document.getElementById('player-form-title').innerHTML='<span class="iconify text-g-500" data-icon="lucide:user-plus"></span> Add New Player';document.getElementById('player-form-subtitle').textContent='Fill in the player details below';document.getElementById('player-submit-btn').innerHTML='<span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player';document.getElementById('player-cancel-btn').classList.add('hidden')}
-        document.getElementById('player-cancel-btn').addEventListener('click',resetPF);
-
-        window._editPlayer=async function(id){try{var{data,error}=await sb.from('players').select('*').eq('id',id).single();if(error)throw new Error(error.message);var p=data;document.getElementById('player-edit-id').value=p.id;document.getElementById('player-name').value=p.name;document.getElementById('player-discord').value=p.discord;document.getElementById('player-rank').value=p.rank;document.getElementById('player-avatar').value=p.avatar_url||'';document.getElementById('player-skin').value=p.skin_url||'';document.getElementById('player-desc').value=p.description;document.getElementById('player-form-title').innerHTML='<span class="iconify text-g-500" data-icon="lucide:pencil"></span> Edit Player';document.getElementById('player-form-subtitle').textContent='Editing '+p.name;document.getElementById('player-submit-btn').innerHTML='<span class="iconify text-sm" data-icon="lucide:check"></span> Save Changes';document.getElementById('player-cancel-btn').classList.remove('hidden');document.getElementById('player-form').scrollIntoView({behavior:'smooth',block:'start'})}catch(e){toast(e.message,'error')}};
-        window._deletePlayer=async function(id){try{var r=await sb.from('players').delete().eq('id',id);if(r.error)throw new Error(r.error.message);loadPlayers();updateStats();toast('Removed.','info')}catch(e){toast(e.message,'error')}};
-        (function(){var btn=document.getElementById('clear-players-btn');btn.addEventListener('click',async function(){if(btn.dataset.confirm==='true'){btn.disabled=true;try{await sb.from('players').delete().neq('id','00000000-0000-0000-0000-000000000000');loadPlayers();updateStats();toast('Removed all.','info')}catch(e){toast(e.message,'error)}btn.disabled=false;btn.dataset.confirm='false';btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';btn.classList.remove('!text-red-400')}else{btn.dataset.confirm='true';btn.innerHTML='Confirm?';btn.classList.add('!text-red-400');setTimeout(function(){btn.dataset.confirm='false';btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';btn.classList.remove('!text-red-400')},3000)}})})();
-
-        // ✅✅✅ FIXED TICKETS SECTION - Now displays ALL fields including optional ones ✅✅✅
-        async function loadTickets(){
-            var box=document.getElementById('tickets-list'),
-                emp=document.getElementById('empty-tickets');
+        // ============================================
+        // ✅ DEBUG HELPER FUNCTIONS
+        // ============================================
+        function debugLog(message, type) {
+            type = type || 'error';
+            console.log('[6T9 Admin]', message);
             
-            try{
-                var r=await sb.from('tickets').select('*').order('created_at',{ascending:false});
+            var console = document.getElementById('debug-content');
+            if(console) {
+                var line = document.createElement('div');
+                line.className = 'debug-line debug-' + type;
+                line.innerHTML = '[' + new Date().toLocaleTimeString() + '] ' + message;
+                console.appendChild(line);
+                console.scrollTop = console.scrollHeight;
+            }
+        }
+
+        function toggleDebug() {
+            var box = document.getElementById('debug-console');
+            if(box) box.classList.toggle('show');
+        }
+
+        function toast(m, t) {
+            t = t || 'success';
+            var c = document.getElementById('toast-container'),
+                d = document.createElement('div');
+            d.className = 'toast flex items-center gap-3 px-5 py-3 rounded-lg bg-g-700 border ' + 
+                         (t === 'success' ? 'border-green-500' : t === 'error' ? 'border-red-400' : 'border-blue-500') + 
+                         ' shadow-lg max-w-sm';
+            d.innerHTML = '<span class="iconify text-g-300 text-lg shrink-0" data-icon="' + 
+                         (t === 'success' ? 'lucide:check-circle' : t === 'error' ? 'lucide:alert-circle' : 'lucide:info') + 
+                         '"></span><span class="text-g-100 text-sm font-medium">' + m + '</span>';
+            c.appendChild(d);
+            setTimeout(function() { d.remove(); }, 4000);
+        }
+
+        function fmtD(d) {
+            return new Date(d).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
+        }
+
+        // ============================================
+        // ✅ AUTHENTICATION - FIXED VERSION
+        // ============================================
+        
+        async function checkAuth() {
+            debugLog('Checking authentication status...', 'info');
+            
+            try {
+                var { data: { session }, error } = await sb.auth.getSession();
                 
-                if(r.error) throw new Error(r.error.message);
-                
-                var ts=r.data||[];
-                
-                if(ts.length===0){
-                    box.innerHTML='';
-                    emp.classList.remove('hidden');
+                if(error) {
+                    debugLog('Auth check error: ' + error.message, 'error');
+                    showLogin();
                     return;
                 }
                 
+                if(session && session.user) {
+                    debugLog('✅ User already logged in: ' + session.user.email, 'success');
+                    showPanel();
+                } else {
+                    debugLog('No active session found', 'info');
+                    showLogin();
+                }
+            } catch(e) {
+                debugLog('Auth check exception: ' + e.message, 'error');
+                showLogin();
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('login-gate').classList.remove('hidden');
+            document.getElementById('admin-panel').classList.add('hidden');
+            debugLog('Showing login screen', 'info');
+        }
+
+        function showPanel() {
+            document.getElementById('login-gate').classList.add('hidden');
+            document.getElementById('admin-panel').classList.remove('hidden');
+            debugLog('Showing admin panel', 'success');
+            refreshAll();
+        }
+
+        // ✅ FIXED: Login form handler with detailed error reporting
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            var email = document.getElementById('login-email').value.trim();
+            var password = document.getElementById('login-password').value;
+            var errorEl = document.getElementById('login-error');
+            var btn = document.getElementById('login-btn');
+            var btnText = document.getElementById('btn-text');
+            var btnLoader = document.getElementById('btn-loader');
+            
+            // Reset error state
+            errorEl.classList.add('hidden');
+            errorEl.textContent = '';
+            
+            // Validate inputs
+            if(!email || !password) {
+                showError('Please fill in all fields.');
+                return;
+            }
+            
+            // Show loading state
+            btn.disabled = true;
+            btnText.textContent = 'Signing in...';
+            btnLoader.classList.remove('hidden');
+            
+            debugLog('Attempting login with email: ' + email, 'info');
+            
+            try {
+                // ✅ Attempt sign in
+                var { data, error } = await sb.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+                
+                if(error) {
+                    // ✅ Handle specific error types
+                    var errorMsg = error.message;
+                    
+                    if(error.message.includes('Invalid login credentials')) {
+                        errorMsg = '❌ Invalid email or password. Check your credentials.';
+                        debugLog('Invalid credentials for: ' + email, 'error');
+                    } else if(error.message.includes('Email not confirmed')) {
+                        errorMsg = '⚠️ Email not confirmed. Check your inbox for verification link.';
+                        debugLog('Email not confirmed: ' + email, 'error');
+                    } else if(error.message.includes('User not found')) {
+                        errorMsg = '👤 No account found with this email. Create one in Supabase Dashboard → Authentication → Users.';
+                        debugLog('User not found: ' + email, 'error');
+                    } else {
+                        debugLog('Login error (' + error.status + '): ' + error.message, 'error');
+                    }
+                    
+                    showError(errorMsg);
+                    return;
+                }
+                
+                // ✅ Success!
+                if(data && data.user) {
+                    debugLog('✅ Login successful! User ID: ' + data.user.id, 'success');
+                    debugLog('Email: ' + data.user.email, 'success');
+                    showPanel();
+                    toast('Welcome back, ' + (data.user.email.split('@')[0]) + '!');
+                } else {
+                    showError('Unexpected response from server.');
+                    debugLog('No user data returned', 'error');
+                }
+                
+            } catch(err) {
+                // ✅ Network/connection errors
+                debugLog('Login exception: ' + err.message, 'error');
+                showError('Connection error. Check your internet connection and try again.');
+                
+            } finally {
+                // Restore button state
+                btn.disabled = false;
+                btnText.textContent = 'Sign In';
+                btnLoader.classList.add('hidden');
+            }
+        });
+
+        function showError(message) {
+            var el = document.getElementById('login-error');
+            el.textContent = message;
+            el.classList.remove('hidden');
+            debugLog('Error shown: ' + message, 'error');
+        }
+
+        // Logout handler
+        document.getElementById('logout-btn').addEventListener('click', async function() {
+            await sb.auth.signOut();
+            showLogin();
+            toast('Logged out.', 'info');
+            debugLog('User logged out', 'info');
+        });
+
+        // ============================================
+        // TABS
+        // ============================================
+        document.querySelectorAll('.tab-btn').forEach(function(b) {
+            b.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(function(x) { x.classList.remove('active'); });
+                document.querySelectorAll('.tab-content').forEach(function(x) { x.classList.remove('active'); });
+                b.classList.add('active');
+                document.getElementById('tab-' + b.dataset.tab).classList.add('active');
+            });
+        });
+
+        // ============================================
+        // STATS
+        // ============================================
+        async function updateStats() {
+            try {
+                var [p, pl, t] = await Promise.all([
+                    sb.from('posts').select('id,pinned'),
+                    sb.from('players').select('id'),
+                    sb.from('tickets').select('id')
+                ]);
+                var ps = p.data || [], pls = pl.data || [], ts = t.data || [];
+                document.getElementById('stat-posts').textContent = ps.length;
+                document.getElementById('stat-pinned').textContent = ps.filter(function(x) { return x.pinned }).length;
+                document.getElementById('stat-players').textContent = pls.length;
+                document.getElementById('stat-tickets').textContent = ts.length;
+            } catch(e) {
+                debugLog('Stats update failed: ' + e.message, 'error');
+            }
+        }
+
+        // ============================================
+        // POSTS
+        // ============================================
+        async function loadPosts() {
+            var box = document.getElementById('posts-list'), emp = document.getElementById('empty-posts');
+            try {
+                var r = await sb.from('posts').select('*').order('created_at', {ascending: false});
+                if(r.error) throw new Error(r.error.message);
+                var p = r.data || [];
+                if(p.length === 0) { box.innerHTML = ''; emp.classList.remove('hidden'); return; }
                 emp.classList.add('hidden');
                 
-                // Reason labels for display
-                var labels={
-                    join:'🎮 Join Request',
-                    ally:'🤝 Alliance Inquiry',
-                    event:'🎉 Event Collaboration',
-                    other:'❓ Other'
-                };
-                
-                // Status badges
-                var statusBadges={
-                    pending:'<span style="background:#f59e0b;color:#1f2937;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Pending</span>',
-                    approved:'<span style="background:#10b981;color:#1f2937;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Approved</span>',
-                    rejected:'<span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Rejected</span>'
-                };
-                
-                box.innerHTML=ts.map(function(t){
-                    // ✅ Build info rows - ALWAYS include all available fields
-                    var rows='';
-                    
-                    // Basic info (always present)
-                    rows += '<div class="info-row"><span class="info-label">IGN</span><span class="info-val"><strong>'+t.player_name+'</strong></span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1"><span class="iconify text-[#5865F2] text-xs" data-icon="ic:baseline-discord"></span>'+t.discord_handle+'</span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Reason</span><span class="info-val">'+(labels[t.reason]||t.reason)+'</span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Status</span><span class="info-val">'+(statusBadges[t.status]||statusBadges['pending'])+'</span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Message</span><span class="info-val">'+t.message+'</span></div>';
-                    
-                    // ✅ Optional fields - ONLY show if they exist (not null/empty)
-                    if(t.bedwars_level){
-                        rows += '<div class="info-row"><span class="info-label">⚔️ Bedwars Lv</span><span class="info-val" style="color:#10b981;font-weight:600;">'+t.bedwars_level+'</span></div>';
-                    }
-                    
-                    if(t.previous_guilds){
-                        rows += '<div class="info-row"><span class="info-label">🏰 Prev Guilds</span><span class="info-val">'+t.previous_guilds+'</span></div>';
-                    }
-                    
-                    if(t.join_reason){
-                        rows += '<div class="info-row"><span class="info-label">💬 Why Join?</span><span class="info-val" style="border-left:2px solid #f59e0b;padding-left:8px;">'+t.join_reason+'</span></div>';
-                    }
-                    
-                    if(t.alts){
-                        rows += '<div class="info-row"><span class="info-label">👥 Alt Accounts</span><span class="info-val" style="color:#f87171;">'+t.alts+'</span></div>';
-                    }
-                    
-                    // Admin review info (if exists)
-                    if(t.reviewed_by){
-                        rows += '<div class="info-row" style="border-top:1px dashed rgba(255,255,255,0.1);margin-top:8px;padding-top:8px;"><span class="info-label">Reviewed By</span><span class="info-val">'+t.reviewed_by+' ('+fmtD(t.reviewed_at)+')</span></div>';
-                    }
-                    
-                    if(t.admin_notes){
-                        rows += '<div class="info-row"><span class="info-label">📝 Admin Notes</span><span class="info-val" style="color:#fbbf24;font-style:italic;">'+t.admin_notes+'</span></div>';
-                    }
-                    
-                    // Build the ticket card
-                    return '<div class="bg-g-900 border border-g-800 rounded-xl p-5 mb-4" style="border-left:3px solid '+(t.reason==='join'?'#10b981':t.reason==='ally'?'#3b82f6':t.reason==='event'?'#f59e0b':'#6b7280')+';">'+
-                        '<div class="flex items-center justify-between gap-3 mb-4">'+
-                            '<div class="flex items-center gap-2 flex-wrap">'+
-                                '<span class="rank-badge rank-officer">'+(labels[t.reason]||t.reason)+'</span>'+
-                                statusBadges[t.status]||statusBadges['pending']+
-                                '<span class="text-g-600 text-[11px]">'+fmtD(t.created_at)+'</span>'+
-                            '</div>'+
-                            '<div class="flex items-center gap-1 shrink-0">'+
-                                '<button onclick="window._approveTicket(\''+t.id+'\')" class="w-8 h-8 rounded-lg bg-green-900/30 hover:bg-green-900/60 flex items-center justify-center transition-colors" title="Approve">'+
-                                    '<span class="iconify text-green-400 text-sm" data-icon="lucide:check"></span>'+
-                                '</button>'+
-                                '<button onclick="window._rejectTicket(\''+t.id+'\')" class="w-8 h-8 rounded-lg bg-red-900/30 hover:bg-red-900/60 flex items-center justify-center transition-colors" title="Reject">'+
-                                    '<span class="iconify text-red-400 text-sm" data-icon="lucide:x"></span>'+
-                                '</button>'+
-                                '<button onclick="window._deleteTicket(\''+t.id+'\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group" title="Delete">'+
-                                    '<span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span>'+
-                                '</button>'+
-                            '</div>'+
-                        '</div>'+
-                        '<div>'+rows+'</div>'+
+                box.innerHTML = p.map(function(o) {
+                    return '<div class="bg-g-900 border border-g-800 rounded-xl p-5 ' + (o.pinned ? 'border-l-[3px] border-l-g-400' : '') + '">' +
+                        '<div class="flex items-start justify-between gap-4">' +
+                            '<div class="flex-1 min-w-0">' +
+                                '<div class="flex items-center gap-2 mb-1.5 flex-wrap">' +
+                                    '<h3 class="text-g-100 font-semibold text-sm">' + o.title + '</h3>' +
+                                    (o.pinned ? '<span class="rank-badge rank-leader">PINNED</span>' : '') +
+                                '</div>' +
+                                '<p class="text-g-400 text-xs mb-2 line-clamp-2">' + o.content + '</p>' +
+                                '<div class="flex items-center gap-3 text-g-600 text-[11px]">' +
+                                    '<span>By ' + o.author + '</span><span>·</span><span>' + fmtD(o.created_at) + '</span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="flex items-center gap-1 shrink-0">' +
+                                '<button onclick="window._togglePin(\'' + o.id + '\',' + o.pinned + ')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-g-700 flex items-center justify-center transition-colors">' +
+                                    '<span class="iconify text-g-400 text-sm" data-icon="' + (o.pinned ? 'lucide:pin-off' : 'lucide:pin') + '"></span>' +
+                                '</button>' +
+                                '<button onclick="window._deletePost(\'' + o.id + '\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group">' +
+                                    '<span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span>' +
+                                '</button>' +
+                            '</div>' +
+                        '</div>' +
                     '</div>';
-                    
                 }).join('');
-                
-            } catch(e){
-                console.error('❌ Failed to load tickets:', e);
-                box.innerHTML='<p class="text-red-400 text-sm text-center py-8">Error: '+e.message+'</p>';
+            } catch(e) {
+                box.innerHTML = '<p class="text-red-400 text-sm text-center py-8">Error: ' + e.message + '</p>';
                 emp.classList.add('hidden');
             }
         }
 
-        // ✅ New: Approve ticket function
-        window._approveTicket = async function(id){
-            try{
-                var r = await sb.from('tickets').update({
-                    status: 'approved',
-                    reviewed_by: 'Admin',
-                    reviewed_at: new Date().toISOString()
-                }).eq('id', id);
-                
+        document.getElementById('post-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var t = document.getElementById('post-title').value.trim(),
+                a = document.getElementById('post-author').value.trim(),
+                c = document.getElementById('post-content').value.trim(),
+                pn = document.getElementById('post-pinned').checked,
+                btn = document.getElementById('post-submit-btn');
+            
+            if(!t || !a || !c) { toast('Fill all fields.', 'error'); return; }
+            
+            btn.disabled = true;
+            btn.textContent = 'Saving...';
+            
+            try {
+                var r = await sb.from('posts').insert({ title: t, author: a, content: c, pinned: pn });
                 if(r.error) throw new Error(r.error.message);
+                this.reset();
+                loadPosts();
+                updateStats();
+                toast('Published!');
+            } catch(e) {
+                toast(e.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:send"></span> Publish';
+            }
+        });
+
+        window._deletePost = async function(id) {
+            try {
+                var r = await sb.from('posts').delete().eq('id', id);
+                if(r.error) throw new Error(r.error.message);
+                loadPosts();
+                updateStats();
+                toast('Deleted.', 'info');
+            } catch(e) { toast(e.message, 'error'); }
+        };
+
+        window._togglePin = async function(id, cur) {
+            try {
+                var r = await sb.from('posts').update({ pinned: !cur }).eq('id', id);
+                if(r.error) throw new Error(r.error.message);
+                loadPosts();
+                updateStats();
+                toast('Updated.');
+            } catch(e) { toast(e.message, 'error'); }
+        };
+
+        (function() {
+            var btn = document.getElementById('clear-posts-btn');
+            btn.addEventListener('click', async function() {
+                if(btn.dataset.confirm === 'true') {
+                    btn.disabled = true;
+                    try {
+                        await sb.from('posts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                        loadPosts();
+                        updateStats();
+                        toast('Cleared.', 'info');
+                    } catch(e) { toast(e.message, 'error'); }
+                    btn.disabled = false;
+                    btn.dataset.confirm = 'false';
+                    btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All';
+                    btn.classList.remove('!text-red-400');
+                } else {
+                    btn.dataset.confirm = 'true';
+                    btn.innerHTML = 'Confirm?';
+                    btn.classList.add('!text-red-400');
+                    setTimeout(function() {
+                        btn.dataset.confirm = 'false';
+                        btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All';
+                        btn.classList.remove('!text-red-400');
+                    }, 3000);
+                }
+            });
+        })();
+
+        // ============================================
+        // PLAYERS
+        // ============================================
+        async function loadPlayers() {
+            var box = document.getElementById('players-list'),
+                emp = document.getElementById('empty-players'),
+                lbl = document.getElementById('player-count-label');
+            
+            try {
+                var r = await sb.from('players').select('*').order('created_at', {ascending: true});
+                if(r.error) throw new Error(r.error.message);
+                var ps = r.data || [];
+                lbl.textContent = ps.length;
                 
+                if(ps.length === 0) { box.innerHTML = ''; emp.classList.remove('hidden'); return; }
+                emp.classList.add('hidden');
+                
+                box.innerHTML = ps.map(function(p) {
+                    var av = p.avatar_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.name) + '&background=424242&color=f5f5f5&size=80&bold=true';
+                    var sk = p.skin_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.name) + '&background=212121&color=9e9e9e&size=80&bold=true&format=svg';
+                    
+                    var rows = '<div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1"><span class="iconify text-[#5865F2] text-xs" data-icon="ic:baseline-discord"></span>' + p.discord + '</span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Description</span><span class="info-val">' + p.description + '</span></div>';
+                    
+                    return '<div class="bg-g-900 border border-g-800 rounded-xl overflow-hidden">' +
+                        '<div class="flex gap-4 p-4 border-b border-g-800/60">' +
+                            '<img src="' + av + '" alt="" class="w-14 h-14 rounded-lg object-cover border border-g-700 shrink-0">' +
+                            '<img src="' + sk + '" alt="" class="skin-img w-10 h-14 rounded object-cover border border-g-700 shrink-0">' +
+                            '<div class="flex-1 min-w-0">' +
+                                '<div class="flex items-center gap-2 mb-1">' +
+                                    '<span class="text-g-100 font-semibold text-sm">' + p.name + '</span>' +
+                                    '<span class="rank-badge ' + (rCls[p.rank] || 'rank-member') + '">' + p.rank + '</span>' +
+                                '</div>' +
+                                '<span class="text-g-600 text-[11px]">' + fmtD(p.created_at) + '</span>' +
+                            '</div>' +
+                            '<div class="flex items-center gap-1 shrink-0">' +
+                                '<button onclick="window._editPlayer(\'' + p.id + '\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-g-700 flex items-center justify-center transition-colors">' +
+                                    '<span class="iconify text-g-400 text-sm" data-icon="lucide:pencil"></span>' +
+                                '</button>' +
+                                '<button onclick="window._deletePlayer(\'' + p.id + '\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group">' +
+                                    '<span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span>' +
+                                '</button>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="p-4">' + rows + '</div>' +
+                    '</div>';
+                }).join('');
+            } catch(e) {
+                box.innerHTML = '<p class="text-red-400 text-sm text-center py-8">Error: ' + e.message + '</p>';
+                emp.classList.add('hidden');
+            }
+        }
+
+        document.getElementById('player-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var eid = document.getElementById('player-edit-id').value,
+                n = document.getElementById('player-name').value.trim(),
+                d = document.getElementById('player-discord').value.trim(),
+                rk = document.getElementById('player-rank').value,
+                av = document.getElementById('player-avatar').value.trim(),
+                sk = document.getElementById('player-skin').value.trim(),
+                desc = document.getElementById('player-desc').value.trim(),
+                btn = document.getElementById('player-submit-btn');
+            
+            if(!n || !d || !rk || !desc) {
+                toast('Fill required fields: Name, Discord, Rank, Description.', 'error');
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = 'Saving...';
+            
+            var row = { name: n, discord: d, description: desc, rank: rk, avatar_url: av || null, skin_url: sk || null };
+            
+            try {
+                if(eid) {
+                    var res = await sb.from('players').update(row).eq('id', eid);
+                    if(res.error) throw new Error(res.error.message);
+                    resetPF();
+                    toast('Updated!');
+                } else {
+                    var res2 = await sb.from('players').insert(row);
+                    if(res2.error) throw new Error(res2.error.message);
+                    this.reset();
+                    toast('Added!');
+                }
+                loadPlayers();
+                updateStats();
+            } catch(e) {
+                toast(e.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = eid ? '<span class="iconify text-sm" data-icon="lucide:check"></span> Save Changes' : '<span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player';
+            }
+        });
+
+        function resetPF() {
+            document.getElementById('player-form').reset();
+            document.getElementById('player-edit-id').value = '';
+            document.getElementById('player-form-title').innerHTML = '<span class="iconify text-g-500" data-icon="lucide:user-plus"></span> Add New Player';
+            document.getElementById('player-form-subtitle').textContent = 'Fill in the player details below';
+            document.getElementById('player-submit-btn').innerHTML = '<span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player';
+            document.getElementById('player-cancel-btn').classList.add('hidden');
+        }
+
+        document.getElementById('player-cancel-btn').addEventListener('click', resetPF);
+
+        window._editPlayer = async function(id) {
+            try {
+                var { data, error } = await sb.from('players').select('*').eq('id', id).single();
+                if(error) throw new Error(error.message);
+                var p = data;
+                
+                document.getElementById('player-edit-id').value = p.id;
+                document.getElementById('player-name').value = p.name;
+                document.getElementById('player-discord').value = p.discord;
+                document.getElementById('player-rank').value = p.rank;
+                document.getElementById('player-avatar').value = p.avatar_url || '';
+                document.getElementById('player-skin').value = p.skin_url || '';
+                document.getElementById('player-desc').value = p.description;
+                document.getElementById('player-form-title').innerHTML = '<span class="iconify text-g-500" data-icon="lucide:pencil"></span> Edit Player';
+                document.getElementById('player-form-subtitle').textContent = 'Editing ' + p.name;
+                document.getElementById('player-submit-btn').innerHTML = '<span class="iconify text-sm" data-icon="lucide:check"></span> Save Changes';
+                document.getElementById('player-cancel-btn').classList.remove('hidden');
+                document.getElementById('player-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch(e) { toast(e.message, 'error'); }
+        };
+
+        window._deletePlayer = async function(id) {
+            try {
+                var r = await sb.from('players').delete().eq('id', id);
+                if(r.error) throw new Error(r.error.message);
+                loadPlayers();
+                updateStats();
+                toast('Removed.', 'info');
+            } catch(e) { toast(e.message, 'error'); }
+        };
+
+        (function() {
+            var btn = document.getElementById('clear-players-btn');
+            btn.addEventListener('click', async function() {
+                if(btn.dataset.confirm === 'true') {
+                    btn.disabled = true;
+                    try {
+                        await sb.from('players').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+                        loadPlayers();
+                        updateStats();
+                        toast('Removed all.', 'info');
+                    } catch(e) { toast(e.message, 'error'); }
+                    btn.disabled = false;
+                    btn.dataset.confirm = 'false';
+                    btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';
+                    btn.classList.remove('!text-red-400');
+                } else {
+                    btn.dataset.confirm = 'true';
+                    btn.innerHTML = 'Confirm?';
+                    btn.classList.add('!text-red-400');
+                    setTimeout(function() {
+                        btn.dataset.confirm = 'false';
+                        btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';
+                        btn.classList.remove('!text-red-400');
+                    }, 3000);
+                }
+            });
+        })();
+
+        // ============================================
+        // TICKETS
+        // ============================================
+        async function loadTickets() {
+            var box = document.getElementById('tickets-list'),
+                emp = document.getElementById('empty-tickets');
+            
+            try {
+                var r = await sb.from('tickets').select('*').order('created_at', {ascending: false});
+                if(r.error) throw new Error(r.error.message);
+                var ts = r.data || [];
+                
+                if(ts.length === 0) { box.innerHTML = ''; emp.classList.remove('hidden'); return; }
+                emp.classList.add('hidden');
+                
+                var labels = { join: '🎮 Join Request', ally: '🤝 Alliance Inquiry', event: '🎉 Event Collaboration', other: '❓ Other' };
+                var statusBadges = {
+                    pending: '<span style="background:#f59e0b;color:#1f2937;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Pending</span>',
+                    approved: '<span style="background:#10b981;color:#1f2937;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Approved</span>',
+                    rejected: '<span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Rejected</span>'
+                };
+                
+                box.innerHTML = ts.map(function(t) {
+                    var rows = '';
+                    rows += '<div class="info-row"><span class="info-label">IGN</span><span class="info-val"><strong>' + t.player_name + '</strong></span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1"><span class="iconify text-[#5865F2] text-xs" data-icon="ic:baseline-discord"></span>' + t.discord_handle + '</span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Reason</span><span class="info-val">' + (labels[t.reason] || t.reason) + '</span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Status</span><span class="info-val">' + (statusBadges[t.status] || statusBadges['pending']) + '</span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Message</span><span class="info-val">' + t.message + '</span></div>';
+                    
+                    if(t.bedwars_level) rows += '<div class="info-row"><span class="info-label">⚔️ Bedwars Lv</span><span class="info-val" style="color:#10b981;font-weight:600;">' + t.bedwars_level + '</span></div>';
+                    if(t.previous_guilds) rows += '<div class="info-row"><span class="info-label">🏰 Prev Guilds</span><span class="info-val">' + t.previous_guilds + '</span></div>';
+                    if(t.join_reason) rows += '<div class="info-row"><span class="info-label">💬 Why Join?</span><span class="info-val" style="border-left:2px solid #f59e0b;padding-left:8px;">' + t.join_reason + '</span></div>';
+                    if(t.alts) rows += '<div class="info-row"><span class="info-label">👥 Alt Accounts</span><span class="info-val" style="color:#f87171;">' + t.alts + '</span></div>';
+                    if(t.reviewed_by) rows += '<div class="info-row" style="border-top:1px dashed rgba(255,255,255,0.1);margin-top:8px;padding-top:8px;"><span class="info-label">Reviewed By</span><span class="info-val">' + t.reviewed_by + ' (' + fmtD(t.reviewed_at) + ')</span></div>';
+                    if(t.admin_notes) rows += '<div class="info-row"><span class="info-label">📝 Notes</span><span class="info-val" style="color:#fbbf24;font-style:italic;">' + t.admin_notes + '</span></div>';
+                    
+                    return '<div class="bg-g-900 border border-g-800 rounded-xl p-5 mb-4" style="border-left:3px solid ' + (t.reason === 'join' ? '#10b981' : t.reason === 'ally' ? '#3b82f6' : t.reason === 'event' ? '#f59e0b' : '#6b7280') + ';">' +
+                        '<div class="flex items-center justify-between gap-3 mb-4">' +
+                            '<div class="flex items-center gap-2 flex-wrap">' +
+                                '<span class="rank-badge rank-officer">' + (labels[t.reason] || t.reason) + '</span>' +
+                                (statusBadges[t.status] || statusBadges['pending']) +
+                                '<span class="text-g-600 text-[11px]">' + fmtD(t.created_at) + '</span>' +
+                            '</div>' +
+                            '<div class="flex items-center gap-1 shrink-0">' +
+                                '<button onclick="window._approveTicket(\'' + t.id + '\')" class="w-8 h-8 rounded-lg bg-green-900/30 hover:bg-green-900/60 flex items-center justify-center transition-colors" title="Approve">' +
+                                    '<span class="iconify text-green-400 text-sm" data-icon="lucide:check"></span>' +
+                                '</button>' +
+                                '<button onclick="window._rejectTicket(\'' + t.id + '\')" class="w-8 h-8 rounded-lg bg-red-900/30 hover:bg-red-900/60 flex items-center justify-center transition-colors" title="Reject">' +
+                                    '<span class="iconify text-red-400 text-sm" data-icon="lucide:x"></span>' +
+                                '</button>' +
+                                '<button onclick="window._deleteTicket(\'' + t.id + '\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group" title="Delete">' +
+                                    '<span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span>' +
+                                '</button>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div>' + rows + '</div>' +
+                    '</div>';
+                }).join('');
+            } catch(e) {
+                box.innerHTML = '<p class="text-red-400 text-sm text-center py-8">Error: ' + e.message + '</p>';
+                emp.classList.add('hidden');
+            }
+        }
+
+        window._approveTicket = async function(id) {
+            try {
+                var r = await sb.from('tickets').update({ status: 'approved', reviewed_by: 'Admin', reviewed_at: new Date().toISOString() }).eq('id', id);
+                if(r.error) throw new Error(r.error.message);
                 loadTickets();
                 toast('✅ Ticket approved!', 'success');
-            } catch(e){
-                toast(e.message, 'error');
-            }
+            } catch(e) { toast(e.message, 'error'); }
         };
 
-        // ✅ New: Reject ticket function  
-        window._rejectTicket = async function(id){
-            try{
-                var r = await sb.from('tickets').update({
-                    status: 'rejected',
-                    reviewed_by: 'Admin',
-                    reviewed_at: new Date().toISOString()
-                }).eq('id', id);
-                
+        window._rejectTicket = async function(id) {
+            try {
+                var r = await sb.from('tickets').update({ status: 'rejected', reviewed_by: 'Admin', reviewed_at: new Date().toISOString() }).eq('id', id);
                 if(r.error) throw new Error(r.error.message);
-                
                 loadTickets();
                 toast('❌ Ticket rejected.', 'info');
-            } catch(e){
-                toast(e.message, 'error');
-            }
+            } catch(e) { toast(e.message, 'error'); }
         };
 
-        // Delete ticket
-        window._deleteTicket=async function(id){
-            try{
-                var r=await sb.from('tickets').delete().eq('id',id);
+        window._deleteTicket = async function(id) {
+            try {
+                var r = await sb.from('tickets').delete().eq('id', id);
                 if(r.error) throw new Error(r.error.message);
                 loadTickets();
                 updateStats();
-                toast('🗑️ Ticket deleted.', 'info');
-            } catch(e){
-                toast(e.message, 'error');
-            }
+                toast('🗑️ Deleted.', 'info');
+            } catch(e) { toast(e.message, 'error'); }
         };
 
-        // Refresh all data
-        function refreshAll(){
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        function refreshAll() {
             loadPosts();
             loadPlayers();
             loadTickets();
             updateStats();
         }
-        
-        // Initialize
+
+        // Start the app
+        debugLog('Initializing 6T9 Admin Panel...', 'info');
+        debugLog('Supabase URL: ' + SUPABASE_URL, 'info');
         checkAuth();
+        
     })();
     </script>
 </body>
