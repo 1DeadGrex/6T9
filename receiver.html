@@ -71,25 +71,29 @@
                 <div id="empty-posts" class="hidden text-center py-14"><p class="text-g-600 text-sm">No posts yet.</p></div>
             </div>
 
-            <!-- PLAYERS TAB -->
+            <!-- PLAYERS TAB (CLEAN: Only Name, Discord, Rank, Avatar URL, Skin URL, Description) -->
             <div id="tab-players" class="tab-content">
                 <div class="bg-g-900 border border-g-800 rounded-xl p-6 sm:p-8 mb-8">
                     <h2 class="text-g-100 font-semibold text-lg mb-1 flex items-center gap-2" id="player-form-title"><span class="iconify text-g-500" data-icon="lucide:user-plus"></span> Add New Player</h2>
                     <p class="text-g-600 text-xs mb-6" id="player-form-subtitle">Fill in the player details below</p>
                     <form id="player-form" class="space-y-4">
                         <input type="hidden" id="player-edit-id" value="">
+                        <!-- Row 1: Name + Discord -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Player Name *</label><input type="text" id="player-name" required placeholder="ShadowKnight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
                             <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Discord Handle *</label><input type="text" id="player-discord" required placeholder="@shadowknight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
                         </div>
+                        <!-- Row 2: Rank/Role + Avatar URL -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Rank / Role *</label><select id="player-rank" required class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors appearance-none cursor-pointer"><option value="" class="bg-g-800">Select rank</option><option value="Leader" class="bg-g-800">Leader</option><option value="Co-Leader" class="bg-g-800">Co-Leader</option><option value="Officer" class="bg-g-800">Officer</option><option value="Veteran" class="bg-g-800">Veteran</option><option value="Member" class="bg-g-800">Member</option></select></div>
                             <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Discord Avatar URL</label><input type="url" id="player-avatar" placeholder="https://... (optional)" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
                         </div>
+                        <!-- Row 3: Skin URL (full-width or half) -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Minecraft Skin URL</label><input type="url" id="player-skin" placeholder="https://... (optional)" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors"></div>
                             <div class="hidden sm:block"></div>
                         </div>
+                        <!-- Row 4: Description (required) -->
                         <div><label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Description *</label><textarea id="player-desc" rows="2" required placeholder="Short description..." class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors resize-none"></textarea></div>
                         <div class="flex items-center gap-3 pt-1">
                             <button type="submit" id="player-submit-btn" class="px-5 py-2.5 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center gap-2"><span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player</button>
@@ -102,9 +106,13 @@
                 <div id="empty-players" class="hidden text-center py-14"><p class="text-g-600 text-sm">No players.</p></div>
             </div>
 
-            <!-- TICKETS TAB -->
+            <!-- ✅✅✅ FIXED TICKETS TAB - Now displays ALL fields properly ✅✅✅ -->
             <div id="tab-tickets" class="tab-content">
-                <div class="flex items-center gap-3 mb-6"><span class="iconify text-g-500 text-lg" data-icon="lucide:ticket"></span><h2 class="text-g-100 font-semibold text-lg">Submitted Tickets</h2></div>
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="iconify text-g-500 text-lg" data-icon="lucide:ticket"></span>
+                    <h2 class="text-g-100 font-semibold text-lg">Submitted Tickets</h2>
+                    <span class="text-g-600 text-xs">(Showing all fields)</span>
+                </div>
                 <div id="tickets-list"><p class="text-g-600 text-sm text-center py-8">Loading...</p></div>
                 <div id="empty-tickets" class="hidden text-center py-14"><p class="text-g-600 text-sm">No tickets.</p></div>
             </div>
@@ -160,20 +168,170 @@
 
         window._editPlayer=async function(id){try{var{data,error}=await sb.from('players').select('*').eq('id',id).single();if(error)throw new Error(error.message);var p=data;document.getElementById('player-edit-id').value=p.id;document.getElementById('player-name').value=p.name;document.getElementById('player-discord').value=p.discord;document.getElementById('player-rank').value=p.rank;document.getElementById('player-avatar').value=p.avatar_url||'';document.getElementById('player-skin').value=p.skin_url||'';document.getElementById('player-desc').value=p.description;document.getElementById('player-form-title').innerHTML='<span class="iconify text-g-500" data-icon="lucide:pencil"></span> Edit Player';document.getElementById('player-form-subtitle').textContent='Editing '+p.name;document.getElementById('player-submit-btn').innerHTML='<span class="iconify text-sm" data-icon="lucide:check"></span> Save Changes';document.getElementById('player-cancel-btn').classList.remove('hidden');document.getElementById('player-form').scrollIntoView({behavior:'smooth',block:'start'})}catch(e){toast(e.message,'error')}};
         window._deletePlayer=async function(id){try{var r=await sb.from('players').delete().eq('id',id);if(r.error)throw new Error(r.error.message);loadPlayers();updateStats();toast('Removed.','info')}catch(e){toast(e.message,'error')}};
-        (function(){var btn=document.getElementById('clear-players-btn');btn.addEventListener('click',async function(){if(btn.dataset.confirm==='true'){btn.disabled=true;try{await sb.from('players').delete().neq('id','00000000-0000-0000-0000-000000000000');loadPlayers();updateStats();toast('Removed all.','info')}catch(e){toast(e.message,'error')}btn.disabled=false;btn.dataset.confirm='false';btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';btn.classList.remove('!text-red-400')}else{btn.dataset.confirm='true';btn.innerHTML='Confirm?';btn.classList.add('!text-red-400');setTimeout(function(){btn.dataset.confirm='false';btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';btn.classList.remove('!text-red-400')},3000)}})})();
+        (function(){var btn=document.getElementById('clear-players-btn');btn.addEventListener('click',async function(){if(btn.dataset.confirm==='true'){btn.disabled=true;try{await sb.from('players').delete().neq('id','00000000-0000-0000-0000-000000000000');loadPlayers();updateStats();toast('Removed all.','info')}catch(e){toast(e.message,'error)}btn.disabled=false;btn.dataset.confirm='false';btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';btn.classList.remove('!text-red-400')}else{btn.dataset.confirm='true';btn.innerHTML='Confirm?';btn.classList.add('!text-red-400');setTimeout(function(){btn.dataset.confirm='false';btn.innerHTML='<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';btn.classList.remove('!text-red-400')},3000)}})})();
 
-        // ===== TICKETS =====
-        async function loadTickets(){var box=document.getElementById('tickets-list'),emp=document.getElementById('empty-tickets');try{var r=await sb.from('tickets').select('*').order('created_at',{ascending:false});if(r.error)throw new Error(r.error.message);var ts=r.data||[];if(ts.length===0){box.innerHTML='';emp.classList.remove('hidden');return}emp.classList.add('hidden');var labels={join:'Join',ally:'Alliance',event:'Event',other:'Other'};
-        box.innerHTML=ts.map(function(t){var rows='<div class="info-row"><span class="info-label">IGN</span><span class="info-val">'+t.player_name+'</span></div><div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1"><span class="iconify text-[#5865F2] text-xs" data-icon="ic:baseline-discord"></span>'+t.discord_handle+'</span></div><div class="info-row"><span class="info-label">Message</span><span class="info-val">'+t.message+'</span></div>';
-        if(t.bedwars_level)rows+='<div class="info-row"><span class="info-label">Bedwars Level</span><span class="info-val">'+t.bedwars_level+'</span></div>';
-        if(t.previous_guilds)rows+='<div class="info-row"><span class="info-label">Previous Guilds</span><span class="info-val">'+t.previous_guilds+'</span></div>';
-        if(t.join_reason)rows+='<div class="info-row"><span class="info-label">Join Reason</span><span class="info-val">'+t.join_reason+'</span></div>';
-        if(t.alts)rows+='<div class="info-row"><span class="info-label">Alts</span><span class="info-val">'+t.alts+'</span></div>';
-        return '<div class="bg-g-900 border border-g-800 rounded-xl p-5"><div class="flex items-center justify-between gap-3 mb-3"><div class="flex items-center gap-2"><span class="rank-badge rank-officer">'+(labels[t.reason]||t.reason)+'</span><span class="text-g-600 text-[11px]">'+fmtD(t.created_at)+'</span></div><button onclick="window._deleteTicket(\''+t.id+'\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group shrink-0"><span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span></button></div><div>'+rows+'</div></div>'}).join()}catch(e){box.innerHTML='<p class="text-red-400 text-sm text-center py-8">Error: '+e.message+'</p>';emp.classList.add('hidden')}}
+        // ✅✅✅ FIXED TICKETS SECTION - Now displays ALL fields including optional ones ✅✅✅
+        async function loadTickets(){
+            var box=document.getElementById('tickets-list'),
+                emp=document.getElementById('empty-tickets');
+            
+            try{
+                var r=await sb.from('tickets').select('*').order('created_at',{ascending:false});
+                
+                if(r.error) throw new Error(r.error.message);
+                
+                var ts=r.data||[];
+                
+                if(ts.length===0){
+                    box.innerHTML='';
+                    emp.classList.remove('hidden');
+                    return;
+                }
+                
+                emp.classList.add('hidden');
+                
+                // Reason labels for display
+                var labels={
+                    join:'🎮 Join Request',
+                    ally:'🤝 Alliance Inquiry',
+                    event:'🎉 Event Collaboration',
+                    other:'❓ Other'
+                };
+                
+                // Status badges
+                var statusBadges={
+                    pending:'<span style="background:#f59e0b;color:#1f2937;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Pending</span>',
+                    approved:'<span style="background:#10b981;color:#1f2937;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Approved</span>',
+                    rejected:'<span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Rejected</span>'
+                };
+                
+                box.innerHTML=ts.map(function(t){
+                    // ✅ Build info rows - ALWAYS include all available fields
+                    var rows='';
+                    
+                    // Basic info (always present)
+                    rows += '<div class="info-row"><span class="info-label">IGN</span><span class="info-val"><strong>'+t.player_name+'</strong></span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1"><span class="iconify text-[#5865F2] text-xs" data-icon="ic:baseline-discord"></span>'+t.discord_handle+'</span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Reason</span><span class="info-val">'+(labels[t.reason]||t.reason)+'</span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Status</span><span class="info-val">'+(statusBadges[t.status]||statusBadges['pending'])+'</span></div>';
+                    rows += '<div class="info-row"><span class="info-label">Message</span><span class="info-val">'+t.message+'</span></div>';
+                    
+                    // ✅ Optional fields - ONLY show if they exist (not null/empty)
+                    if(t.bedwars_level){
+                        rows += '<div class="info-row"><span class="info-label">⚔️ Bedwars Lv</span><span class="info-val" style="color:#10b981;font-weight:600;">'+t.bedwars_level+'</span></div>';
+                    }
+                    
+                    if(t.previous_guilds){
+                        rows += '<div class="info-row"><span class="info-label">🏰 Prev Guilds</span><span class="info-val">'+t.previous_guilds+'</span></div>';
+                    }
+                    
+                    if(t.join_reason){
+                        rows += '<div class="info-row"><span class="info-label">💬 Why Join?</span><span class="info-val" style="border-left:2px solid #f59e0b;padding-left:8px;">'+t.join_reason+'</span></div>';
+                    }
+                    
+                    if(t.alts){
+                        rows += '<div class="info-row"><span class="info-label">👥 Alt Accounts</span><span class="info-val" style="color:#f87171;">'+t.alts+'</span></div>';
+                    }
+                    
+                    // Admin review info (if exists)
+                    if(t.reviewed_by){
+                        rows += '<div class="info-row" style="border-top:1px dashed rgba(255,255,255,0.1);margin-top:8px;padding-top:8px;"><span class="info-label">Reviewed By</span><span class="info-val">'+t.reviewed_by+' ('+fmtD(t.reviewed_at)+')</span></div>';
+                    }
+                    
+                    if(t.admin_notes){
+                        rows += '<div class="info-row"><span class="info-label">📝 Admin Notes</span><span class="info-val" style="color:#fbbf24;font-style:italic;">'+t.admin_notes+'</span></div>';
+                    }
+                    
+                    // Build the ticket card
+                    return '<div class="bg-g-900 border border-g-800 rounded-xl p-5 mb-4" style="border-left:3px solid '+(t.reason==='join'?'#10b981':t.reason==='ally'?'#3b82f6':t.reason==='event'?'#f59e0b':'#6b7280')+';">'+
+                        '<div class="flex items-center justify-between gap-3 mb-4">'+
+                            '<div class="flex items-center gap-2 flex-wrap">'+
+                                '<span class="rank-badge rank-officer">'+(labels[t.reason]||t.reason)+'</span>'+
+                                statusBadges[t.status]||statusBadges['pending']+
+                                '<span class="text-g-600 text-[11px]">'+fmtD(t.created_at)+'</span>'+
+                            '</div>'+
+                            '<div class="flex items-center gap-1 shrink-0">'+
+                                '<button onclick="window._approveTicket(\''+t.id+'\')" class="w-8 h-8 rounded-lg bg-green-900/30 hover:bg-green-900/60 flex items-center justify-center transition-colors" title="Approve">'+
+                                    '<span class="iconify text-green-400 text-sm" data-icon="lucide:check"></span>'+
+                                '</button>'+
+                                '<button onclick="window._rejectTicket(\''+t.id+'\')" class="w-8 h-8 rounded-lg bg-red-900/30 hover:bg-red-900/60 flex items-center justify-center transition-colors" title="Reject">'+
+                                    '<span class="iconify text-red-400 text-sm" data-icon="lucide:x"></span>'+
+                                '</button>'+
+                                '<button onclick="window._deleteTicket(\''+t.id+'\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group" title="Delete">'+
+                                    '<span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span>'+
+                                '</button>'+
+                            '</div>'+
+                        '</div>'+
+                        '<div>'+rows+'</div>'+
+                    '</div>';
+                    
+                }).join('');
+                
+            } catch(e){
+                console.error('❌ Failed to load tickets:', e);
+                box.innerHTML='<p class="text-red-400 text-sm text-center py-8">Error: '+e.message+'</p>';
+                emp.classList.add('hidden');
+            }
+        }
 
-        window._deleteTicket=async function(id){try{var r=await sb.from('tickets').delete().eq('id',id);if(r.error)throw new Error(r.error.message);loadTickets();updateStats();toast('Removed.','info')}catch(e){toast(e.message,'error')}};
+        // ✅ New: Approve ticket function
+        window._approveTicket = async function(id){
+            try{
+                var r = await sb.from('tickets').update({
+                    status: 'approved',
+                    reviewed_by: 'Admin',
+                    reviewed_at: new Date().toISOString()
+                }).eq('id', id);
+                
+                if(r.error) throw new Error(r.error.message);
+                
+                loadTickets();
+                toast('✅ Ticket approved!', 'success');
+            } catch(e){
+                toast(e.message, 'error');
+            }
+        };
 
-        function refreshAll(){loadPosts();loadPlayers();loadTickets();updateStats()}
+        // ✅ New: Reject ticket function  
+        window._rejectTicket = async function(id){
+            try{
+                var r = await sb.from('tickets').update({
+                    status: 'rejected',
+                    reviewed_by: 'Admin',
+                    reviewed_at: new Date().toISOString()
+                }).eq('id', id);
+                
+                if(r.error) throw new Error(r.error.message);
+                
+                loadTickets();
+                toast('❌ Ticket rejected.', 'info');
+            } catch(e){
+                toast(e.message, 'error');
+            }
+        };
+
+        // Delete ticket
+        window._deleteTicket=async function(id){
+            try{
+                var r=await sb.from('tickets').delete().eq('id',id);
+                if(r.error) throw new Error(r.error.message);
+                loadTickets();
+                updateStats();
+                toast('🗑️ Ticket deleted.', 'info');
+            } catch(e){
+                toast(e.message, 'error');
+            }
+        };
+
+        // Refresh all data
+        function refreshAll(){
+            loadPosts();
+            loadPlayers();
+            loadTickets();
+            updateStats();
+        }
+        
+        // Initialize
         checkAuth();
     })();
     </script>
