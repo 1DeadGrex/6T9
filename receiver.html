@@ -10,915 +10,311 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']},colors:{g:{50:'#fafafa',100:'#f5f5f5',200:'#eeeeee',300:'#e0e0e0',400:'#bdbdbd',500:'#9e9e9e',600:'#757575',700:'#616161',800:'#424242',900:'#212121',950:'#161616'}}}}}</script>
     <style>
-        html{scroll-behavior:smooth}
-        body{font-family:'Inter',sans-serif;background:#161616;color:#f5f5f5}
-        ::-webkit-scrollbar{width:8px}
-        ::-webkit-scrollbar-track{background:#212121}
-        ::-webkit-scrollbar-thumb{background:#616161;border-radius:4px}
-        .toast{animation:si .4s ease,fo .4s ease 2.6s forwards}
-        @keyframes si{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-        @keyframes fo{from{opacity:1}to{opacity:0}}
-        .rank-badge{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px;font-weight:600}
-        .rank-leader{background:#f5f5f5;color:#212121;border:1px solid #e0e0e0}
-        .rank-coleader{background:#e0e0e0;color:#212121;border:1px solid #bdbdbd}
-        .rank-officer{background:#9e9e9e;color:#161616}
-        .rank-veteran{background:#616161;color:#e0e0e0}
-        .rank-member{background:#2a2a2a;color:#9e9e9e;border:1px solid #424242}
-        .tab-btn{transition:all .2s}
-        .tab-btn.active{background:#424242;color:#f5f5f5}
-        .tab-content{display:none}
-        .tab-content.active{display:block}
-        .info-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-        .info-row:last-child{border-bottom:none}
-        .info-label{color:#757575;font-size:.7rem;min-width:120px;flex-shrink:0;padding-top:1px}
-        .info-val{color:#bdbdbd;font-size:.8rem;word-break:break-word}
-        .skin-img{image-rendering:pixelated}
+        * { box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #161616; color: #f5f5f5; margin: 0; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #212121; }
+        ::-webkit-scrollbar-thumb { background: #616161; border-radius: 4px; }
         
-        /* ✅ Debug console for troubleshooting */
-        .debug-box {
-            background: #1a1a2e;
-            border: 1px solid #16213e;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 16px;
-            font-family: 'Monaco', 'Consolas', monospace;
-            font-size: 11px;
-            color: #e94560;
-            max-height: 150px;
-            overflow-y: auto;
-            display: none;
+        .toast { animation: slideIn .4s ease, fadeOut .4s ease 2.6s forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        
+        .rank-badge { font-size: .6rem; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; font-weight: 600; display: inline-block; }
+        .rank-leader { background: #f5f5f5; color: #212121; border: 1px solid #e0e0e0; }
+        .rank-coleader { background: #e0e0e0; color: #212121; border: 1px solid #bdbdbd; }
+        .rank-officer { background: #9e9e9e; color: #161616; }
+        .rank-veteran { background: #616161; color: #e0e0e0; }
+        .rank-member { background: #2a2a2a; color: #9e9e9e; border: 1px solid #424242; }
+        
+        .tab-btn { transition: all .2s ease; cursor: pointer; }
+        .tab-btn.active { background: #424242; color: #f5f5f5; border-color: #616161; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        .info-row { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #757575; font-size: .72rem; min-width: 110px; flex-shrink: 0; padding-top: 2px; }
+        .info-val { color: #bdbdbd; font-size: .82rem; word-break: break-word; line-height: 1.4; }
+        .skin-img { image-rendering: pixelated; }
+        
+        .card-hover { transition: all .25s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .spinner { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Confirm Delete Overlay */
+        .confirm-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(22,22,22,0.95);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border-radius: inherit;
+            animation: fadeIn .2s ease;
         }
-        .debug-box.show { display: block; }
-        .debug-line { margin: 4px 0; padding: 4px; border-left: 3px solid #e94560; }
-        .debug-success { color: #10b981; border-color: #10b981 !important; }
-        .debug-info { color: #60a5fa; border-color: #60a5fa !important; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .confirm-overlay.hidden { display: none; }
     </style>
 </head>
 <body class="min-h-screen">
-    <div id="toast-container" class="fixed top-6 right-6 z-[100] flex flex-col gap-3"></div>
 
-    <!-- LOGIN -->
-    <div id="login-gate" class="min-h-screen flex items-center justify-center px-6">
-        <div class="w-full max-w-sm">
-            <div class="text-center mb-8">
-                <div class="w-14 h-14 rounded-2xl bg-g-800 border border-g-700 flex items-center justify-center mx-auto mb-4">
-                    <span class="text-g-300 font-bold text-xl">6T9</span>
-                </div>
-                <h1 class="text-2xl font-semibold text-g-100">Admin Access</h1>
-                <p class="text-g-500 text-sm mt-1">Sign in with your admin credentials</p>
-            </div>
-            
-            <form id="login-form" class="space-y-4">
-                <div>
-                    <label class="block text-g-300 text-sm font-medium mb-2">Email</label>
-                    <input type="email" id="login-email" required placeholder="admin@example.com" 
-                           class="w-full px-4 py-3 rounded-lg bg-g-900 border border-g-800 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors" 
-                           autocomplete="email">
-                </div>
-                <div>
-                    <label class="block text-g-300 text-sm font-medium mb-2">Password</label>
-                    <input type="password" id="login-password" required placeholder="Enter password" 
-                           class="w-full px-4 py-3 rounded-lg bg-g-900 border border-g-800 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors" 
-                           autocomplete="current-password">
-                    <p id="login-error" class="text-red-400 text-xs mt-2 hidden"></p>
-                </div>
-                <button type="submit" id="login-btn" class="w-full py-3 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center justify-center gap-2">
-                    <span id="btn-text">Sign In</span>
-                    <span id="btn-loader" class="iconify hidden animate-spin" data-icon="lucide:loader-2"></span>
-                </button>
-            </form>
+<div id="toast-container" class="fixed top-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
-            <!-- ✅ Debug Console -->
-            <div id="debug-console" class="debug-box">
-                <div style="color:#888;margin-bottom:8px;font-weight:600;">🔍 DEBUG LOG:</div>
-                <div id="debug-content"></div>
+<!-- LOGIN -->
+<div id="login-gate" class="min-h-screen flex items-center justify-center px-6 py-12">
+    <div class="w-full max-w-md">
+        <div class="text-center mb-10">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-gray-700 to-gray-900 border border-gray-600 flex items-center justify-center mx-auto mb-5 shadow-xl">
+                <span class="text-white font-black text-3xl tracking-tighter">6T9</span>
             </div>
-            
-            <!-- ✅ Troubleshooting Help -->
-            <div class="mt-6 p-4 rounded-lg bg-g-900 border border-g-800">
-                <p class="text-g-500 text-xs font-semibold mb-2">❓ TROUBLESHOOTING:</p>
-                <ul class="text-g-600 text-xs space-y-1 list-disc list-inside">
-                    <li>Make sure you've created a user in Supabase Auth → Users</li>
-                    <li>Email must match exactly (case-sensitive)</li>
-                    <li>Password must be at least 6 characters</li>
-                    <li>Check browser console (F12) for errors</li>
-                </ul>
-                <button onclick="toggleDebug()" class="mt-3 w-full py-2 rounded bg-g-800 text-g-400 text-xs hover:text-g-200 hover:bg-g-700 transition-colors">
-                    🖥️ Toggle Debug Console
-                </button>
+            <h1 class="text-3xl font-bold text-white mb-2 tracking-tight">Admin Panel</h1>
+            <p class="text-gray-500 text-sm">Enter your credentials to access guild management</p>
+        </div>
+
+        <form id="login-form" class="space-y-5 bg-gray-900/50 border border-gray-800 rounded-2xl p-8 backdrop-blur-sm">
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-2">Email Address</label>
+                <input type="email" id="login-email" required placeholder="admin@example.com" autocomplete="email"
+                       class="w-full px-4 py-3.5 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-medium mb-2">Password</label>
+                <input type="password" id="login-password" required placeholder="••••••••" autocomplete="current-password"
+                       class="w-full px-4 py-3.5 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+                <div id="login-error" class="mt-3 hidden">
+                    <div class="flex items-start gap-2 p-3 rounded-lg bg-red-950/50 border border-red-900/50">
+                        <span class="iconify text-red-400 mt-0.5 shrink-0" data-icon="lucide:alert-circle"></span>
+                        <p id="error-text" class="text-red-400 text-xs leading-relaxed"></p>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="login-btn" class="w-full py-3.5 rounded-xl bg-white text-gray-900 font-semibold text-sm hover:bg-gray-200 active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-lg shadow-white/5">
+                <span id="btn-label">Sign In</span>
+                <span id="btn-spinner" class="iconify spinner hidden" data-icon="lucide:loader-2"></span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- PANEL -->
+<div id="admin-panel" class="hidden">
+    <header class="sticky top-0 z-50 bg-gray-900/95 backdrop-blur-md border-b border-gray-800/50">
+        <div class="max-w-7xl mx-auto px-5 sm:px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-gray-700 to-gray-900 border border-gray-600 flex items-center justify-center"><span class="text-white font-bold text-xs">6T9</span></div>
+                <span class="text-white font-semibold text-base hidden sm:inline">Admin Dashboard</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse shadow-lg shadow-green-500/50"></span>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="index.html" target="_blank" class="text-gray-400 hover:text-white text-sm transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-gray-800"><span class="iconify" data-icon="lucide:external-link"></span><span class="hidden sm:inline">View Site</span></a>
+                <button id="logout-btn" class="text-gray-400 hover:text-red-400 text-sm transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-red-950/30"><span class="iconify" data-icon="lucide:log-out"></span><span class="hidden sm:inline">Logout</span></button>
             </div>
         </div>
-    </div>
+    </header>
 
-    <!-- PANEL -->
-    <div id="admin-panel" class="hidden">
-        <header class="sticky top-0 z-50" style="background:rgba(22,22,22,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)">
-            <div class="max-w-6xl mx-auto px-5 sm:px-6 h-16 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-g-800 border border-g-700 flex items-center justify-center">
-                        <span class="text-g-300 font-bold text-xs">6T9</span>
+    <main class="max-w-7xl mx-auto px-5 sm:px-6 py-8 sm:py-10">
+        <!-- Stats -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-5 flex items-center gap-4 card-hover">
+                <div class="w-12 h-12 rounded-xl bg-blue-950/50 border border-blue-900/30 flex items-center justify-center shrink-0"><span class="iconify text-blue-400 text-xl" data-icon="lucide:message-square"></span></div>
+                <div><p class="text-gray-500 text-[10px] font-bold uppercase tracking-wider mb-0.5">Posts</p><p class="text-white text-2xl font-bold" id="stat-posts">—</p></div>
+            </div>
+            <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-5 flex items-center gap-4 card-hover">
+                <div class="w-12 h-12 rounded-xl bg-purple-950/50 border border-purple-900/30 flex items-center justify-center shrink-0"><span class="iconify text-purple-400 text-xl" data-icon="lucide:pin"></span></div>
+                <div><p class="text-gray-500 text-[10px] font-bold uppercase tracking-wider mb-0.5">Pinned</p><p class="text-white text-2xl font-bold" id="stat-pinned">—</p></div>
+            </div>
+            <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-5 flex items-center gap-4 card-hover">
+                <div class="w-12 h-12 rounded-xl bg-green-950/50 border border-green-900/30 flex items-center justify-center shrink-0"><span class="iconify text-green-400 text-xl" data-icon="lucide:users"></span></div>
+                <div><p class="text-gray-500 text-[10px] font-bold uppercase tracking-wider mb-0.5">Players</p><p class="text-white text-2xl font-bold" id="stat-players">—</p></div>
+            </div>
+            <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-5 flex items-center gap-4 card-hover">
+                <div class="w-12 h-12 rounded-xl bg-orange-950/50 border border-orange-900/30 flex items-center justify-center shrink-0"><span class="iconify text-orange-400 text-xl" data-icon="lucide:ticket"></span></div>
+                <div><p class="text-gray-500 text-[10px] font-bold uppercase tracking-wider mb-0.5">Tickets</p><p class="text-white text-2xl font-bold" id="stat-tickets">—</p></div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-2 mb-8 overflow-x-auto pb-2">
+            <button class="tab-btn active px-5 py-2.5 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="posts"><span class="iconify" data-icon="lucide:file-text"></span> Posts</button>
+            <button class="tab-btn px-5 py-2.5 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="players"><span class="iconify" data-icon="lucide:users"></span> Players</button>
+            <button class="tab-btn px-5 py-2.5 rounded-xl bg-gray-900 border border-gray-800 text-gray-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="tickets"><span class="iconify" data-icon="lucide:inbox"></span> Tickets</button>
+        </div>
+
+        <!-- POSTS TAB -->
+        <div id="tab-posts" class="tab-content active">
+            <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-6 sm:p-8 mb-8">
+                <h2 class="text-white font-bold text-xl mb-6 flex items-center gap-3"><span class="iconify text-blue-400" data-icon="lucide:plus-circle"></span> Create New Announcement</h2>
+                <form id="post-form" class="space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Title *</label><input type="text" id="post-title" required placeholder="Post title" class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-blue-500 transition-colors"></div>
+                        <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Author *</label><input type="text" id="post-author" required placeholder="Author name" class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-blue-500 transition-colors"></div>
                     </div>
-                    <span class="text-g-100 font-semibold text-sm hidden sm:inline">Admin Panel</span>
-                    <span class="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>
-                </div>
-                <div class="flex items-center gap-3">
-                    <a href="index.html" class="text-g-500 hover:text-g-300 text-sm transition-colors flex items-center gap-1.5">
-                        <span class="iconify text-base" data-icon="lucide:external-link"></span>
-                        <span class="hidden sm:inline">View Site</span>
-                    </a>
-                    <button id="logout-btn" class="text-g-500 hover:text-g-300 text-sm transition-colors flex items-center gap-1.5">
-                        <span class="iconify text-base" data-icon="lucide:log-out"></span>
-                        <span class="hidden sm:inline">Logout</span>
-                    </button>
-                </div>
+                    <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Content *</label><textarea id="post-content" rows="5" required placeholder="Write announcement..." class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-blue-500 transition-colors resize-none"></textarea></div>
+                    <div class="flex items-center justify-between pt-2">
+                        <label class="flex items-center gap-3 cursor-pointer group"><input type="checkbox" id="post-pinned" class="w-5 h-5 rounded bg-gray-800 border-gray-600 cursor-pointer accent-blue-500"><span class="text-gray-300 text-sm group-hover:text-white transition-colors">📌 Pin this post</span></label>
+                        <button type="submit" id="post-submit-btn" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all flex items-center gap-2 shadow-lg shadow-blue-600/20"><span class="iconify" data-icon="lucide:send"></span> Publish</button>
+                    </div>
+                </form>
             </div>
-        </header>
-        
-        <main class="max-w-6xl mx-auto px-5 sm:px-6 py-8 sm:py-10">
-            <!-- Stats -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3">
-                    <span class="iconify text-g-600 text-lg" data-icon="lucide:message-square"></span>
-                    <div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Posts</p><p class="text-g-100 text-xl font-semibold" id="stat-posts">—</p></div>
-                </div>
-                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3">
-                    <span class="iconify text-g-600 text-lg" data-icon="lucide:pin"></span>
-                    <div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Pinned</p><p class="text-g-100 text-xl font-semibold" id="stat-pinned">—</p></div>
-                </div>
-                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3">
-                    <span class="iconify text-g-600 text-lg" data-icon="lucide:users"></span>
-                    <div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Players</p><p class="text-g-100 text-xl font-semibold" id="stat-players">—</p></div>
-                </div>
-                <div class="bg-g-900 border border-g-800 rounded-xl p-4 sm:p-5 flex items-center gap-3">
-                    <span class="iconify text-g-600 text-lg" data-icon="lucide:ticket"></span>
-                    <div><p class="text-g-500 text-[10px] font-medium uppercase tracking-wider">Tickets</p><p class="text-g-100 text-xl font-semibold" id="stat-tickets">—</p></div>
-                </div>
-            </div>
+            <div class="flex items-center justify-between mb-5"><h2 class="text-white font-bold text-lg">All Announcements</h2><button id="clear-posts-btn" class="text-gray-500 hover:text-red-400 text-xs font-medium transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-red-950/20"><span class="iconify" data-icon="lucide:trash-2"></span> Clear All</button></div>
+            <div id="posts-list"><div class="text-center py-16"><span class="iconify text-gray-700 text-5xl mb-4 mx-auto block animate-spin" data-icon="lucide:loader-2"></span><p class="text-gray-600 text-sm">Loading...</p></div></div>
+            <div id="empty-posts" class="hidden text-center py-16"><span class="iconify text-gray-700 text-5xl mb-4 mx-auto block" data-icon="lucide:file-x"></span><p class="text-gray-600 text-sm">No announcements yet.</p></div>
+        </div>
 
-            <!-- Tabs -->
-            <div class="flex gap-2 mb-8 overflow-x-auto pb-2">
-                <button class="tab-btn active px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="posts">
-                    <span class="iconify text-base" data-icon="lucide:message-square"></span> Posts
-                </button>
-                <button class="tab-btn px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="players">
-                    <span class="iconify text-base" data-icon="lucide:users"></span> Players
-                </button>
-                <button class="tab-btn px-4 py-2 rounded-lg bg-g-900 border border-g-800 text-g-400 text-sm font-medium whitespace-nowrap flex items-center gap-2" data-tab="tickets">
-                    <span class="iconify text-base" data-icon="lucide:ticket"></span> Tickets
-                </button>
+        <!-- PLAYERS TAB -->
+        <div id="tab-players" class="tab-content">
+            <div class="bg-gray-900/80 border border-gray-800 rounded-2xl p-6 sm:p-8 mb-8">
+                <h2 class="text-white font-bold text-xl mb-1 flex items-center gap-3" id="player-form-title"><span class="iconify text-green-400" data-icon="lucide:user-plus"></span> Add New Player</h2>
+                <p class="text-gray-500 text-xs mb-6" id="player-form-subtitle">Fill in player details below</p>
+                <form id="player-form" class="space-y-5">
+                    <input type="hidden" id="player-edit-id" value="">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Player Name *</label><input type="text" id="player-name" required placeholder="IGN" class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-green-500 transition-colors"></div>
+                        <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Discord Handle *</label><input type="text" id="player-discord" required placeholder="@username" class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-green-500 transition-colors"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Rank *</label><select id="player-rank" required class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm focus:border-green-500 appearance-none cursor-pointer"><option value="">Select rank...</option><option value="Leader">Leader</option><option value="Co-Leader">Co-Leader</option><option value="Officer">Officer</option><option value="Veteran">Veteran</option><option value="Member">Member</option></select></div>
+                        <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Avatar URL</label><input type="url" id="player-avatar" placeholder="https://... (optional)" class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-green-500 transition-colors"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Skin URL</label><input type="url" id="player-skin" placeholder="https://... (optional)" class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-green-500 transition-colors"></div>
+                    </div>
+                    <div><label class="block text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Description *</label><textarea id="player-desc" rows="2" required placeholder="Short description..." class="w-full px-4 py-3 rounded-xl bg-gray-950 border border-gray-700 text-white text-sm placeholder-gray-600 focus:border-green-500 transition-colors resize-none"></textarea></div>
+                    <div class="flex items-center gap-3 pt-2">
+                        <button type="submit" id="player-submit-btn" class="px-6 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition-all flex items-center gap-2 shadow-lg shadow-green-600/20"><span class="iconify" data-icon="lucide:user-plus"></span> Add Player</button>
+                        <button type="button" id="player-cancel-btn" class="hidden px-6 py-3 rounded-xl border border-gray-700 text-gray-400 font-medium text-sm hover:border-gray-500 hover:text-white transition-all">Cancel</button>
+                    </div>
+                </form>
             </div>
+            <div class="flex items-center justify-between mb-5"><h2 class="text-white font-bold text-lg">Guild Roster (<span id="player-count-label">—</span>)</h2><button id="clear-players-btn" class="text-gray-500 hover:text-red-400 text-xs font-medium transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-red-950/20"><span class="iconify" data-icon="lucide:trash-2"></span> Remove All</button></div>
+            <div id="players-list"><div class="text-center py-16"><span class="iconify text-gray-700 text-5xl mb-4 mx-auto block animate-spin" data-icon="lucide:loader-2"></span><p class="text-gray-600 text-sm">Loading...</p></div></div>
+            <div id="empty-players" class="hidden text-center py-16"><span class="iconify text-gray-700 text-5xl mb-4 mx-auto block" data-icon="lucide:users-x"></span><p class="text-gray-600 text-sm">No players yet.</p></div>
+        </div>
 
-            <!-- POSTS TAB -->
-            <div id="tab-posts" class="tab-content active">
-                <div class="bg-g-900 border border-g-800 rounded-xl p-6 sm:p-8 mb-8">
-                    <h2 class="text-g-100 font-semibold text-lg mb-6 flex items-center gap-2">
-                        <span class="iconify text-g-500" data-icon="lucide:pencil"></span> Create New Post
-                    </h2>
-                    <form id="post-form" class="space-y-4">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Title</label>
-                                <input type="text" id="post-title" required placeholder="Post title" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
-                            </div>
-                            <div>
-                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Author</label>
-                                <input type="text" id="post-author" required placeholder="ShadowKnight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Content</label>
-                            <textarea id="post-content" rows="4" required placeholder="Write announcement..." class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors resize-none"></textarea>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <label class="flex items-center gap-2 cursor-pointer select-none">
-                                <input type="checkbox" id="post-pinned" class="w-4 h-4 rounded bg-g-800 border-g-700 cursor-pointer">
-                                <span class="text-g-300 text-sm">Pin this post</span>
-                            </label>
-                            <button type="submit" id="post-submit-btn" class="px-5 py-2.5 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center gap-2">
-                                <span class="iconify text-sm" data-icon="lucide:send"></span> Publish
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div class="flex items-center justify-between mb-5">
-                    <h2 class="text-g-100 font-semibold">All Posts</h2>
-                    <button id="clear-posts-btn" class="text-g-600 hover:text-red-400 text-xs font-medium transition-colors flex items-center gap-1">
-                        <span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All
-                    </button>
-                </div>
-                <div id="posts-list"><p class="text-g-600 text-sm text-center py-8">Loading...</p></div>
-                <div id="empty-posts" class="hidden text-center py-14"><p class="text-g-600 text-sm">No posts yet.</p></div>
-            </div>
+        <!-- TICKETS TAB -->
+        <div id="tab-tickets" class="tab-content">
+            <div class="flex items-center gap-3 mb-6"><div class="w-10 h-10 rounded-xl bg-orange-950/50 border border-orange-900/30 flex items-center justify-center"><span class="iconify text-orange-400 text-xl" data-icon="lucide:ticket"></span></div><div><h2 class="text-white font-bold text-xl">Submitted Tickets</h2><p class="text-gray-500 text-xs">Review join requests & inquiries</p></div></div>
+            <div id="tickets-list"><div class="text-center py-16"><span class="iconify text-gray-700 text-5xl mb-4 mx-auto block animate-spin" data-icon="lucide:loader-2"></span><p class="text-gray-600 text-sm">Loading...</p></div></div>
+            <div id="empty-tickets" class="hidden text-center py-16"><span class="iconify text-gray-700 text-5xl mb-4 mx-auto block" data-icon="lucide:inbox-x"></span><p class="text-gray-600 text-sm">No tickets yet.</p></div>
+        </div>
+    </main>
+</div>
 
-            <!-- PLAYERS TAB -->
-            <div id="tab-players" class="tab-content">
-                <div class="bg-g-900 border border-g-800 rounded-xl p-6 sm:p-8 mb-8">
-                    <h2 class="text-g-100 font-semibold text-lg mb-1 flex items-center gap-2" id="player-form-title">
-                        <span class="iconify text-g-500" data-icon="lucide:user-plus"></span> Add New Player
-                    </h2>
-                    <p class="text-g-600 text-xs mb-6" id="player-form-subtitle">Fill in the player details below</p>
-                    
-                    <form id="player-form" class="space-y-4">
-                        <input type="hidden" id="player-edit-id" value="">
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Player Name *</label>
-                                <input type="text" id="player-name" required placeholder="ShadowKnight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
-                            </div>
-                            <div>
-                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Discord Handle *</label>
-                                <input type="text" id="player-discord" required placeholder="@shadowknight" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Rank / Role *</label>
-                                <select id="player-rank" required class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors appearance-none cursor-pointer">
-                                    <option value="" class="bg-g-800">Select rank</option>
-                                    <option value="Leader" class="bg-g-800">Leader</option>
-                                    <option value="Co-Leader" class="bg-g-800">Co-Leader</option>
-                                    <option value="Officer" class="bg-g-800">Officer</option>
-                                    <option value="Veteran" class="bg-g-800">Veteran</option>
-                                    <option value="Member" class="bg-g-800">Member</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Discord Avatar URL</label>
-                                <input type="url" id="player-avatar" placeholder="https://... (optional)" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Minecraft Skin URL</label>
-                                <input type="url" id="player-skin" placeholder="https://... (optional)" class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors">
-                            </div>
-                            <div class="hidden sm:block"></div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-g-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Description *</label>
-                            <textarea id="player-desc" rows="2" required placeholder="Short description..." class="w-full px-4 py-2.5 rounded-lg bg-g-800 border border-g-700 text-g-100 text-sm placeholder-g-600 focus:outline-none focus:border-g-500 focus:ring-1 focus:ring-g-500 transition-colors resize-none"></textarea>
-                        </div>
-                        
-                        <div class="flex items-center gap-3 pt-1">
-                            <button type="submit" id="player-submit-btn" class="px-5 py-2.5 rounded-lg bg-g-100 text-g-900 font-semibold text-sm hover:bg-g-200 transition-colors flex items-center gap-2">
-                                <span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player
-                            </button>
-                            <button type="button" id="player-cancel-btn" class="hidden px-5 py-2.5 rounded-lg border border-g-700 text-g-400 font-medium text-sm hover:border-g-500 hover:text-g-200 transition-all">
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                
-                <div class="flex items-center justify-between mb-5">
-                    <h2 class="text-g-100 font-semibold">All Players (<span id="player-count-label">—</span>)</h2>
-                    <button id="clear-players-btn" class="text-g-600 hover:text-red-400 text-xs font-medium transition-colors flex items-center gap-1">
-                        <span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All
-                    </button>
-                </div>
-                <div id="players-list"><p class="text-g-600 text-sm text-center py-8">Loading...</p></div>
-                <div id="empty-players" class="hidden text-center py-14"><p class="text-g-600 text-sm">No players.</p></div>
-            </div>
+<script>
+(function(){
+    const SUPABASE_URL='https://eiaxbuwihclqcmogozzh.supabase.co';
+    const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpYXhidXdpaGNscWNtb2dvenpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0ODY2MDYsImV4cCI6MjA5MTA2MjYwNn0.KId9cODM_TbChE_tw3wF-NiIk66qOQq4GXhr6SeaelI';
+    const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-            <!-- TICKETS TAB -->
-            <div id="tab-tickets" class="tab-content">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="iconify text-g-500 text-lg" data-icon="lucide:ticket"></span>
-                    <h2 class="text-g-100 font-semibold text-lg">Submitted Tickets</h2>
-                </div>
-                <div id="tickets-list"><p class="text-g-600 text-sm text-center py-8">Loading...</p></div>
-                <div id="empty-tickets" class="hidden text-center py-14"><p class="text-g-600 text-sm">No tickets.</p></div>
-            </div>
-        </main>
-    </div>
+    const RANK_CLASSES={'Leader':'rank-leader','Co-Leader':'rank-coleader','Officer':'rank-officer','Veteran':'rank-veteran','Member':'rank-member'};
+    const REASON_LABELS={join:'🎮 Join Request',ally:'🤝 Alliance',event:'🎉 Event',other:'❓ Other'};
+    const STATUS_BADGES={pending:'<span style="background:#f59e0b;color:#1f2937;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:700;">Pending</span>',approved:'<span style="background:#10b981;color:#1f2937;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:700;">Approved</span>',rejected:'<span style="background:#ef4444;color:#fff;padding:3px 10px;border-radius:6px;font-size:.65rem;font-weight:700;">Rejected</span>'};
 
-    <script>
+    function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+    function fmt(d){return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+    function toast(m,t){t=t||'success';const c=document.getElementById('toast-container'),d=document.createElement('div');const ic=t==='success'?'lucide:check-circle':t==='error'?'lucide:alert-circle':'lucide:info';const bc=t==='success'?'border-green-500':t==='error'?'border-red-500':'border-blue-500';d.className='toast bg-gray-800 border '+bc+' shadow-2xl rounded-xl px-5 py-4 flex items-center gap-3 max-w-md';d.innerHTML='<span class="iconify text-xl shrink-0 '+(t==='success'?'text-green-400':t==='error'?'text-red-400':'text-blue-400')+'" data-icon="'+ic+'"></span><span class="text-white text-sm font-medium">'+m+'</span>';c.appendChild(d);setTimeout(()=>d.remove(),4500)}
+
+    // Auth
+    async function checkAuth(){try{const{data:{session}}=await sb.auth.getSession();session?showPanel():showLogin()}catch(e){showLogin()}}
+    function showLogin(){document.getElementById('login-gate').classList.remove('hidden');document.getElementById('admin-panel').classList.add('hidden')}
+    function showPanel(){document.getElementById('login-gate').classList.add('hidden');document.getElementById('admin-panel').classList.remove('hidden');refreshAll()}
+    function showErr(m){const e=document.getElementById('login-error'),t=document.getElementById('error-text');if(e&&t){t.textContent=m;e.classList.remove('hidden')}}
+    function hideErr(){document.getElementById('login-error')?.classList.add('hidden')}
+
+    document.getElementById('login-form').addEventListener('submit',async function(e){
+        e.preventDefault();hideErr();
+        const em=document.getElementById('login-email').value.trim(),pw=document.getElementById('login-password').value,btn=document.getElementById('login-btn');
+        if(!em||!pw){showErr('Please fill in all fields.');return}
+        btn.disabled=true;document.getElementById('btn-label').textContent='Signing in...';document.getElementById('btn-spinner').classList.remove('hidden');
+        try{const{data,error}=await sb.auth.signInWithPassword({email:em,password:pw});if(error){let m=error.message;if(m.includes('Invalid login'))m='❌ Incorrect email or password.';else if(m.includes('not confirmed'))m='⚠️ Email not verified.';showErr(m);return}if(data?.user){toast('Welcome back!');showPanel()}else{showErr('Unexpected error.')}}catch(err){showErr('Connection failed.')}finally{btn.disabled=false;document.getElementById('btn-label').textContent='Sign In';document.getElementById('btn-spinner').classList.add('hidden')}
+    });
+    document.getElementById('logout-btn').addEventListener('click',async()=>{await sb.auth.signOut();showLogin();toast('Logged out.')});
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(b=>{b.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById('tab-'+b.dataset.tab).classList.add('active')})});
+
+    // Stats
+    async function updateStats(){try{const[p,pl,t]=await Promise.all([sb.from('posts').select('id,pinned'),sb.from('players').select('id'),sb.from('tickets').select('id')]);document.getElementById('stat-posts').textContent=(p.data||[]).length;document.getElementById('stat-pinned').textContent=(p.data||[]).filter(x=>x.pinned).length;document.getElementById('stat-players').textContent=(pl.data||[]).length;document.getElementById('stat-tickets').textContent=(t.data||[]).length}catch(e){}}
+
+    // Posts
+    async function loadPosts(){const box=document.getElementById('posts-list'),emp=document.getElementById('empty-posts');try{const r=await sb.from('posts').select('*').order('pinned',{ascending:false}).order('created_at',{ascending:false});if(r.error)throw new Error(r.error.message);const d=r.data||[];if(!d.length){box.innerHTML='';emp.classList.remove('hidden');return}emp.classList.add('hidden');box.innerHTML=d.map(o=>'<div class="bg-gray-900/80 border border-gray-800 rounded-2xl overflow-hidden mb-4 relative'+(o.pinned?' border-l-4 border-l-blue-500':'')+'"><div class="p-6"><div class="flex items-start justify-between gap-4"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-2 flex-wrap"><h3 class="text-white font-bold">'+esc(o.title)+'</h3>'+(o.pinned?'<span class="rank-badge rank-leader">PINNED</span>':'')+'</div><p class="text-gray-400 text-sm mb-3 line-clamp-2">'+esc(o.content)+'</p><div class="flex items-center gap-3 text-gray-600 text-xs"><span>'+esc(o.author)+'</span><span>•</span><span>'+fmt(o.created_at)+'</span></div></div><div class="flex items-center gap-1.5 shrink-0"><button onclick="togglePin(\''+o.id+'\','+o.pinned+')"class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors"><span class="iconify text-gray-400" data-icon="'+(o.pinned?'lucide:pin-off':'lucide:pin')+'"></span></button><button onclick="showConfirm(this,\'post\',\''+o.id+'\')"class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-red-950/50 flex items-center justify-center transition-colors group"><span class="iconify text-gray-400 group-hover:text-red-400" data-icon="lucide:trash-2"></span></button></div></div></div><div class="confirm-overlay hidden" id="confirm-'+o.id+'"><div class="text-center p-6"><p class="text-white font-bold text-lg mb-2">Delete this post?</p><p class="text-gray-400 text-sm mb-6">This action cannot be undone.</p><div class="flex gap-3 justify-center"><button onclick="deleteItem(\'post\',\''+o.id+'\')"class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors">Delete</button><button onclick="hideConfirm(\''+o.id+'\')"class="px-5 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold transition-colors">Cancel</button></div></div></div></div>').join()}catch(e){box.innerHTML='<p class="text-red-400 text-sm text-center py-12">Error: '+e.message+'</p>';emp.classList.add('hidden')}}
+
+    document.getElementById('post-form').addEventListener('submit',async function(e){e.preventDefault();const t=document.getElementById('post-title').value.trim(),a=document.getElementById('post-author').value.trim(),c=document.getElementById('post-content').value.trim(),pn=document.getElementById('post-pinned').checked,btn=document.getElementById('post-submit-btn');if(!t||!a||!c){toast('Fill all fields.','error');return}btn.disabled=true;btn.innerHTML='<span class="iconify spinner" data-icon="lucide:loader-2"></span> Publishing...';try{const r=await sb.from('posts').insert({title:t,author:a,content:c,pinned:pn});if(r.error)throw new Error(r.error.message);this.reset();loadPosts();updateStats();toast('Published!')}catch(err){toast(err.message,'error')}finally{btn.disabled=false;btn.innerHTML='<span class="iconify" data-icon="lucide:send"></span> Publish'}});
+    
+    window.togglePin=async function(id,cur){try{await sb.from('posts').update({pinned:!cur}).eq('id',id);loadPosts();toast(cur?'Unpinned':'Pinned 📌')}catch(e){toast(e.message,'error')}};
+    
+    // Players
+    async function loadPlayers(){const box=document.getElementById('players-list'),emp=document.getElementById('empty-players'),lbl=document.getElementById('player-count-label');try{const r=await sb.from('players').select('*').order('created_at',{ascending:true});if(r.error)throw new Error(r.error.message);const ps=r.data||[];lbl.textContent=ps.length;if(!ps.length){box.innerHTML='';emp.classList.remove('hidden');return}emp.classList.add('hidden');box.innerHTML=ps.map(p=>{const av=p.avatar_url||'https://ui-avatars.com/api/?name='+encodeURIComponent(p.name)+'&background=424242&color=f5f5f5&size=100&bold=true';const sk=p.skin_url||'https://ui-avatars.com/api/?name='+encodeURIComponent(p.name)+'&background=212121&color=9e9e9e&size=100&bold=true&format=svg';return '<div class="bg-gray-900/80 border border-gray-800 rounded-2xl overflow-hidden mb-4 relative"><div class="flex gap-4 p-5 border-b border-gray-800/50"><img src="'+av+'" alt="" class="w-14 h-14 rounded-xl object-cover border-2 border-gray-700 shrink-0 bg-gray-800" onerror="this.src=\'https://ui-avatars.com/api/?name='+encodeURIComponent(p.name)+'&background=424242&color=f5f5f5&size=100&bold=true\'"><img src="'+sk+'" alt="" class="skin-img w-11 h-16 rounded-lg object-cover border-2 border-gray-700 shrink-0 bg-gray-800" onerror="this.src=\'https://ui-avatars.com/api/?name='+encodeURIComponent(p.name)+'&background=212121&color=9e9e9e&size=100&bold=true&format=svg\'"><div class="flex-1 min-w-0"><div class="flex items-center gap-2 mb-1"><span class="text-white font-bold">'+esc(p.name)+'</span><span class="rank-badge '+(RANK_CLASSES[p.rank]||'rank-member')+'">'+(p.rank||'Member')+'</span></div><span class="text-gray-600 text-xs">'+fmt(p.created_at)+'</span></div><div class="flex items-center gap-1.5 shrink-0"><button onclick="editPlayer(\''+p.id+'\')"class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors"><span class="iconify text-gray-400" data-icon="lucide:pencil"></span></button><button onclick="showConfirm(this,\'player\',\''+p.id+'\')"class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-red-950/50 flex items-center justify-center transition-colors group"><span class="iconify text-gray-400 group-hover:text-red-400" data-icon="lucide:trash-2"></span></button></div></div><div class="p-5"><div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1.5"><span class="iconify text-[#5865F2]" data-icon="ic:baseline-discord"></span>'+esc(p.discord)+'</span></div><div class="info-row"><span class="info-label">Description</span><span class="info-val">'+esc(p.description)+'</span></div></div><div class="confirm-overlay hidden" id="confirm-'+p.id+'"><div class="text-center p-6"><p class="text-white font-bold text-lg mb-2">Remove this player?</p><p class="text-gray-400 text-sm mb-6">This cannot be undone.</p><div class="flex gap-3 justify-center"><button onclick="deleteItem(\'player\',\''+p.id+'\')"class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors">Remove</button><button onclick="hideConfirm(\''+p.id+'\')"class="px-5 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold transition-colors">Cancel</button></div></div></div></div>'}).join()}catch(e){box.innerHTML='<p class="text-red-400 text-sm text-center py-12">Error: '+e.message+'</p>';emp.classList.add('hidden')}}
+
+    document.getElementById('player-form').addEventListener('submit',async function(e){e.preventDefault();const eid=document.getElementById('player-edit-id').value,n=document.getElementById('player-name').value.trim(),d=document.getElementById('player-discord').value.trim(),rk=document.getElementById('player-rank').value,av=document.getElementById('player-avatar').value.trim(),sk=document.getElementById('player-skin').value.trim(),desc=document.getElementById('player-desc').value.trim(),btn=document.getElementById('player-submit-btn');if(!n||!d||!rk||!desc){toast('Fill required fields.','error');return}btn.disabled=true;btn.innerHTML='<span class="iconify spinner" data-icon="lucide:loader-2"></span> Saving...';const row={name:n,discord:d,description:desc,rank:rk,avatar_url:av||null,skin_url:sk||null};try{if(eid){const res=await sb.from('players').update(row).eq('id',eid);if(res.error)throw new Error(res.error.message);resetPF();toast('Updated!')}else{const res2=await sb.from('players').insert(row);if(res2.error)throw new Error(res2.error.message);this.reset();toast('Added!')}loadPlayers();updateStats()}catch(err){toast(err.message,'error')}finally{btn.disabled=false;btn.innerHTML=eid?'<span class="iconify" data-icon="lucide:check"></span> Save Changes':'<span class="iconify" data-icon="lucide:user-plus"></span> Add Player'}});
+    
+    function resetPF(){document.getElementById('player-form').reset();document.getElementById('player-edit-id').value='';document.getElementById('player-form-title').innerHTML='<span class="iconify text-green-400" data-icon="lucide:user-plus"></span> Add New Player';document.getElementById('player-form-subtitle').textContent='Fill in player details below';document.getElementById('player-submit-btn').innerHTML='<span class="iconify" data-icon="lucide:user-plus"></span> Add Player';document.getElementById('player-cancel-btn').classList.add('hidden')}
+    document.getElementById('player-cancel-btn').addEventListener('click',resetPF);
+    
+    window.editPlayer=async function(id){try{const{data,error}=await sb.from('players').select('*').eq('id',id).single();if(error)throw new Error(error.message);const p=data;document.getElementById('player-edit-id').value=p.id;document.getElementById('player-name').value=p.name;document.getElementById('player-discord').value=p.discord;document.getElementById('player-rank').value=p.rank;document.getElementById('player-avatar').value=p.avatar_url||'';document.getElementById('player-skin').value=p.skin_url||'';document.getElementById('player-desc').value=p.description;document.getElementById('player-form-title').innerHTML='<span class="iconify text-blue-400" data-icon="lucide:pencil"></span> Editing: '+esc(p.name);document.getElementById('player-form-subtitle').textContent='Update info below';document.getElementById('player-submit-btn').innerHTML='<span class="iconify" data-icon="lucide:check"></span> Save Changes';document.getElementById('player-cancel-btn').classList.remove('hidden');document.getElementById('player-form').scrollIntoView({behavior:'smooth',block:'start'})}catch(e){toast(e.message,'error')}};
+
+    // Tickets
+    async function loadTickets(){const box=document.getElementById('tickets-list'),emp=document.getElementById('empty-tickets');try{const r=await sb.from('tickets').select('*').order('created_at',{ascending:false});if(r.error)throw new Error(r.error.message);const ts=r.data||[];if(!ts.length){box.innerHTML='';emp.classList.remove('hidden');return}emp.classList.add('hidden');box.innerHTML=ts.map(t=>{const lbl=REASON_LABELS[t.reason]||t.reason;const badge=STATUS_BADGES[t.status]||STATUS_BADGES.pending;const bc=t.reason==='join'?'#10b981':t.reason==='ally'?'#3b82f6':t.reason==='event'?'#f59e0b':'#6b7280';let rows='<div class="info-row"><span class="info-label">IGN</span><span class="info-val font-semibold text-white">'+esc(t.player_name)+'</span></div>';rows+='<div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1.5"><span class="iconify text-[#5865F2]" data-icon="ic:baseline-discord"></span>'+esc(t.discord_handle)+'</span></div>';rows+='<div class="info-row"><span class="info-label">Reason</span><span class="info-val">'+lbl+'</span></div>';rows+='<div class="info-row"><span class="info-label">Status</span><span class="info-val">'+badge+'</span></div>';rows+='<div class="info-row"><span class="info-label">Message</span><span class="info-val">'+esc(t.message)+'</span></div>';if(t.bedwars_level)rows+='<div class="info-row"><span class="info-label">BW Level</span><span class="info-val text-green-400">'+esc(t.bedwars_level)+'</span></div>';if(t.previous_guilds)rows+='<div class="info-row"><span class="info-label">Prev Guilds</span><span class="info-val">'+esc(t.previous_guilds)+'</span></div>';if(t.join_reason)rows+='<div class="info-row"><span class="info-label">Why Join?</span><span class="info-val border-l-2 border-yellow-500 pl-3">'+esc(t.join_reason)+'</span></div>';if(t.alts)rows+='<div class="info-row"><span class="info-label">Alts</span><span class="info-val text-red-400">'+esc(t.alts)+'</span></div>';return '<div class="bg-gray-900/80 border border-gray-800 rounded-2xl overflow-hidden mb-4 relative" style="border-left:4px solid '+bc+';"><div class="p-5 pb-3"><div class="flex items-center justify-between gap-3 flex-wrap"><div class="flex items-center gap-2 flex-wrap"><span class="rank-badge rank-officer">'+lbl+'</span>'+badge+'<span class="text-gray-600 text-xs">'+fmt(t.created_at)+'</span></div><div class="flex items-center gap-1.5"><button onclick="approveTicket(\''+t.id+'\')"class="w-9 h-9 rounded-lg bg-green-950/40 hover:bg-green-900/60 flex items-center justify-center transition-colors" title="Approve"><span class="iconify text-green-400" data-icon="lucide:check"></span></button><button onclick="rejectTicket(\''+t.id+'\')"class="w-9 h-9 rounded-lg bg-red-950/40 hover:bg-red-900/60 flex items-center justify-center transition-colors" title="Reject"><span class="iconify text-red-400" data-icon="lucide:x"></span></button><button onclick="showConfirm(this,\'ticket\',\''+t.id+'\')"class="w-9 h-9 rounded-lg bg-gray-800 hover:bg-red-950/50 flex items-center justify-center transition-colors group" title="Delete"><span class="iconify text-gray-400 group-hover:text-red-400" data-icon="lucide:trash-2"></span></button></div></div></div><div class="px-5 pb-5 pt-2">'+rows+'</div><div class="confirm-overlay hidden" id="confirm-'+t.id+'"><div class="text-center p-6"><p class="text-white font-bold text-lg mb-2">Delete this ticket?</p><p class="text-gray-400 text-sm mb-6">This cannot be undone.</p><div class="flex gap-3 justify-center"><button onclick="deleteItem(\'ticket\',\''+t.id+'\')"class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-colors">Delete</button><button onclick="hideConfirm(\''+t.id+'\')"class="px-5 py-2.5 rounded-xl bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold transition-colors">Cancel</button></div></div></div></div>'}).join()}catch(e){box.innerHTML='<p class="text-red-400 text-sm text-center py-12">Error: '+e.message+'</p>';emp.classList.add('hidden')}}
+
+    window.approveTicket=async function(id){try{await sb.from('tickets').update({status:'approved',reviewed_by:'Admin',reviewed_at:new Date().toISOString()}).eq('id',id);loadTickets();toast('✅ Approved')}catch(e){toast(e.message,'error')}};
+    window.rejectTicket=async function(id){try{await sb.from('tickets').update({status:'rejected',reviewed_by:'Admin',reviewed_at:new Date().toISOString()}).eq('id',id);loadTickets();toast('❌ Rejected')}catch(e){toast(e.message,'error')}};
+
+    // ✅ Inline Confirm Delete System (no browser popups!)
+    window.showConfirm=function(btn,type,id){
+        const card=btn.closest('.relative');
+        if(card){const overlay=card.querySelector('.confirm-overlay');if(overlay)overlay.classList.remove('hidden')}
+    };
+    window.hideConfirm=function(id){
+        const overlay=document.getElementById('confirm-'+id);
+        if(overlay)overlay.classList.add('hidden')
+    };
+    window.deleteItem=async function(type,id){
+        let table='';
+        if(type==='post')table='posts';
+        else if(type==='player')table='players';
+        else if(type==='ticket')table='tickets';
+        if(!table)return;
+        try{
+            await sb.from(table).delete().eq('id',id);
+            hideConfirm(id);
+            if(type==='post'){loadPosts();updateStats();toast('Deleted')}
+            else if(type==='player'){loadPlayers();updateStats();toast('Removed')}
+            else if(type==='ticket'){loadTickets();updateStats();toast('Deleted')}
+        }catch(e){toast(e.message,'error')}
+    };
+
+    // Clear All with inline confirm
     (function(){
-        // ============================================
-        // ✅ CONFIGURATION
-        // ============================================
-        var SUPABASE_URL = 'https://eiaxbuwihclqcmogozzh.supabase.co';
-        var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpYXhidXdpaGNscWNtb2dvenpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0ODY2MDYsImV4cCI6MjA5MTA2MjYwNn0.KId9cODM_TbChE_tw3wF-NiIk66qOQq4GXhr6SeaelI';
-        
-        // Initialize Supabase client
-        var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // Rank mapping
-        var rCls = {
-            'Leader': 'rank-leader',
-            'Co-Leader': 'rank-coleader',
-            'Officer': 'rank-officer',
-            'Veteran': 'rank-veteran',
-            'Member': 'rank-member'
-        };
-
-        // ============================================
-        // ✅ DEBUG HELPER FUNCTIONS
-        // ============================================
-        function debugLog(message, type) {
-            type = type || 'error';
-            console.log('[6T9 Admin]', message);
-            
-            var console = document.getElementById('debug-content');
-            if(console) {
-                var line = document.createElement('div');
-                line.className = 'debug-line debug-' + type;
-                line.innerHTML = '[' + new Date().toLocaleTimeString() + '] ' + message;
-                console.appendChild(line);
-                console.scrollTop = console.scrollHeight;
-            }
-        }
-
-        function toggleDebug() {
-            var box = document.getElementById('debug-console');
-            if(box) box.classList.toggle('show');
-        }
-
-        function toast(m, t) {
-            t = t || 'success';
-            var c = document.getElementById('toast-container'),
-                d = document.createElement('div');
-            d.className = 'toast flex items-center gap-3 px-5 py-3 rounded-lg bg-g-700 border ' + 
-                         (t === 'success' ? 'border-green-500' : t === 'error' ? 'border-red-400' : 'border-blue-500') + 
-                         ' shadow-lg max-w-sm';
-            d.innerHTML = '<span class="iconify text-g-300 text-lg shrink-0" data-icon="' + 
-                         (t === 'success' ? 'lucide:check-circle' : t === 'error' ? 'lucide:alert-circle' : 'lucide:info') + 
-                         '"></span><span class="text-g-100 text-sm font-medium">' + m + '</span>';
-            c.appendChild(d);
-            setTimeout(function() { d.remove(); }, 4000);
-        }
-
-        function fmtD(d) {
-            return new Date(d).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
-        }
-
-        // ============================================
-        // ✅ AUTHENTICATION - FIXED VERSION
-        // ============================================
-        
-        async function checkAuth() {
-            debugLog('Checking authentication status...', 'info');
-            
-            try {
-                var { data: { session }, error } = await sb.auth.getSession();
-                
-                if(error) {
-                    debugLog('Auth check error: ' + error.message, 'error');
-                    showLogin();
-                    return;
+        const setupClear=(btnId,table,loadFn)=>{
+            const btn=document.getElementById(btnId);
+            if(!btn)return;
+            btn.addEventListener('click',function(){
+                if(this.dataset.c==='true'){
+                    this.disabled=true;
+                    sb.from(table).delete().neq('id','00000000-0000-0000-0000-000000000000').then(()=>{
+                        loadFn();updateStats();toast('Cleared.');
+                        this.disabled=false;this.dataset.c='false';this.innerHTML=this.dataset.orig;
+                    }).catch(e=>{toast(e.message,'error');this.disabled=false})
+                }else{
+                    this.dataset.c='true';this.dataset.orig=this.innerHTML;
+                    this.innerHTML='<span class="iconify" data-icon="lucide:alert-triangle"></span> Confirm?';
+                    this.classList.add('!text-red-400');
+                    setTimeout(()=>{if(this.dataset.c==='true'){this.dataset.c='false';this.innerHTML=this.dataset.orig;this.classList.remove('!text-red-400')}},3500)
                 }
-                
-                if(session && session.user) {
-                    debugLog('✅ User already logged in: ' + session.user.email, 'success');
-                    showPanel();
-                } else {
-                    debugLog('No active session found', 'info');
-                    showLogin();
-                }
-            } catch(e) {
-                debugLog('Auth check exception: ' + e.message, 'error');
-                showLogin();
-            }
-        }
-
-        function showLogin() {
-            document.getElementById('login-gate').classList.remove('hidden');
-            document.getElementById('admin-panel').classList.add('hidden');
-            debugLog('Showing login screen', 'info');
-        }
-
-        function showPanel() {
-            document.getElementById('login-gate').classList.add('hidden');
-            document.getElementById('admin-panel').classList.remove('hidden');
-            debugLog('Showing admin panel', 'success');
-            refreshAll();
-        }
-
-        // ✅ FIXED: Login form handler with detailed error reporting
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            var email = document.getElementById('login-email').value.trim();
-            var password = document.getElementById('login-password').value;
-            var errorEl = document.getElementById('login-error');
-            var btn = document.getElementById('login-btn');
-            var btnText = document.getElementById('btn-text');
-            var btnLoader = document.getElementById('btn-loader');
-            
-            // Reset error state
-            errorEl.classList.add('hidden');
-            errorEl.textContent = '';
-            
-            // Validate inputs
-            if(!email || !password) {
-                showError('Please fill in all fields.');
-                return;
-            }
-            
-            // Show loading state
-            btn.disabled = true;
-            btnText.textContent = 'Signing in...';
-            btnLoader.classList.remove('hidden');
-            
-            debugLog('Attempting login with email: ' + email, 'info');
-            
-            try {
-                // ✅ Attempt sign in
-                var { data, error } = await sb.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-                
-                if(error) {
-                    // ✅ Handle specific error types
-                    var errorMsg = error.message;
-                    
-                    if(error.message.includes('Invalid login credentials')) {
-                        errorMsg = '❌ Invalid email or password. Check your credentials.';
-                        debugLog('Invalid credentials for: ' + email, 'error');
-                    } else if(error.message.includes('Email not confirmed')) {
-                        errorMsg = '⚠️ Email not confirmed. Check your inbox for verification link.';
-                        debugLog('Email not confirmed: ' + email, 'error');
-                    } else if(error.message.includes('User not found')) {
-                        errorMsg = '👤 No account found with this email. Create one in Supabase Dashboard → Authentication → Users.';
-                        debugLog('User not found: ' + email, 'error');
-                    } else {
-                        debugLog('Login error (' + error.status + '): ' + error.message, 'error');
-                    }
-                    
-                    showError(errorMsg);
-                    return;
-                }
-                
-                // ✅ Success!
-                if(data && data.user) {
-                    debugLog('✅ Login successful! User ID: ' + data.user.id, 'success');
-                    debugLog('Email: ' + data.user.email, 'success');
-                    showPanel();
-                    toast('Welcome back, ' + (data.user.email.split('@')[0]) + '!');
-                } else {
-                    showError('Unexpected response from server.');
-                    debugLog('No user data returned', 'error');
-                }
-                
-            } catch(err) {
-                // ✅ Network/connection errors
-                debugLog('Login exception: ' + err.message, 'error');
-                showError('Connection error. Check your internet connection and try again.');
-                
-            } finally {
-                // Restore button state
-                btn.disabled = false;
-                btnText.textContent = 'Sign In';
-                btnLoader.classList.add('hidden');
-            }
-        });
-
-        function showError(message) {
-            var el = document.getElementById('login-error');
-            el.textContent = message;
-            el.classList.remove('hidden');
-            debugLog('Error shown: ' + message, 'error');
-        }
-
-        // Logout handler
-        document.getElementById('logout-btn').addEventListener('click', async function() {
-            await sb.auth.signOut();
-            showLogin();
-            toast('Logged out.', 'info');
-            debugLog('User logged out', 'info');
-        });
-
-        // ============================================
-        // TABS
-        // ============================================
-        document.querySelectorAll('.tab-btn').forEach(function(b) {
-            b.addEventListener('click', function() {
-                document.querySelectorAll('.tab-btn').forEach(function(x) { x.classList.remove('active'); });
-                document.querySelectorAll('.tab-content').forEach(function(x) { x.classList.remove('active'); });
-                b.classList.add('active');
-                document.getElementById('tab-' + b.dataset.tab).classList.add('active');
-            });
-        });
-
-        // ============================================
-        // STATS
-        // ============================================
-        async function updateStats() {
-            try {
-                var [p, pl, t] = await Promise.all([
-                    sb.from('posts').select('id,pinned'),
-                    sb.from('players').select('id'),
-                    sb.from('tickets').select('id')
-                ]);
-                var ps = p.data || [], pls = pl.data || [], ts = t.data || [];
-                document.getElementById('stat-posts').textContent = ps.length;
-                document.getElementById('stat-pinned').textContent = ps.filter(function(x) { return x.pinned }).length;
-                document.getElementById('stat-players').textContent = pls.length;
-                document.getElementById('stat-tickets').textContent = ts.length;
-            } catch(e) {
-                debugLog('Stats update failed: ' + e.message, 'error');
-            }
-        }
-
-        // ============================================
-        // POSTS
-        // ============================================
-        async function loadPosts() {
-            var box = document.getElementById('posts-list'), emp = document.getElementById('empty-posts');
-            try {
-                var r = await sb.from('posts').select('*').order('created_at', {ascending: false});
-                if(r.error) throw new Error(r.error.message);
-                var p = r.data || [];
-                if(p.length === 0) { box.innerHTML = ''; emp.classList.remove('hidden'); return; }
-                emp.classList.add('hidden');
-                
-                box.innerHTML = p.map(function(o) {
-                    return '<div class="bg-g-900 border border-g-800 rounded-xl p-5 ' + (o.pinned ? 'border-l-[3px] border-l-g-400' : '') + '">' +
-                        '<div class="flex items-start justify-between gap-4">' +
-                            '<div class="flex-1 min-w-0">' +
-                                '<div class="flex items-center gap-2 mb-1.5 flex-wrap">' +
-                                    '<h3 class="text-g-100 font-semibold text-sm">' + o.title + '</h3>' +
-                                    (o.pinned ? '<span class="rank-badge rank-leader">PINNED</span>' : '') +
-                                '</div>' +
-                                '<p class="text-g-400 text-xs mb-2 line-clamp-2">' + o.content + '</p>' +
-                                '<div class="flex items-center gap-3 text-g-600 text-[11px]">' +
-                                    '<span>By ' + o.author + '</span><span>·</span><span>' + fmtD(o.created_at) + '</span>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="flex items-center gap-1 shrink-0">' +
-                                '<button onclick="window._togglePin(\'' + o.id + '\',' + o.pinned + ')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-g-700 flex items-center justify-center transition-colors">' +
-                                    '<span class="iconify text-g-400 text-sm" data-icon="' + (o.pinned ? 'lucide:pin-off' : 'lucide:pin') + '"></span>' +
-                                '</button>' +
-                                '<button onclick="window._deletePost(\'' + o.id + '\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group">' +
-                                    '<span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span>' +
-                                '</button>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>';
-                }).join('');
-            } catch(e) {
-                box.innerHTML = '<p class="text-red-400 text-sm text-center py-8">Error: ' + e.message + '</p>';
-                emp.classList.add('hidden');
-            }
-        }
-
-        document.getElementById('post-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            var t = document.getElementById('post-title').value.trim(),
-                a = document.getElementById('post-author').value.trim(),
-                c = document.getElementById('post-content').value.trim(),
-                pn = document.getElementById('post-pinned').checked,
-                btn = document.getElementById('post-submit-btn');
-            
-            if(!t || !a || !c) { toast('Fill all fields.', 'error'); return; }
-            
-            btn.disabled = true;
-            btn.textContent = 'Saving...';
-            
-            try {
-                var r = await sb.from('posts').insert({ title: t, author: a, content: c, pinned: pn });
-                if(r.error) throw new Error(r.error.message);
-                this.reset();
-                loadPosts();
-                updateStats();
-                toast('Published!');
-            } catch(e) {
-                toast(e.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:send"></span> Publish';
-            }
-        });
-
-        window._deletePost = async function(id) {
-            try {
-                var r = await sb.from('posts').delete().eq('id', id);
-                if(r.error) throw new Error(r.error.message);
-                loadPosts();
-                updateStats();
-                toast('Deleted.', 'info');
-            } catch(e) { toast(e.message, 'error'); }
+            })
         };
-
-        window._togglePin = async function(id, cur) {
-            try {
-                var r = await sb.from('posts').update({ pinned: !cur }).eq('id', id);
-                if(r.error) throw new Error(r.error.message);
-                loadPosts();
-                updateStats();
-                toast('Updated.');
-            } catch(e) { toast(e.message, 'error'); }
-        };
-
-        (function() {
-            var btn = document.getElementById('clear-posts-btn');
-            btn.addEventListener('click', async function() {
-                if(btn.dataset.confirm === 'true') {
-                    btn.disabled = true;
-                    try {
-                        await sb.from('posts').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-                        loadPosts();
-                        updateStats();
-                        toast('Cleared.', 'info');
-                    } catch(e) { toast(e.message, 'error'); }
-                    btn.disabled = false;
-                    btn.dataset.confirm = 'false';
-                    btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All';
-                    btn.classList.remove('!text-red-400');
-                } else {
-                    btn.dataset.confirm = 'true';
-                    btn.innerHTML = 'Confirm?';
-                    btn.classList.add('!text-red-400');
-                    setTimeout(function() {
-                        btn.dataset.confirm = 'false';
-                        btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Clear All';
-                        btn.classList.remove('!text-red-400');
-                    }, 3000);
-                }
-            });
-        })();
-
-        // ============================================
-        // PLAYERS
-        // ============================================
-        async function loadPlayers() {
-            var box = document.getElementById('players-list'),
-                emp = document.getElementById('empty-players'),
-                lbl = document.getElementById('player-count-label');
-            
-            try {
-                var r = await sb.from('players').select('*').order('created_at', {ascending: true});
-                if(r.error) throw new Error(r.error.message);
-                var ps = r.data || [];
-                lbl.textContent = ps.length;
-                
-                if(ps.length === 0) { box.innerHTML = ''; emp.classList.remove('hidden'); return; }
-                emp.classList.add('hidden');
-                
-                box.innerHTML = ps.map(function(p) {
-                    var av = p.avatar_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.name) + '&background=424242&color=f5f5f5&size=80&bold=true';
-                    var sk = p.skin_url || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(p.name) + '&background=212121&color=9e9e9e&size=80&bold=true&format=svg';
-                    
-                    var rows = '<div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1"><span class="iconify text-[#5865F2] text-xs" data-icon="ic:baseline-discord"></span>' + p.discord + '</span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Description</span><span class="info-val">' + p.description + '</span></div>';
-                    
-                    return '<div class="bg-g-900 border border-g-800 rounded-xl overflow-hidden">' +
-                        '<div class="flex gap-4 p-4 border-b border-g-800/60">' +
-                            '<img src="' + av + '" alt="" class="w-14 h-14 rounded-lg object-cover border border-g-700 shrink-0">' +
-                            '<img src="' + sk + '" alt="" class="skin-img w-10 h-14 rounded object-cover border border-g-700 shrink-0">' +
-                            '<div class="flex-1 min-w-0">' +
-                                '<div class="flex items-center gap-2 mb-1">' +
-                                    '<span class="text-g-100 font-semibold text-sm">' + p.name + '</span>' +
-                                    '<span class="rank-badge ' + (rCls[p.rank] || 'rank-member') + '">' + p.rank + '</span>' +
-                                '</div>' +
-                                '<span class="text-g-600 text-[11px]">' + fmtD(p.created_at) + '</span>' +
-                            '</div>' +
-                            '<div class="flex items-center gap-1 shrink-0">' +
-                                '<button onclick="window._editPlayer(\'' + p.id + '\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-g-700 flex items-center justify-center transition-colors">' +
-                                    '<span class="iconify text-g-400 text-sm" data-icon="lucide:pencil"></span>' +
-                                '</button>' +
-                                '<button onclick="window._deletePlayer(\'' + p.id + '\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group">' +
-                                    '<span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span>' +
-                                '</button>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="p-4">' + rows + '</div>' +
-                    '</div>';
-                }).join('');
-            } catch(e) {
-                box.innerHTML = '<p class="text-red-400 text-sm text-center py-8">Error: ' + e.message + '</p>';
-                emp.classList.add('hidden');
-            }
-        }
-
-        document.getElementById('player-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            var eid = document.getElementById('player-edit-id').value,
-                n = document.getElementById('player-name').value.trim(),
-                d = document.getElementById('player-discord').value.trim(),
-                rk = document.getElementById('player-rank').value,
-                av = document.getElementById('player-avatar').value.trim(),
-                sk = document.getElementById('player-skin').value.trim(),
-                desc = document.getElementById('player-desc').value.trim(),
-                btn = document.getElementById('player-submit-btn');
-            
-            if(!n || !d || !rk || !desc) {
-                toast('Fill required fields: Name, Discord, Rank, Description.', 'error');
-                return;
-            }
-            
-            btn.disabled = true;
-            btn.textContent = 'Saving...';
-            
-            var row = { name: n, discord: d, description: desc, rank: rk, avatar_url: av || null, skin_url: sk || null };
-            
-            try {
-                if(eid) {
-                    var res = await sb.from('players').update(row).eq('id', eid);
-                    if(res.error) throw new Error(res.error.message);
-                    resetPF();
-                    toast('Updated!');
-                } else {
-                    var res2 = await sb.from('players').insert(row);
-                    if(res2.error) throw new Error(res2.error.message);
-                    this.reset();
-                    toast('Added!');
-                }
-                loadPlayers();
-                updateStats();
-            } catch(e) {
-                toast(e.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = eid ? '<span class="iconify text-sm" data-icon="lucide:check"></span> Save Changes' : '<span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player';
-            }
-        });
-
-        function resetPF() {
-            document.getElementById('player-form').reset();
-            document.getElementById('player-edit-id').value = '';
-            document.getElementById('player-form-title').innerHTML = '<span class="iconify text-g-500" data-icon="lucide:user-plus"></span> Add New Player';
-            document.getElementById('player-form-subtitle').textContent = 'Fill in the player details below';
-            document.getElementById('player-submit-btn').innerHTML = '<span class="iconify text-sm" data-icon="lucide:plus"></span> Add Player';
-            document.getElementById('player-cancel-btn').classList.add('hidden');
-        }
-
-        document.getElementById('player-cancel-btn').addEventListener('click', resetPF);
-
-        window._editPlayer = async function(id) {
-            try {
-                var { data, error } = await sb.from('players').select('*').eq('id', id).single();
-                if(error) throw new Error(error.message);
-                var p = data;
-                
-                document.getElementById('player-edit-id').value = p.id;
-                document.getElementById('player-name').value = p.name;
-                document.getElementById('player-discord').value = p.discord;
-                document.getElementById('player-rank').value = p.rank;
-                document.getElementById('player-avatar').value = p.avatar_url || '';
-                document.getElementById('player-skin').value = p.skin_url || '';
-                document.getElementById('player-desc').value = p.description;
-                document.getElementById('player-form-title').innerHTML = '<span class="iconify text-g-500" data-icon="lucide:pencil"></span> Edit Player';
-                document.getElementById('player-form-subtitle').textContent = 'Editing ' + p.name;
-                document.getElementById('player-submit-btn').innerHTML = '<span class="iconify text-sm" data-icon="lucide:check"></span> Save Changes';
-                document.getElementById('player-cancel-btn').classList.remove('hidden');
-                document.getElementById('player-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } catch(e) { toast(e.message, 'error'); }
-        };
-
-        window._deletePlayer = async function(id) {
-            try {
-                var r = await sb.from('players').delete().eq('id', id);
-                if(r.error) throw new Error(r.error.message);
-                loadPlayers();
-                updateStats();
-                toast('Removed.', 'info');
-            } catch(e) { toast(e.message, 'error'); }
-        };
-
-        (function() {
-            var btn = document.getElementById('clear-players-btn');
-            btn.addEventListener('click', async function() {
-                if(btn.dataset.confirm === 'true') {
-                    btn.disabled = true;
-                    try {
-                        await sb.from('players').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-                        loadPlayers();
-                        updateStats();
-                        toast('Removed all.', 'info');
-                    } catch(e) { toast(e.message, 'error'); }
-                    btn.disabled = false;
-                    btn.dataset.confirm = 'false';
-                    btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';
-                    btn.classList.remove('!text-red-400');
-                } else {
-                    btn.dataset.confirm = 'true';
-                    btn.innerHTML = 'Confirm?';
-                    btn.classList.add('!text-red-400');
-                    setTimeout(function() {
-                        btn.dataset.confirm = 'false';
-                        btn.innerHTML = '<span class="iconify text-sm" data-icon="lucide:trash-2"></span> Remove All';
-                        btn.classList.remove('!text-red-400');
-                    }, 3000);
-                }
-            });
-        })();
-
-        // ============================================
-        // TICKETS
-        // ============================================
-        async function loadTickets() {
-            var box = document.getElementById('tickets-list'),
-                emp = document.getElementById('empty-tickets');
-            
-            try {
-                var r = await sb.from('tickets').select('*').order('created_at', {ascending: false});
-                if(r.error) throw new Error(r.error.message);
-                var ts = r.data || [];
-                
-                if(ts.length === 0) { box.innerHTML = ''; emp.classList.remove('hidden'); return; }
-                emp.classList.add('hidden');
-                
-                var labels = { join: '🎮 Join Request', ally: '🤝 Alliance Inquiry', event: '🎉 Event Collaboration', other: '❓ Other' };
-                var statusBadges = {
-                    pending: '<span style="background:#f59e0b;color:#1f2937;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Pending</span>',
-                    approved: '<span style="background:#10b981;color:#1f2937;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Approved</span>',
-                    rejected: '<span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:.6rem;font-weight:600;text-transform:uppercase;">Rejected</span>'
-                };
-                
-                box.innerHTML = ts.map(function(t) {
-                    var rows = '';
-                    rows += '<div class="info-row"><span class="info-label">IGN</span><span class="info-val"><strong>' + t.player_name + '</strong></span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Discord</span><span class="info-val flex items-center gap-1"><span class="iconify text-[#5865F2] text-xs" data-icon="ic:baseline-discord"></span>' + t.discord_handle + '</span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Reason</span><span class="info-val">' + (labels[t.reason] || t.reason) + '</span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Status</span><span class="info-val">' + (statusBadges[t.status] || statusBadges['pending']) + '</span></div>';
-                    rows += '<div class="info-row"><span class="info-label">Message</span><span class="info-val">' + t.message + '</span></div>';
-                    
-                    if(t.bedwars_level) rows += '<div class="info-row"><span class="info-label">⚔️ Bedwars Lv</span><span class="info-val" style="color:#10b981;font-weight:600;">' + t.bedwars_level + '</span></div>';
-                    if(t.previous_guilds) rows += '<div class="info-row"><span class="info-label">🏰 Prev Guilds</span><span class="info-val">' + t.previous_guilds + '</span></div>';
-                    if(t.join_reason) rows += '<div class="info-row"><span class="info-label">💬 Why Join?</span><span class="info-val" style="border-left:2px solid #f59e0b;padding-left:8px;">' + t.join_reason + '</span></div>';
-                    if(t.alts) rows += '<div class="info-row"><span class="info-label">👥 Alt Accounts</span><span class="info-val" style="color:#f87171;">' + t.alts + '</span></div>';
-                    if(t.reviewed_by) rows += '<div class="info-row" style="border-top:1px dashed rgba(255,255,255,0.1);margin-top:8px;padding-top:8px;"><span class="info-label">Reviewed By</span><span class="info-val">' + t.reviewed_by + ' (' + fmtD(t.reviewed_at) + ')</span></div>';
-                    if(t.admin_notes) rows += '<div class="info-row"><span class="info-label">📝 Notes</span><span class="info-val" style="color:#fbbf24;font-style:italic;">' + t.admin_notes + '</span></div>';
-                    
-                    return '<div class="bg-g-900 border border-g-800 rounded-xl p-5 mb-4" style="border-left:3px solid ' + (t.reason === 'join' ? '#10b981' : t.reason === 'ally' ? '#3b82f6' : t.reason === 'event' ? '#f59e0b' : '#6b7280') + ';">' +
-                        '<div class="flex items-center justify-between gap-3 mb-4">' +
-                            '<div class="flex items-center gap-2 flex-wrap">' +
-                                '<span class="rank-badge rank-officer">' + (labels[t.reason] || t.reason) + '</span>' +
-                                (statusBadges[t.status] || statusBadges['pending']) +
-                                '<span class="text-g-600 text-[11px]">' + fmtD(t.created_at) + '</span>' +
-                            '</div>' +
-                            '<div class="flex items-center gap-1 shrink-0">' +
-                                '<button onclick="window._approveTicket(\'' + t.id + '\')" class="w-8 h-8 rounded-lg bg-green-900/30 hover:bg-green-900/60 flex items-center justify-center transition-colors" title="Approve">' +
-                                    '<span class="iconify text-green-400 text-sm" data-icon="lucide:check"></span>' +
-                                '</button>' +
-                                '<button onclick="window._rejectTicket(\'' + t.id + '\')" class="w-8 h-8 rounded-lg bg-red-900/30 hover:bg-red-900/60 flex items-center justify-center transition-colors" title="Reject">' +
-                                    '<span class="iconify text-red-400 text-sm" data-icon="lucide:x"></span>' +
-                                '</button>' +
-                                '<button onclick="window._deleteTicket(\'' + t.id + '\')" class="w-8 h-8 rounded-lg bg-g-800 hover:bg-red-900/50 flex items-center justify-center transition-colors group" title="Delete">' +
-                                    '<span class="iconify text-g-400 group-hover:text-red-400 text-sm" data-icon="lucide:trash-2"></span>' +
-                                '</button>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div>' + rows + '</div>' +
-                    '</div>';
-                }).join('');
-            } catch(e) {
-                box.innerHTML = '<p class="text-red-400 text-sm text-center py-8">Error: ' + e.message + '</p>';
-                emp.classList.add('hidden');
-            }
-        }
-
-        window._approveTicket = async function(id) {
-            try {
-                var r = await sb.from('tickets').update({ status: 'approved', reviewed_by: 'Admin', reviewed_at: new Date().toISOString() }).eq('id', id);
-                if(r.error) throw new Error(r.error.message);
-                loadTickets();
-                toast('✅ Ticket approved!', 'success');
-            } catch(e) { toast(e.message, 'error'); }
-        };
-
-        window._rejectTicket = async function(id) {
-            try {
-                var r = await sb.from('tickets').update({ status: 'rejected', reviewed_by: 'Admin', reviewed_at: new Date().toISOString() }).eq('id', id);
-                if(r.error) throw new Error(r.error.message);
-                loadTickets();
-                toast('❌ Ticket rejected.', 'info');
-            } catch(e) { toast(e.message, 'error'); }
-        };
-
-        window._deleteTicket = async function(id) {
-            try {
-                var r = await sb.from('tickets').delete().eq('id', id);
-                if(r.error) throw new Error(r.error.message);
-                loadTickets();
-                updateStats();
-                toast('🗑️ Deleted.', 'info');
-            } catch(e) { toast(e.message, 'error'); }
-        };
-
-        // ============================================
-        // INITIALIZATION
-        // ============================================
-        function refreshAll() {
-            loadPosts();
-            loadPlayers();
-            loadTickets();
-            updateStats();
-        }
-
-        // Start the app
-        debugLog('Initializing 6T9 Admin Panel...', 'info');
-        debugLog('Supabase URL: ' + SUPABASE_URL, 'info');
-        checkAuth();
-        
+        setupClear('clear-posts-btn','posts',loadPosts);
+        setupClear('clear-players-btn','players',loadPlayers);
     })();
-    </script>
+
+    function refreshAll(){loadPosts();loadPlayers();loadTickets();updateStats()}
+    checkAuth();
+})();
+</script>
 </body>
 </html>
