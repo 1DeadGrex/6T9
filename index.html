@@ -46,17 +46,14 @@
             position: relative;
         }
 
-        /* ============================================
-           VERTICAL SCROLL PROGRESS BAR
-           ============================================ */
         .scroll-progress-container {
             position: fixed;
-            left: 24px;
+            left: 20px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 9999;
             pointer-events: none;
-            height: 50vh;
+            height: 60vh;
             display: flex;
             align-items: center;
         }
@@ -64,13 +61,14 @@
         .scroll-progress-text {
             writing-mode: vertical-rl;
             text-orientation: mixed;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 800;
-            letter-spacing: 0.5em;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
             line-height: 1;
             position: relative;
             color: rgba(255, 255, 255, 0.08);
+            transition: none;
         }
 
         .scroll-progress-text::before {
@@ -105,265 +103,93 @@
                 black var(--scroll-percent), 
                 transparent var(--scroll-percent)
             );
+            transition: none;
         }
 
         .scroll-progress-glow {
             position: absolute;
-            inset: -30px -50px;
+            inset: -20px -40px;
             background: radial-gradient(ellipse at center, 
-                rgba(250,122,62,0.12) 0%, 
+                rgba(250,122,62,0.15) 0%, 
                 transparent 70%
             );
-            filter: blur(30px);
+            filter: blur(20px);
             opacity: var(--scroll-opacity, 0);
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
 
-        /* ============================================
-           HERO SECTION - PREMIUM MINIMALIST DESIGN
-           ============================================ */
-        
-        /* Static Gradient Background (Your Image Style) */
-        .hero-section {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            /* 🔧 YOUR GRADIENT - Matches your reference image perfectly */
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(107, 41, 121, 0.4) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(185, 34, 50, 0.3) 0%, transparent 50%),
-                radial-gradient(ellipse at 40% 80%, rgba(234, 110, 146, 0.35) 0%, transparent 50%),
-                linear-gradient(135deg, 
-                    #0c0c1d 0%,
-                    #1a1035 15%,
-                    #2d1540 30%,
-                    #4a1942 45%,
-                    #6b2979 60%,
-                    #b92232 75%,
-                    #ea6e92 88%,
-                    #fa7a3e 95%,
-                    #ff8a5c 100%
-                );
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        /* Subtle noise texture overlay for depth */
-        .hero-section::before {
-            content: '';
+        .hero-gradient-bg {
             position: absolute;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E/filter%3E/svg%3E");
-            opacity: 0.03;
-            pointer-events: none;
-            mix-blend-mode: overlay;
-        }
-
-        /* Vignette effect for focus */
-        .hero-vignette {
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 90%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* Giant Background Text (Subtler) */
-        .hero-bg-text {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             z-index: 0;
-            pointer-events: none;
-            user-select: none;
             overflow: hidden;
+            opacity: 0.6;
         }
 
-        .hero-bg-text h1 {
-            font-size: clamp(12rem, 25vw, 28rem);
-            font-weight: 900;
-            line-height: 0.85;
-            letter-spacing: -0.06em;
-            color: rgba(255, 255, 255, 0.02);
-            white-space: nowrap;
-            transform: translateY(-5%);
-        }
-
-        /* Content Container */
-        .hero-content {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 120px 24px;
-            text-align: center;
-        }
-
-        /* Status Badge - More refined */
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 24px;
-            border-radius: 100px;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 48px;
-            animation: fadeInUp 1s ease 0.3s both;
-        }
-
-        .hero-badge-dot {
-            width: 8px;
-            height: 8px;
+        .gradient-orb {
+            position: absolute;
             border-radius: 50%;
-            background: #10b981;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
-            animation: pulse 2s ease-in-out infinite;
+            filter: blur(80px);
+            will-change: transform;
+            animation: gradientFloat 25s infinite ease-in-out;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.2); }
+        .gradient-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99,102,241,0.5) 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
         }
 
-        /* Main Title - Ultra Bold & Large */
-        .hero-title {
-            font-size: clamp(4rem, 10vw, 9rem);
-            font-weight: 900;
-            line-height: 0.95;
-            letter-spacing: -0.03em;
-            margin-bottom: 32px;
-            animation: fadeInUp 1s ease 0.5s both;
-            background: linear-gradient(180deg, 
-                #ffffff 0%, 
-                rgba(255, 255, 255, 0.95) 50%,
-                rgba(255, 255, 255, 0.6) 100%
-            );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .gradient-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(236,72,153,0.4) 0%, transparent 70%);
+            top: 50%;
+            right: -150px;
+            animation-delay: -7s;
         }
 
-        /* Subtitle - Lighter weight */
-        .hero-subtitle {
-            font-size: clamp(1.1rem, 2vw, 1.35rem);
-            font-weight: 300;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.45);
-            max-width: 520px;
-            margin: 0 auto 56px;
-            animation: fadeInUp 1s ease 0.7s both;
+        .gradient-orb-3 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(34,211,238,0.45) 0%, transparent 70%);
+            bottom: -100px;
+            left: 30%;
+            animation-delay: -14s;
         }
 
-        /* CTA Buttons Container */
-        .hero-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            align-items: center;
-            justify-content: center;
-            animation: fadeInUp 1s ease 0.9s both;
+        .gradient-orb-4 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(250,122,62,0.35) 0%, transparent 70%);
+            top: 40%;
+            left: 10%;
+            animation-delay: -5s;
         }
 
-        @media (min-width: 640px) {
-            .hero-actions {
-                flex-direction: row;
-                gap: 20px;
-            }
-        }
-
-        /* Primary CTA - Glass with glow */
-        .cta-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 18px 40px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.95);
-            color: #000000;
-            font-size: 15px;
-            font-weight: 700;
-            letter-spacing: 0.02em;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 
-                0 4px 24px rgba(0, 0, 0, 0.2),
-                0 0 48px rgba(255, 255, 255, 0.08);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-primary::before {
-            content: '';
+        .hero-mesh {
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            background-image: 
+                radial-gradient(at 40% 20%, rgba(99,102,241,0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, rgba(236,72,153,0.12) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, rgba(34,211,238,0.12) 0px, transparent 50%),
+                radial-gradient(at 80% 100%, rgba(250,122,62,0.1) 0px, transparent 50%);
+            z-index: 1;
+            pointer-events: none;
         }
 
-        .cta-primary:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.3),
-                0 0 64px rgba(255, 255, 255, 0.15);
+        @keyframes gradientFloat {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(50px, -80px) scale(1.1) rotate(90deg); }
+            50% { transform: translate(-30px, 60px) scale(0.95) rotate(180deg); }
+            75% { transform: translate(70px, 40px) scale(1.05) rotate(270deg); }
         }
 
-        .cta-primary:hover::before {
-            opacity: 1;
-        }
-
-        /* Secondary CTA - Ghost style */
-        .cta-secondary {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 18px 40px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 15px;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-        }
-
-        .cta-secondary:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ============================================
-           OTHER SECTIONS (Keep as before)
-           ============================================ */
-
-        /* Orbs (subtle, non-animated) */
         .orb-container {
             position: fixed;
             inset: 0;
@@ -376,27 +202,25 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(100px);
-            opacity: 0.12;
+            opacity: 0.15;
         }
         
-        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%); top: -200px; left: -200px; }
-        .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(236,72,153,0.12), transparent 70%); top: 50%; right: -150px; }
-        .orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(34,211,238,0.12), transparent 70%); bottom: -100px; left: 30%; }
+        .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%); top: -200px; left: -200px; }
+        .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(236,72,153,0.15), transparent 70%); top: 50%; right: -150px; }
+        .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(34,211,238,0.15), transparent 70%); bottom: -100px; left: 30%; }
 
-        /* Grid Pattern */
         .grid-pattern {
             position: fixed;
             inset: 0;
             z-index: 1;
             pointer-events: none;
             background-image: 
-                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
             background-size: 80px 80px;
             mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
         }
-
-        /* Glass Card */
+        
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(24px) saturate(180%);
@@ -412,6 +236,18 @@
             overflow: hidden;
         }
         
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
         .glass-card:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.15);
@@ -421,8 +257,9 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.08),
                 0 0 60px rgba(99, 102, 241, 0.1);
         }
+        
+        .glass-card:hover::before { opacity: 1; }
 
-        /* Glass Nav */
         .glass-nav {
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(20px) saturate(180%);
@@ -430,7 +267,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        /* Glass Input */
         .glass-input {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
@@ -449,7 +285,6 @@
         
         .glass-input::placeholder { color: rgba(255, 255, 255, 0.3); }
 
-        /* Buttons */
         .glass-btn-primary {
             background: rgba(255, 255, 255, 0.95);
             color: #000;
@@ -478,15 +313,14 @@
             border-color: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
-
-        /* Section Typography */
+        
         .section-title-bg {
             position: absolute;
             font-size: clamp(8rem, 15vw, 16rem);
             font-weight: 900;
             line-height: 0.85;
             letter-spacing: -0.04em;
-            color: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.2);
             white-space: nowrap;
             z-index: 0;
             user-select: none;
@@ -509,7 +343,6 @@
             z-index: 2;
         }
 
-        /* Rank Badges */
         .rank-badge { 
             font-size: 0.65rem; 
             letter-spacing: 0.08em; 
@@ -521,12 +354,11 @@
             backdrop-filter: blur(8px);
         }
         .rank-leader { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
-        .rank-coleader { background: rgba(255,255,255,0.1); color: #ddd; border: 1px solid rgba(255,255,255,0.2); }
-        .rank-officer { background: rgba(255,255,255,0.07); color: #bbb; }
-        .rank-veteran { background: rgba(255,255,255,0.04); color: #888; border: 1px solid rgba(255,255,255,0.1); }
-        .rank-member { background: rgba(255,255,255,0.02); color: #666; border: 1px solid rgba(255,255,255,0.06); }
+        .rank-coleader { background: rgba(255,255,255,0.1); color: #e0e0e0; border: 1px solid rgba(255,255,255,0.2); }
+        .rank-officer { background: rgba(255,255,255,0.07); color: #bdbdbd; }
+        .rank-veteran { background: rgba(255,255,255,0.04); color: #999; border: 1px solid rgba(255,255,255,0.1); }
+        .rank-member { background: rgba(255,255,255,0.02); color: #777; border: 1px solid rgba(255,255,255,0.06); }
 
-        /* Info Chips */
         .info-chip {
             display: inline-flex;
             align-items: center;
@@ -540,7 +372,6 @@
             backdrop-filter: blur(8px);
         }
 
-        /* Toast */
         .toast { 
             animation: slideIn .4s ease, fadeOut .4s ease 2.6s forwards; 
             backdrop-filter: blur(20px);
@@ -548,7 +379,6 @@
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
 
-        /* Fade In Animation */
         .fade-in { 
             opacity: 0; 
             transform: translateY(30px); 
@@ -559,10 +389,8 @@
             transform: translateY(0); 
         }
 
-        /* Skin Image */
         .skin-img { image-rendering: pixelated; }
 
-        /* Mobile Menu */
         #mobile-menu { 
             max-height: 0; 
             overflow: hidden; 
@@ -589,7 +417,6 @@
         
         body.menu-open { overflow: hidden; }
 
-        /* YouTube Wrapper */
         .yt-wrapper { 
             position: relative; 
             padding-bottom: 56.25%; 
@@ -609,7 +436,6 @@
             border-radius: 20px; 
         }
 
-        /* Feature Pills */
         .feature-pill { 
             display: inline-flex; 
             align-items: center; 
@@ -629,7 +455,6 @@
             color: rgba(255,255,255,0.9);
         }
 
-        /* Join Fields */
         .join-field { 
             max-height: 0; 
             overflow: hidden; 
@@ -641,7 +466,6 @@
             opacity: 1; 
         }
 
-        /* Modal */
         #post-modal-overlay.show { 
             opacity: 1; 
             pointer-events: auto; 
@@ -654,13 +478,11 @@
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
 
-        /* Nav Link Hover */
         .nav-link { 
             position: relative; 
             transition: color 0.3s ease;
@@ -680,7 +502,6 @@
             width: 100%; 
         }
 
-        /* Discord Button Glow */
         .discord-glow {
             box-shadow: 0 0 20px rgba(88,101,242,0.3);
             transition: box-shadow 0.3s ease;
@@ -689,20 +510,13 @@
             box-shadow: 0 0 30px rgba(88,101,242,0.5);
         }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .scroll-progress-container {
-                left: 12px;
+                left: 10px;
                 height: 40vh;
             }
             .scroll-progress-text {
                 font-size: 11px;
-            }
-            .hero-content {
-                padding: 100px 20px;
-            }
-            .hero-title {
-                font-size: clamp(3rem, 12vw, 6rem);
             }
         }
 
@@ -715,7 +529,6 @@
 </head>
 <body class="min-h-screen">
 
-<!-- ===== BACKGROUND EFFECTS ===== -->
 <div class="orb-container">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -723,37 +536,28 @@
 </div>
 <div class="grid-pattern"></div>
 
-<!-- ===== SCROLL PROGRESS BAR ===== -->
 <div class="scroll-progress-container">
     <div class="scroll-progress-glow"></div>
     <div class="scroll-progress-text">SIXTY NINE</div>
 </div>
 
-<!-- Toast Container -->
 <div id="toast-container" class="fixed top-24 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
 
-<!-- Mobile Overlay -->
 <div id="mobile-overlay"></div>
 
-<!-- ===== NAVIGATION ===== -->
 <nav class="glass-nav fixed top-0 left-0 right-0 z-50">
     <div class="max-w-7xl mx-auto px-5 sm:px-6 h-16 flex items-center justify-between">
-        <!-- Logo Area -->
         <a href="#home" class="flex items-center gap-2.5 shrink-0 group">
-            <!-- REPLACE WITH YOUR LOGO -->
-            <img src="https://via.placeholder.com/36x36/1a1a2a/ffffff?text=6T9" 
+            <img src="https://raw.githubusercontent.com/1DeadGrex/6T9/refs/heads/main/assets/images/47819e99755886c6ab10b7c81817a968%20(1).webp" 
                  alt="6T9 Guild Logo" 
                  class="w-9 h-9 rounded-xl object-cover border border-white/10 shadow-lg transition-all duration-300 group-hover:border-white/30"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            
             <div class="w-9 h-9 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center transition-all duration-300 group-hover:bg-white/20 group-hover:border-white/20" style="display:none;">
                 <span class="text-white font-bold text-sm tracking-tight">6T9</span>
             </div>
-            
-            <span class="text-white font-semibold text-lg tracking-tight">GUILD</span>
+            <span class="text-white font-semibold text-lg tracking-tight hidden sm:inline">GUILD</span>
         </a>
 
-        <!-- Desktop Links -->
         <div class="hidden md:flex items-center gap-8">
             <a href="#home" class="nav-link text-white/60 hover:text-white text-sm font-medium transition-colors active">Home</a>
             <a href="#bot" class="nav-link text-white/60 hover:text-white text-sm font-medium transition-colors">Bot</a>
@@ -763,7 +567,6 @@
             <a href="#connect" class="nav-link text-white/60 hover:text-white text-sm font-medium transition-colors">Connect</a>
         </div>
 
-        <!-- Right Side Actions -->
         <div class="flex items-center gap-3">
             <div class="hidden sm:flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
                 <span class="iconify text-white/50 text-sm" data-icon="lucide:users"></span>
@@ -776,7 +579,6 @@
                 <span class="hidden sm:inline">Discord</span>
             </a>
             
-            <!-- Mobile Menu Toggle -->
             <button id="menu-toggle" type="button" 
                     class="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 transition-all duration-300"
                     aria-label="Toggle menu">
@@ -786,7 +588,6 @@
         </div>
     </div>
 
-    <!-- Mobile Menu -->
     <div id="mobile-menu">
         <div class="px-5 py-4 flex flex-col gap-1">
             <a href="#home" class="mobile-link flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/5 text-sm font-medium transition-all"><span class="iconify text-white/40 text-lg" data-icon="lucide:home"></span> Home</a>
@@ -799,61 +600,58 @@
     </div>
 </nav>
 
-<!-- ============================================
-     ✨ PREMIUM HERO SECTION (Minimalist & Clean)
-     ============================================ -->
-<section id="home" class="hero-section">
-    
-    <!-- Vignette overlay for depth -->
-    <div class="hero-vignette"></div>
-    
-    <!-- Giant background text (very subtle) -->
-    <div class="hero-bg-text">
-        <h1>6T9</h1>
+<section id="home" class="pt-16 relative min-h-screen flex items-center overflow-hidden">
+    <div class="hero-gradient-bg">
+        <div class="gradient-orb gradient-orb-1"></div>
+        <div class="gradient-orb gradient-orb-2"></div>
+        <div class="gradient-orb gradient-orb-3"></div>
+        <div class="gradient-orb gradient-orb-4"></div>
+        <div class="hero-mesh"></div>
     </div>
 
-    <!-- Main Content -->
-    <div class="hero-content">
-        
-        <!-- Status Badge -->
-        <div class="hero-badge">
-            <div class="hero-badge-dot"></div>
-            <span class="text-white/80 text-xs font-semibold tracking-widest uppercase">Active & Recruiting</span>
-        </div>
-        
-        <!-- Main Title -->
-        <h1 class="hero-title">
-            6<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">T</span>9
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-[1]">
+        <h1 class="text-[clamp(10rem,22vw,22rem)] font-black leading-none tracking-tighter text-white/[0.02] whitespace-nowrap animate-pulse-slow">
+            6T9
         </h1>
+    </div>
 
-        <!-- Subtitle - Minimalist -->
-        <p class="hero-subtitle">
-            A competitive gaming guild built on teamwork, strategy, and loyalty.<br>
-            Dominating servers since 2021.
-        </p>
-        
-        <!-- CTA Buttons -->
-        <div class="hero-actions">
-            <a href="#connect" class="cta-primary">
-                <span>Join the Guild</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
+    <div class="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 py-24 lg:py-36">
+        <div class="max-w-3xl mx-auto text-center fade-in">
+            <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-10">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-lg shadow-emerald-400/50"></span>
+                <span class="text-white/70 text-xs font-semibold tracking-widest uppercase">nicklauspetrova</span>
+            </div>
             
-            <a href="#players" class="cta-secondary">
-                <span>View Roster</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8m-4-4h8m-4 0v8"/></svg>
-            </a>
+            <h1 class="text-6xl md:text-8xl lg:text-9xl font-black tracking-tight mb-8 bg-gradient-to-b from-white via-white/90 to-white/40 bg-clip-text text-transparent">
+                6<span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">T</span>9
+            </h1>
+
+            <p class="text-lg md:text-xl text-white/50 font-light max-w-xl mx-auto mb-12 leading-relaxed">
+                A competitive gaming guild built on teamwork, strategy, and loyalty.<br>
+                Dominating servers since 2021.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#connect" class="glass-btn-primary px-10 py-4 text-sm w-full sm:w-auto text-center">
+                    Join the Guild
+                </a>
+                <a href="#players" class="glass-btn-secondary px-10 py-4 text-sm w-full sm:w-auto text-center">
+                    View Roster
+                </a>
+            </div>
         </div>
-    
     </div>
 </section>
 
-<!-- ===== STATS SECTION ===== -->
-<section class="section-wrapper relative">
-    <div class="section-title-bg">Statistics</div>
+<section class="section-wrapper relative overflow-hidden">
     
-    <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="max-w-7xl mx-auto px-5 sm:px-6 relative">
+        
+        <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
+            STATISTICS
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
             <div class="fade-in glass-card p-7" style="transition-delay: 0s;">
                 <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
                     <span class="iconify text-white/60 text-xl" data-icon="lucide:shield"></span>
@@ -893,9 +691,11 @@
     </div>
 </section>
 
-<!-- ===== ANNOUNCEMENTS SECTION ===== -->
 <section class="section-wrapper relative">
-    <div class="section-title-bg">Updates</div>
+
+    <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
+            UPDATE        
+    </div>
     
     <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 pb-12">
         <div class="fade-in flex items-center justify-between mb-10">
@@ -916,9 +716,11 @@
     </div>
 </section>
 
-<!-- ===== BOT SECTION ===== -->
 <section id="bot" class="section-wrapper relative border-t border-white/5">
-    <div class="section-title-bg">Bot</div>
+
+    <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
+            BOT
+        </div>
     
     <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 py-24">
         <div class="fade-in text-center mb-16">
@@ -970,9 +772,11 @@
     </div>
 </section>
 
-<!-- ===== GALLERY SECTION ===== -->
 <section id="gallery" class="section-wrapper relative border-t border-white/5">
-    <div class="section-title-bg">Gallery</div>
+
+    <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
+            GALLERY
+        </div>
     
     <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 py-24">
         <div class="fade-in text-center mb-16">
@@ -1015,9 +819,10 @@
     </div>
 </section>
 
-<!-- ===== ALLIES SECTION ===== -->
 <section id="allies" class="section-wrapper relative border-t border-white/5">
-    <div class="section-title-bg">Allies</div>
+    <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
+            ALLIES
+        </div>
     
     <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 py-24">
         <div class="fade-in text-center mb-16">
@@ -1029,11 +834,14 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- THEBOIS -->
+            
             <div class="fade-in glass-card overflow-hidden" style="transition-delay: 0s;">
                 <div class="h-36 bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center relative overflow-hidden">
                     <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px;"></div>
-                    <img src="https://via.placeholder.com/64x64/1a1a2a/ffffff?text=TB" alt="THEBOIS Logo" class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1" onerror="this.src='https://ui-avatars.com/api/?name=THEBOIS&background=1a1a2a&color=fff&size=64&bold=true'">
+                    <img src="https://raw.githubusercontent.com/1DeadGrex/6T9/refs/heads/main/assets/images/93b2bfed5ff9f284073e058eeb41229e.webp" 
+                         alt="THEBOIS Logo" 
+                         class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1"
+                         onerror="this.src='https://ui-avatars.com/api/?name=THEBOIS&background=1a1a2a&color=fff&size=64&bold=true'">
                 </div>
                 <div class="p-6">
                     <h3 class="text-white font-bold text-lg mb-2">THEBOIS</h3>
@@ -1042,11 +850,13 @@
                 </div>
             </div>
             
-            <!-- VIRUS -->
             <div class="fade-in glass-card overflow-hidden" style="transition-delay: 0.1s;">
                 <div class="h-36 bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center relative overflow-hidden">
                     <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px;"></div>
-                    <img src="https://via.placeholder.com/64x64/1a1a2a/ffffff?text=VR" alt="VIRUS Logo" class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1" onerror="this.src='https://ui-avatars.com/api/?name=VIRUS&background=1a1a2a&color=fff&size=64&bold=true'">
+                    <img src="https://raw.githubusercontent.com/1DeadGrex/6T9/refs/heads/main/assets/images/da9680d90dba0bec3740ecc86d602e14.webp" 
+                         alt="VIRUS Logo" 
+                         class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1"
+                         onerror="this.src='https://ui-avatars.com/api/?name=VIRUS&background=1a1a2a&color=fff&size=64&bold=true'">
                 </div>
                 <div class="p-6">
                     <h3 class="text-white font-bold text-lg mb-2">VIRUS</h3>
@@ -1055,11 +865,13 @@
                 </div>
             </div>
             
-            <!-- SAKURA -->
             <div class="fade-in glass-card overflow-hidden" style="transition-delay: 0.2s;">
                 <div class="h-36 bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center relative overflow-hidden">
                     <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px;"></div>
-                    <img src="https://via.placeholder.com/64x64/1a1a2a/ffffff?text=SK" alt="SAKURA Logo" class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1" onerror="this.src='https://ui-avatars.com/api/?name=SAKURA&background=1a1a2a&color=fff&size=64&bold=true'">
+                    <img src="https://imgs.search.brave.com/zvecMGLKuuTIP-JEW3K826pnkc6BQbernc57CeLhei4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS12ZWN0/b3Ivc2FrdXJhLWZs/b3dlci1sb2dvLWlj/b24tZmxhdC1kZXNp/Z24tdGVtcGxhdGUt/aWxsdXN0cmF0aW9u/XzE1ODYwOC0yMjQu/anBnP3NlbXQ9YWlz/X2h5YnJpZCZ3PTc0/MCZxPTgw" 
+                         alt="SAKURA Logo" 
+                         class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1"
+                         onerror="this.src='https://ui-avatars.com/api/?name=SAKURA&background=1a1a2a&color=fff&size=64&bold=true'">
                 </div>
                 <div class="p-6">
                     <h3 class="text-white font-bold text-lg mb-2">ＳＡＫＵＲＡ</h3>
@@ -1068,11 +880,13 @@
                 </div>
             </div>
             
-            <!-- VITALITY -->
             <div class="fade-in glass-card overflow-hidden" style="transition-delay: 0.2s;">
                 <div class="h-36 bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center relative overflow-hidden">
                     <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px;"></div>
-                    <img src="https://via.placeholder.com/64x64/1a1a2a/ffffff?text=VT" alt="VITALITY Logo" class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1" onerror="this.src='https://ui-avatars.com/api/?name=VITALITY&background=1a1a2a&color=fff&size=64&bold=true'">
+                    <img src="https://raw.githubusercontent.com/1DeadGrex/6T9/refs/heads/main/assets/images/ab60efcefbbccc4162e0b750d6e1d914.webp" 
+                         alt="VITALITY Logo" 
+                         class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1"
+                         onerror="this.src='https://ui-avatars.com/api/?name=VITALITY&background=1a1a2a&color=fff&size=64&bold=true'">
                 </div>
                 <div class="p-6">
                     <h3 class="text-white font-bold text-lg mb-2">VITALITY</h3>
@@ -1081,11 +895,13 @@
                 </div>
             </div>
             
-            <!-- NEXORA -->
             <div class="fade-in glass-card overflow-hidden" style="transition-delay: 0.1s;">
                 <div class="h-36 bg-gradient-to-br from-white/5 to-transparent flex items-center justify-center relative overflow-hidden">
                     <div class="absolute inset-0 opacity-20" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px;"></div>
-                    <img src="https://via.placeholder.com/64x64/1a1a2a/ffffff?text=NX" alt="NEXORA Logo" class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1" onerror="this.src='https://ui-avatars.com/api/?name=NEXORA&background=1a1a2a&color=fff&size=64&bold=true'">
+                    <img src="https://via.placeholder.com/64x64/1a1a2a/ffffff?text=?" 
+                         alt="NEXORA Logo" 
+                         class="relative w-16 h-16 rounded-2xl object-cover border border-white/20 shadow-lg bg-white/5 p-1"
+                         onerror="this.src='https://ui-avatars.com/api/?name=NEXORA&background=1a1a2a&color=fff&size=64&bold=true'">
                 </div>
                 <div class="p-6">
                     <h3 class="text-white font-bold text-lg mb-2">NEXORA</h3>
@@ -1097,9 +913,11 @@
     </div>
 </section>
 
-<!-- ===== PLAYERS SECTION ===== -->
 <section id="players" class="section-wrapper relative border-t border-white/5">
-    <div class="section-title-bg">Roster</div>
+
+    <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
+            MEMBERS
+        </div>
     
     <div class="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 py-24">
         <div class="fade-in text-center mb-16">
@@ -1120,9 +938,11 @@
     </div>
 </section>
 
-<!-- ===== CONNECT/TICKET FORM SECTION ===== -->
 <section id="connect" class="section-wrapper relative border-t border-white/5">
-    <div class="section-title-bg">Contact</div>
+    
+    <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
+            CONNECT
+        </div>
     
     <div class="relative z-10 max-w-3xl mx-auto px-5 sm:px-6 py-24">
         <div class="fade-in text-center mb-12">
@@ -1186,7 +1006,6 @@
                     <div>
                         <label class="block text-white/70 text-sm font-medium mb-2">Alt Accounts</label>
                         <input type="text" id="ticket-alts" placeholder="List any alt accounts (IGNs)" class="glass-input w-full px-4 py-3.5 text-sm">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1198,12 +1017,14 @@
     </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
 <footer class="border-t border-white/5 bg-black/50 backdrop-blur-xl pb-8 relative z-10">
     <div class="max-w-7xl mx-auto px-5 sm:px-6 py-12">
         <div class="flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
-                <img src="https://via.placeholder.com/32x32/1a1a2a/ffffff?text=6T9" alt="6T9 Logo" class="w-8 h-8 rounded-lg object-cover border border-white/10" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img src="https://raw.githubusercontent.com/1DeadGrex/6T9/refs/heads/main/assets/images/47819e99755886c6ab10b7c81817a968%20(1).webp" 
+                     alt="6T9 Logo" 
+                     class="w-8 h-8 rounded-lg object-cover border border-white/10"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="w-8 h-8 rounded-lg bg-white/10 border border-white/10 flex items-center justify-center" style="display:none;">
                     <span class="text-white font-bold text-xs">6T9</span>
                 </div>
@@ -1213,7 +1034,7 @@
             <div class="flex items-center gap-6 flex-wrap justify-center">
                 <a href="#home" class="text-white/40 hover:text-white/80 text-sm transition-colors">Home</a>
                 <a href="#bot" class="text-white/40 hover:text-white/80 text-sm transition-colors">Bot</a>
-                <a href="#{gallery}" class="text-white/40 hover:text-white/80 text-sm transition-colors">Gallery</a>
+                <a href="#gallery" class="text-white/40 hover:text-white/80 text-sm transition-colors">Gallery</a>
                 <a href="#allies" class="text-white/40 hover:text-white/80 text-sm transition-colors">Allies</a>
                 <a href="#players" class="text-white/40 hover:text-white/80 text-sm transition-colors">Players</a>
                 <a href="#connect" class="text-white/40 hover:text-white/80 text-sm transition-colors">Connect</a>
@@ -1226,7 +1047,6 @@
     </div>
 </footer>
 
-<!-- Post Modal -->
 <div id="post-modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-md z-[110] flex items-center justify-center p-4 pointer-events-none opacity-0 transition-opacity duration-300" onclick="closeModal(event)">
     <div id="post-modal-content" class="glass-card w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl relative">
         <button type="button" onclick="closeModal(event, true)" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-xl bg-white/10 text-white/60 hover:text-white hover:bg-white/20 transition-all z-10">
@@ -1236,16 +1056,14 @@
     </div>
 </div>
 
-<!-- ===== JAVASCRIPT ===== -->
 <script>
 (function(){
-    // Supabase Config
     const SUPABASE_URL = 'https://eiaxbuwihclqcmogozzh.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpYXhidXdpaGNscWNtb2dvenpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4ODY2MDYsImV4cCI6MjA5MTA2MjYwNn0.KId9cODM_TbChE_tw3wF-NiIk66qOQq4GXhr6SeaelI';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVpYXhidXdpaGNscWNtb2dvenpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0ODY2MDYsImV4cCI6MjA5MTA2MjYwNn0.KId9cODM_TbChE_tw3wF-NiIk66qOQq4GXhr6SeaelI';
     const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
     window.postsData = [];
 
-    // Scroll Progress Logic
     const progressText = document.querySelector('.scroll-progress-text');
     const progressGlow = document.querySelector('.scroll-progress-glow');
     
@@ -1275,7 +1093,6 @@
     
     updateScrollProgress();
 
-    // Mobile Menu
     const mt = document.getElementById('menu-toggle');
     const mm = document.getElementById('mobile-menu');
     const mo = document.getElementById('mobile-overlay');
@@ -1283,31 +1100,65 @@
     const mci = mt.querySelector('.menu-close-icon');
     let menuOpen = false;
 
-    function openMenu() { menuOpen = true; mm.classList.add('open'); mo.classList.add('open'); document.body.classList.add('menu-open'); moi.classList.add('hidden'); mci.classList.remove('hidden'); }
-    function closeMenu() { menuOpen = false; mm.classList.remove('open'); mo.classList.remove('open'); document.body.classList.remove('menu-open'); moi.classList.remove('hidden'); mci.classList.add('hidden'); }
+    function openMenu() {
+        menuOpen = true;
+        mm.classList.add('open');
+        mo.classList.add('open');
+        document.body.classList.add('menu-open');
+        moi.classList.add('hidden');
+        mci.classList.remove('hidden');
+    }
 
-    mt.addEventListener('click', function(e) { e.stopPropagation(); menuOpen ? closeMenu() : openMenu(); });
+    function closeMenu() {
+        menuOpen = false;
+        mm.classList.remove('open');
+        mo.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        moi.classList.remove('hidden');
+        mci.classList.add('hidden');
+    }
+
+    mt.addEventListener('click', function(e) {
+        e.stopPropagation();
+        menuOpen ? closeMenu() : openMenu();
+    });
+    
     mo.addEventListener('click', closeMenu);
-    document.querySelectorAll('.mobile-link').forEach(function(l) { l.addEventListener('click', closeMenu); });
-    document.addEventListener('keydown', function(e) { if(e.key === 'Escape') { if(menuOpen) closeMenu(); window.closeModal(e, true); } });
-    window.addEventListener('resize', function() { if(window.innerWidth >= 768 && menuOpen) closeMenu(); });
+    
+    document.querySelectorAll('.mobile-link').forEach(function(l) {
+        l.addEventListener('click', closeMenu);
+    });
+    
+    document.addEventListener('keydown', function(e) {
+        if(e.key === 'Escape') {
+            if(menuOpen) closeMenu();
+            window.closeModal(e, true);
+        }
+    });
+    
+    window.addEventListener('resize', function() {
+        if(window.innerWidth >= 768 && menuOpen) closeMenu();
+    });
 
-    // Active Nav Link
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
 
     window.addEventListener('scroll', function() {
         let current = '';
         sections.forEach(function(section) {
-            if(window.scrollY >= section.offsetTop - 100) current = section.getAttribute('id');
+            if(window.scrollY >= section.offsetTop - 100) {
+                current = section.getAttribute('id');
+            }
         });
+        
         navLinks.forEach(function(link) {
             link.classList.remove('active');
-            if(link.getAttribute('href') === '#' + current) link.classList.add('active');
+            if(link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
         });
     });
 
-    // Fade In Observer
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
             if(entry.isIntersecting) {
@@ -1317,39 +1168,56 @@
         });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+    document.querySelectorAll('.fade-in').forEach(function(el) {
+        observer.observe(el);
+    });
 
-    // Toast
     function toast(message, type) {
         type = type || 'success';
         const container = document.getElementById('toast-container');
         const div = document.createElement('div');
+        
         const borderColor = type === 'success' ? 'border-emerald-400/30' : type === 'error' ? 'border-red-400/30' : 'border-blue-400/30';
         const icon = type === 'success' ? 'lucide:check-circle' : type === 'error' ? 'lucide:alert-circle' : 'lucide:info';
         const iconColor = type === 'success' ? 'text-emerald-400' : type === 'error' ? 'text-red-400' : 'text-blue-400';
-
+        
         div.className = 'toast glass border ' + borderColor + ' max-w-sm';
         div.innerHTML = '<span class="iconify text-lg shrink-0 ' + iconColor + '" data-icon="' + icon + '"></span><span class="text-white text-sm font-medium">' + message + '</span>';
+        
         container.appendChild(div);
         setTimeout(function() { div.remove(); }, 4000);
     }
 
-    // Utilities
-    function fmtDate(d) { return new Date(d).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'}); }
-    function rankClass(r) { return {'Leader':'rank-leader','Co-Leader':'rank-coleader','Officer':'rank-officer','Veteran':'rank-veteran','Member':'rank-member'}[r] || 'rank-member'; }
-    function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+    function fmtDate(d) {
+        return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
 
-    // Ticket Form
+    function rankClass(r) {
+        return {
+            'Leader': 'rank-leader',
+            'Co-Leader': 'rank-coleader',
+            'Officer': 'rank-officer',
+            'Veteran': 'rank-veteran',
+            'Member': 'rank-member'
+        }[r] || 'rank-member';
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     document.getElementById('ticket-reason').addEventListener('change', function() {
         document.getElementById('join-fields').classList.toggle('show', this.value === 'join');
     });
 
-    // Ticket Submission
     document.getElementById('ticket-form').addEventListener('submit', async function(e) {
         e.preventDefault();
+        
         const btn = document.getElementById('ticket-submit-btn');
         const originalBtnHTML = btn.innerHTML;
-
+        
         const payload = {
             player_name: document.getElementById('ticket-name').value.trim(),
             discord_handle: document.getElementById('ticket-discord').value.trim(),
@@ -1365,13 +1233,15 @@
         try {
             btn.disabled = true;
             btn.innerHTML = '<span class="iconify spinner" data-icon="lucide:loader-2"></span> Sending...';
-
+            
             const { error } = await sb.from('tickets').insert([payload]);
+            
             if(error) throw error;
 
             toast('Ticket submitted successfully! We will contact you soon.');
             this.reset();
             document.getElementById('join-fields').classList.remove('show');
+            
         } catch(err) {
             console.error('Ticket Error:', err);
             toast('Failed to send ticket. Please try again.', 'error');
@@ -1381,11 +1251,10 @@
         }
     });
 
-    // Modal Functions
     window.openModal = function(index) {
         const post = window.postsData[index];
         if(!post) return;
-
+        
         const inner = document.getElementById('modal-inner');
         inner.innerHTML = `
             <div class="flex items-center gap-4 mb-6">
@@ -1403,7 +1272,7 @@
             <h2 class="text-2xl font-bold text-white mb-4">${escapeHtml(post.title)}</h2>
             <div class="text-white/60 leading-relaxed whitespace-pre-wrap">${escapeHtml(post.content)}</div>
         `;
-
+        
         document.getElementById('post-modal-overlay').classList.add('show');
         document.body.style.overflow = 'hidden';
     };
@@ -1415,25 +1284,29 @@
         }
     };
 
-    // Load Posts
     async function loadPosts() {
         const box = document.getElementById('posts-container');
         const emp = document.getElementById('no-posts');
-
+        
         try {
             const r = await sb.from('posts')
                 .select('*')
                 .order('pinned', { ascending: false })
                 .order('created_at', { ascending: false });
-
+            
             if(r.error) throw new Error(r.error.message);
-
+            
             const posts = r.data || [];
-
-            if(posts.length === 0) { box.innerHTML = ''; emp.classList.remove('hidden'); return; }
+            
+            if(posts.length === 0) {
+                box.innerHTML = '';
+                emp.classList.remove('hidden');
+                return;
+            }
+            
             emp.classList.add('hidden');
             window.postsData = posts;
-
+            
             box.innerHTML = posts.map(function(o, index) {
                 return `
                 <div class="glass-card overflow-hidden cursor-pointer group flex flex-col ${o.pinned ? 'border-l-2 border-l-white/30' : ''}" onclick="openModal(${index})">
@@ -1462,7 +1335,7 @@
                 </div>
                 `;
             }).join('');
-
+            
         } catch(err) {
             console.error(err);
             box.innerHTML = '';
@@ -1470,34 +1343,38 @@
         }
     }
 
-    // Load Players
     async function loadPlayers() {
         const grid = document.getElementById('players-grid');
         const emp = document.getElementById('no-players');
-
+        
         try {
             const r = await sb.from('players')
                 .select('*')
                 .order('created_at', { ascending: true });
-
+            
             if(r.error) throw new Error(r.error.message);
-
+            
             const players = r.data || [];
-
-            if(players.length === 0) { grid.innerHTML = ''; emp.classList.remove('hidden'); return; }
+            
+            if(players.length === 0) {
+                grid.innerHTML = '';
+                emp.classList.remove('hidden');
+                return;
+            }
+            
             emp.classList.add('hidden');
-
+            
             grid.innerHTML = players.map(function(p, i) {
                 const defaultAv = `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=1a1a2a&color=ffffff&size=200&bold=true`;
                 const defaultSkin = `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=0a0a0f&color=666666&size=200&bold=true&format=svg`;
                 const av = p.avatar_url || defaultAv;
                 const sk = p.skin_url || defaultSkin;
                 let chips = '';
-
+                
                 if(p.bedwars_level) chips += `<span class="info-chip"><span class="iconify text-[10px]" data-icon="lucide:swords"></span>BW ${escapeHtml(p.bedwars_level)}</span>`;
                 if(p.previous_guilds) chips += `<span class="info-chip"><span class="iconify text-[10px]" data-icon="lucide:castle"></span>${escapeHtml(p.previous_guilds)}</span>`;
                 if(p.alts) chips += `<span class="info-chip"><span class="iconify text-[10px]" data-icon="lucide:users"></span>Alt: ${escapeHtml(p.alts)}</span>`;
-
+                
                 return `
                 <div class="fade-in glass-card overflow-hidden mt-8 flex flex-col h-full" style="transition-delay: ${i * 0.06}s;">
                     <div class="flex justify-center pt-8 pb-4 shrink-0">
@@ -1513,7 +1390,7 @@
                         ${chips ? `<div class="flex flex-wrap justify-center gap-1.5 mt-auto">${chips}</div>` : ''}
                     </div>
                     
-                    <div class="relative pt-10 pb-5 px-5 border-t border-white/5 bg-white/[0.02] text-center flex flex flex-col items-center mt-auto shrink-0">
+                    <div class="relative pt-10 pb-5 px-5 border-t border-white/5 bg-white/[0.02] text-center flex flex-col items-center mt-auto shrink-0">
                         <img src="${av}" alt="${escapeHtml(p.name)}" class="w-16 h-16 rounded-full border-[3px] border-black bg-white/10 absolute -top-8 object-cover shadow-xl" loading="lazy" onerror="this.src='${defaultAv}'">
                         <div class="flex items-center gap-2 mt-1">
                             <span class="iconify text-[#5865F2] text-lg" data-icon="ic:baseline-discord"></span>
@@ -1523,9 +1400,11 @@
                 </div>
                 `;
             }).join('');
-
-            grid.querySelectorAll('.fade-in:not(.visible)').forEach(function(el) { observer.observe(el); });
-
+            
+            grid.querySelectorAll('.fade-in:not(.visible)').forEach(function(el) {
+                observer.observe(el);
+            });
+            
         } catch(err) {
             console.error(err);
             grid.innerHTML = '';
@@ -1533,7 +1412,6 @@
         }
     }
 
-    // Initialize
     loadPosts();
     loadPlayers();
 
