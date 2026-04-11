@@ -35,9 +35,7 @@
     </script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         html { scroll-behavior: smooth; }
-        
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: #000000;
@@ -45,7 +43,6 @@
             overflow-x: hidden;
             position: relative;
         }
-
         .scroll-progress-container {
             position: fixed;
             left: 20px;
@@ -57,7 +54,6 @@
             display: flex;
             align-items: center;
         }
-
         .scroll-progress-text {
             writing-mode: vertical-rl;
             text-orientation: mixed;
@@ -70,7 +66,6 @@
             color: rgba(255, 255, 255, 0.08);
             transition: none;
         }
-
         .scroll-progress-text::before {
             content: 'SIXTY NINE';
             position: absolute;
@@ -105,7 +100,6 @@
             );
             transition: none;
         }
-
         .scroll-progress-glow {
             position: absolute;
             inset: -20px -40px;
@@ -118,7 +112,6 @@
             transition: opacity 0.3s ease;
             pointer-events: none;
         }
-
         .hero-gradient-bg {
             position: absolute;
             inset: 0;
@@ -126,7 +119,6 @@
             overflow: hidden;
             opacity: 0.6;
         }
-
         .gradient-orb {
             position: absolute;
             border-radius: 50%;
@@ -134,7 +126,6 @@
             will-change: transform;
             animation: gradientFloat 25s infinite ease-in-out;
         }
-
         .gradient-orb-1 {
             width: 600px;
             height: 600px;
@@ -143,7 +134,6 @@
             left: -200px;
             animation-delay: 0s;
         }
-
         .gradient-orb-2 {
             width: 500px;
             height: 500px;
@@ -152,7 +142,6 @@
             right: -150px;
             animation-delay: -7s;
         }
-
         .gradient-orb-3 {
             width: 450px;
             height: 450px;
@@ -161,7 +150,6 @@
             left: 30%;
             animation-delay: -14s;
         }
-
         .gradient-orb-4 {
             width: 350px;
             height: 350px;
@@ -170,7 +158,6 @@
             left: 10%;
             animation-delay: -5s;
         }
-
         .hero-mesh {
             position: absolute;
             inset: 0;
@@ -182,14 +169,12 @@
             z-index: 1;
             pointer-events: none;
         }
-
         @keyframes gradientFloat {
             0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
             25% { transform: translate(50px, -80px) scale(1.1) rotate(90deg); }
             50% { transform: translate(-30px, 60px) scale(0.95) rotate(180deg); }
             75% { transform: translate(70px, 40px) scale(1.05) rotate(270deg); }
         }
-
         .orb-container {
             position: fixed;
             inset: 0;
@@ -197,18 +182,15 @@
             overflow: hidden;
             pointer-events: none;
         }
-        
         .orb {
             position: absolute;
             border-radius: 50%;
             filter: blur(100px);
             opacity: 0.15;
         }
-        
         .orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, rgba(99,102,241,0.2), transparent 70%); top: -200px; left: -200px; }
         .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(236,72,153,0.15), transparent 70%); top: 50%; right: -150px; }
         .orb-3 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(34,211,238,0.15), transparent 70%); bottom: -100px; left: 30%; }
-
         .grid-pattern {
             position: fixed;
             inset: 0;
@@ -220,7 +202,6 @@
             background-size: 80px 80px;
             mask-image: radial-gradient(circle at center, black 0%, transparent 80%);
         }
-        
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(24px) saturate(180%);
@@ -235,7 +216,6 @@
             position: relative;
             overflow: hidden;
         }
-        
         .glass-card::before {
             content: '';
             position: absolute;
@@ -247,7 +227,6 @@
             opacity: 0;
             transition: opacity 0.4s ease;
         }
-        
         .glass-card:hover {
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.15);
@@ -257,16 +236,13 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.08),
                 0 0 60px rgba(99, 102, 241, 0.1);
         }
-        
         .glass-card:hover::before { opacity: 1; }
-
         .glass-nav {
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
-
         .glass-input {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
@@ -275,16 +251,13 @@
             color: #fff;
             transition: all 0.3s ease;
         }
-        
         .glass-input:focus {
             outline: none;
             border-color: rgba(99, 102, 241, 0.5);
             background: rgba(255, 255, 255, 0.05);
             box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
         }
-        
         .glass-input::placeholder { color: rgba(255, 255, 255, 0.3); }
-
         .glass-btn-primary {
             background: rgba(255, 255, 255, 0.95);
             color: #000;
@@ -292,13 +265,11 @@
             border-radius: 12px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
         .glass-btn-primary:hover {
             background: #fff;
             transform: translateY(-2px);
             box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
         }
-        
         .glass-btn-secondary {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -307,13 +278,11 @@
             border-radius: 12px;
             transition: all 0.3s ease;
         }
-        
         .glass-btn-secondary:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: rgba(255, 255, 255, 0.25);
             transform: translateY(-2px);
         }
-        
         .section-title-bg {
             position: absolute;
             font-size: clamp(8rem, 15vw, 16rem);
@@ -331,18 +300,15 @@
             width: max-content;
             max-width: 120%;
         }
-        
         .section-wrapper {
             position: relative;
             padding: 120px 0;
             overflow: hidden;
         }
-        
         .section-content {
             position: relative;
             z-index: 2;
         }
-
         .rank-badge { 
             font-size: 0.65rem; 
             letter-spacing: 0.08em; 
@@ -358,7 +324,6 @@
         .rank-officer { background: rgba(255,255,255,0.07); color: #bdbdbd; }
         .rank-veteran { background: rgba(255,255,255,0.04); color: #999; border: 1px solid rgba(255,255,255,0.1); }
         .rank-member { background: rgba(255,255,255,0.02); color: #777; border: 1px solid rgba(255,255,255,0.06); }
-
         .info-chip {
             display: inline-flex;
             align-items: center;
@@ -371,14 +336,12 @@
             color: rgba(255,255,255,0.6);
             backdrop-filter: blur(8px);
         }
-
         .toast { 
             animation: slideIn .4s ease, fadeOut .4s ease 2.6s forwards; 
             backdrop-filter: blur(20px);
         }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-
         .fade-in { 
             opacity: 0; 
             transform: translateY(30px); 
@@ -388,9 +351,7 @@
             opacity: 1; 
             transform: translateY(0); 
         }
-
         .skin-img { image-rendering: pixelated; }
-
         #mobile-menu { 
             max-height: 0; 
             overflow: hidden; 
@@ -414,9 +375,7 @@
             backdrop-filter: blur(4px); 
         }
         #mobile-overlay.open { display: block; } 
-        
         body.menu-open { overflow: hidden; }
-
         .yt-wrapper { 
             position: relative; 
             padding-bottom: 56.25%; 
@@ -435,7 +394,6 @@
             border: 0; 
             border-radius: 20px; 
         }
-
         .feature-pill { 
             display: inline-flex; 
             align-items: center; 
@@ -454,7 +412,6 @@
             border-color: rgba(255,255,255,0.2); 
             color: rgba(255,255,255,0.9);
         }
-
         .join-field { 
             max-height: 0; 
             overflow: hidden; 
@@ -465,7 +422,6 @@
             max-height: 800px; 
             opacity: 1; 
         }
-
         #post-modal-overlay.show { 
             opacity: 1; 
             pointer-events: auto; 
@@ -477,12 +433,10 @@
             transform: scale(0.95);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
-
         .nav-link { 
             position: relative; 
             transition: color 0.3s ease;
@@ -501,7 +455,6 @@
         .nav-link:hover::after, .nav-link.active::after { 
             width: 100%; 
         }
-
         .discord-glow {
             box-shadow: 0 0 20px rgba(88,101,242,0.3);
             transition: box-shadow 0.3s ease;
@@ -509,7 +462,6 @@
         .discord-glow:hover {
             box-shadow: 0 0 30px rgba(88,101,242,0.5);
         }
-
         @media (max-width: 768px) {
             .scroll-progress-container {
                 left: 10px;
@@ -519,7 +471,6 @@
                 font-size: 11px;
             }
         }
-
         @media (max-width: 480px) {
             .scroll-progress-container {
                 display: none;
@@ -644,9 +595,7 @@
 </section>
 
 <section class="section-wrapper relative overflow-hidden">
-    
     <div class="max-w-7xl mx-auto px-5 sm:px-6 relative">
-        
         <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
             STATISTICS
         </div>
@@ -692,7 +641,6 @@
 </section>
 
 <section class="section-wrapper relative">
-
     <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
             UPDATE        
     </div>
@@ -717,7 +665,6 @@
 </section>
 
 <section id="bot" class="section-wrapper relative border-t border-white/5">
-
     <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
             BOT
         </div>
@@ -773,7 +720,6 @@
 </section>
 
 <section id="gallery" class="section-wrapper relative border-t border-white/5">
-
     <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
             GALLERY
         </div>
@@ -861,7 +807,7 @@
                 <div class="p-6">
                     <h3 class="text-white font-bold text-lg mb-2">VIRUS</h3>
                     <span class="rank-badge rank-veteran mb-3 inline-block">#VHNC</span>
-                    <p class="text-white/40 text-sm leading-relaxed">Top 15 Guild in Pika Network! Fastest-Growing Bedwars Guild – Join the Legacy!</p>
+                    <p class="text-white/40 text-sm leading-relaxed">Top 15 Guild in Pika Network. Fastest-Growing Bedwars Guild – Join the Legacy.</p>
                 </div>
             </div>
             
@@ -874,7 +820,7 @@
                          onerror="this.src='https://ui-avatars.com/api/?name=SAKURA&background=1a1a2a&color=fff&size=64&bold=true'">
                 </div>
                 <div class="p-6">
-                    <h3 class="text-white font-bold text-lg mb-2">ＳＡＫＵＲＡ</h3>
+                    <h3 class="text-white font-bold text-lg mb-2">SAKURA</h3>
                     <span class="rank-badge rank-member mb-3 inline-block">Supportive Guild</span>
                     <p class="text-white/40 text-sm leading-relaxed">Currently a Private Guild</p>
                 </div>
@@ -890,8 +836,8 @@
                 </div>
                 <div class="p-6">
                     <h3 class="text-white font-bold text-lg mb-2">VITALITY</h3>
-                    <span class="rank-badge rank-member mb-3 inline-block">[VITAL♡]</span>
-                    <p class="text-white/40 text-sm leading-relaxed">Skilled, competitive playerbase. Friendly community-driven vibes. Events & challenges.</p>
+                    <span class="rank-badge rank-member mb-3 inline-block">[VITAL]</span>
+                    <p class="text-white/40 text-sm leading-relaxed">Skilled, competitive playerbase. Friendly community-driven vibes. Events and challenges.</p>
                 </div>
             </div>
             
@@ -914,7 +860,6 @@
 </section>
 
 <section id="players" class="section-wrapper relative border-t border-white/5">
-
     <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
             MEMBERS
         </div>
@@ -939,7 +884,6 @@
 </section>
 
 <section id="connect" class="section-wrapper relative border-t border-white/5">
-    
     <div class="massive-background-text absolute z-0 left-1/2 -translate-x-1/2 text-[clamp(15rem,30vw,30rem)] font-black text-white/5 whitespace-nowrap select-none pointer-events-none -top-[10rem]">
             CONNECT
         </div>
@@ -969,10 +913,10 @@
                 <label class="block text-white/70 text-sm font-medium mb-2">Reason</label>
                 <select id="ticket-reason" required class="glass-input w-full px-4 py-3.5 text-sm appearance-none cursor-pointer">
                     <option value="" class="bg-gray-900">Select a reason</option>
-                    <option value="join" class="bg-gray-900">🎮 I want to join 6T9</option>
-                    <option value="ally" class="bg-gray-900">🤝 Alliance Inquiry</option>
-                    <option value="event" class="bg-gray-900">🎉 Event Collaboration</option>
-                    <option value="other" class="bg-gray-900">❓ Other</option>
+                    <option value="join" class="bg-gray-900">I want to join 6T9</option>
+                    <option value="ally" class="bg-gray-900">Alliance Inquiry</option>
+                    <option value="event" class="bg-gray-900">Event Collaboration</option>
+                    <option value="other" class="bg-gray-900">Other</option>
                 </select>
             </div>
             
@@ -1369,7 +1313,7 @@
                 const defaultSkin = `https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=0a0a0f&color=666666&size=200&bold=true&format=svg`;
                 const av = p.avatar_url || defaultAv;
                 const sk = p.skin_url || defaultSkin;
-                let chips = '';
+                let chips = ''; 
                 
                 if(p.bedwars_level) chips += `<span class="info-chip"><span class="iconify text-[10px]" data-icon="lucide:swords"></span>BW ${escapeHtml(p.bedwars_level)}</span>`;
                 if(p.previous_guilds) chips += `<span class="info-chip"><span class="iconify text-[10px]" data-icon="lucide:castle"></span>${escapeHtml(p.previous_guilds)}</span>`;
@@ -1378,7 +1322,7 @@
                 return `
                 <div class="fade-in glass-card overflow-hidden mt-8 flex flex-col h-full" style="transition-delay: ${i * 0.06}s;">
                     <div class="flex justify-center pt-8 pb-4 shrink-0">
-                        <img src="${sk}" alt="" class="skin-img w-16 h-36 rounded-xl object-cover border border-white/10 shadow-lg" loading="lazy" onerror="this.src='${defaultSkin}'">
+                        <img src="${sk}" alt="" class="skin-img w-16 h-16 rounded-xl object-cover border border-white/10 shadow-lg" loading="lazy" onerror="this.src='${defaultSkin}'">
                     </div>
                     
                     <div class="px-6 pb-6 text-center flex-1 flex flex-col">
@@ -1416,6 +1360,18 @@
     loadPlayers();
 
 })();
+
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.shiftKey && e.key === 'J') || (e.ctrlKey && e.key === 'u') || (e.ctrlKey && e.key === 'U')) {
+        e.preventDefault();
+        return false;
+    }
+});
 </script>
 
 </body>
